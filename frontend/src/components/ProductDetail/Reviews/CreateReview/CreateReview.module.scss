@@ -1,0 +1,60 @@
+@use "../../../../sass/mixins" as m;
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/variables" as v;
+
+.create_review_wrapper {
+  h5 {
+    font-size: 26px;
+    font-weight: 400;
+    color: v.$text-color;
+  }
+  .create_review {
+    margin: 20px 0;
+    display: flex;
+    gap: 16px;
+    @include m.responsive(xs) {
+      gap: 8px;
+    }
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      @include m.responsive(xs) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .create_review_right {
+      width: 500px;
+      @include m.responsive(sm) {
+        flex: 1;
+      }
+      h6 {
+        font-size: 15px;
+        font-weight: 500;
+      }
+      textarea {
+        margin: 6px 0;
+        border: 1.5px solid rgba(201, 201, 201, 0.6);
+        min-width: 100%;
+        max-width: 100%;
+        min-height: 80px;
+        max-height: 200px;
+        border-radius: 5px;
+        padding: 10px;
+        outline: 0px;
+      }
+      .create_review_btn {
+        margin-left: auto;
+      }
+    }
+  }
+  .create_review_not_logged_content {
+    margin-top: 25px;
+    .create_review_not_logged_title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  }
+}

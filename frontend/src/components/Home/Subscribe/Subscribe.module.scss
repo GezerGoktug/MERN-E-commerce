@@ -1,0 +1,37 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.subscribe{
+    @include u.col-center;
+    margin: 100px 0;
+    text-align: center;
+    h6{
+        font-size: 30px;
+        font-weight: 500;
+    }
+    p{
+        color: v.$secondary-color;
+        margin: 14px 0;
+    }
+    .subscribe_input_wrapper{
+        @include u.flex-center;
+        width: 40%;
+        @include m.responsive(xl){
+            width: 60%;
+            
+        }
+        @include m.responsive(md){
+            width: 90%;
+            
+        }
+        @include m.responsive(sm){
+            width: 100%;
+            
+        }
+        @include m.responsive(xs){
+            @include u.col-center;
+            gap: 10px;
+        }
+    }
+}

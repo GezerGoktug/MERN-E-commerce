@@ -1,0 +1,89 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.about_wrapper {
+  h5 {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 50px;
+    margin-bottom: 70px;
+    font-weight: 500;
+    color: v.$secondary-color;
+    @include m.responsive(md) {
+      margin-bottom: 40px;
+    }
+    span {
+      @include u.row-center;
+      margin-left: 5px;
+      display: inline-flex !important;
+
+      &::after {
+        width: 50px;
+        margin: 0 0 0 10px;
+        background-color: v.$third-color;
+        height: 3px;
+        content: "";
+      }
+    }
+  }
+  .about {
+    @include u.row-center;
+    gap: 70px;
+    margin-bottom: 70px;
+    @include m.responsive(xl) {
+      gap: 40px;
+    }
+    @include m.responsive(md) {
+      @include u.col-start;
+    }
+    img {
+      height: 450px;
+      @include m.responsive(xl) {
+        height: 350px;
+      }
+      @include m.responsive(lg) {
+        height: 300px;
+        margin-bottom: auto;
+        margin-top: 30px;
+      }
+      @include m.responsive(md) {
+        width: 80%;
+        height: auto;
+        margin: auto;
+      }
+      @include m.responsive(xls) {
+        width: 100%;
+      }
+    }
+    .about_content {
+      @include u.col-start;
+      padding-right: 180px;
+      @include m.responsive(xl) {
+        padding-right: 120px;
+      }
+      @include m.responsive(lg) {
+        padding-right: 50px;
+      }
+      @include m.responsive(md) {
+        padding-right: 0px;
+      }
+      p {
+        line-height: 25px;
+        @include m.responsive(lg) {
+          font-size: 14px;
+          line-height: 22px;
+        }
+        @include m.responsive(md) {
+          font-size: 16px;
+          line-height: 25px;
+        }
+      }
+      h6 {
+        font-size: 15px;
+        margin: 20px 0;
+        color: v.$text-color;
+      }
+    }
+  }
+}

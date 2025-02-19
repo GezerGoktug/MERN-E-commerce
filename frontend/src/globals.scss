@@ -1,0 +1,49 @@
+@use "sass/variables" as v;
+@use "sass/mixins" as m;
+
+* {
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: v.$third-color;
+  font-family: v.$font-family;
+}
+
+body {
+  background-color: v.$primary-color;
+  min-height: 100vh;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 2rem;
+  @include m.responsive(2xl) {
+    max-width: 1280px;
+  }
+  @include m.responsive(xl) {
+    max-width: 1024px;
+  }
+  @include m.responsive(lg) {
+    max-width: 768px;
+  }
+  @include m.responsive(md) {
+    max-width: 640px;
+    padding: 0 1rem !important;
+  }
+  @include m.responsive(sm) {
+    max-width: 95%;
+  }
+  @include m.responsive(xs) {
+    max-width: 100%;
+  }
+}

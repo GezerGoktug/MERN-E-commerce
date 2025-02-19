@@ -1,0 +1,53 @@
+@use "../../sass/utils-mixins" as u;
+@use "../../sass/variables" as v;
+@use "../../sass/mixins" as m;
+
+.contact_us_wrapper {
+  h5 {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-weight: 500;
+    color: v.$secondary-color;
+    span {
+      @include u.row-center;
+      margin-left: 5px;
+      display: inline-flex !important;
+
+      &::after {
+        width: 50px;
+        margin: 0 0 0 10px;
+        background-color: v.$third-color;
+        height: 3px;
+        content: "";
+      }
+    }
+  }
+  .contact_us {
+    @include u.flex-center;
+    gap: 40px;
+    @include m.responsive(sm) {
+      @include u.col-start;
+    }
+    img {
+      height: 450px;
+      @include m.responsive(lg) {
+        height: 350px;
+      }
+      @include m.responsive(sm) {
+        height: auto;
+        width: 100%;
+      }
+    }
+    .contact_us_right {
+      h6 {
+        font-size: 19px;
+        margin: 20px 0;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

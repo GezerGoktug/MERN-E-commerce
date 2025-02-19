@@ -1,0 +1,84 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.related_products {
+  margin: 70px 0;
+
+  .related_products_top {
+    margin-bottom: 20px;
+    text-align: center;
+    @include u.col-center;
+    .related_products_title {
+      font-size: 30px;
+      font-weight: 500;
+      color: v.$secondary-color;
+      span {
+        @include u.row-center;
+        margin-left: 5px;
+        display: inline-flex !important;
+
+        &::after {
+          width: 50px;
+          margin: 0 0 0 10px;
+          background-color: v.$third-color;
+          height: 2px;
+          content: "";
+        }
+      }
+    }
+  }
+  .related_products_products {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    @include m.responsive(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    @include m.responsive(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include m.responsive(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+  }
+}
+
+.product_card {
+  cursor: pointer;
+  .product_card_img {
+    overflow: hidden;
+    img {
+      width: 100%;
+      transition: transform linear 0.1s;
+      &:hover {
+        transform: scale(110%);
+      }
+    }
+  }
+  h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 7px 0;
+  }
+  span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+.product_card_skeleton {
+  .product_skeleton_image {
+    @include u.skeleton_animate(auto, 250px);
+  }
+  .product_skeleton_content {
+    .product_skeleton_title {
+      @include u.skeleton_animate(160px, 15px);
+      margin: 10px 0;
+    }
+    .product_skeleton_price {
+      @include u.skeleton_animate(50px, 15px);
+    }
+  }
+}

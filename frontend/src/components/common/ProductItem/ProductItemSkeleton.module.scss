@@ -1,0 +1,16 @@
+@use "../../../sass/utils-mixins" as u;
+
+.product_card_skeleton {
+  .product_skeleton_image {
+    @include u.skeleton_animate(auto, 250px);
+  }
+  .product_skeleton_content {
+    .product_skeleton_title {
+      @include u.skeleton_animate(160px, 15px);
+      margin: 10px 0;
+    }
+    .product_skeleton_price {
+      @include u.skeleton_animate(50px, 15px);
+    }
+  }
+}

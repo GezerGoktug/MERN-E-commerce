@@ -1,0 +1,18 @@
+@use "../../sass/utils-mixins" as u;
+@use "../../sass/mixins" as m;
+
+.payment_result_wrapper {
+  @include u.col-center;
+  gap: 10px;
+  margin: 120px 0;
+  .payment_result_title {
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .payment_result_content {
+    font-weight: 300;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+}

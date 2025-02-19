@@ -1,0 +1,774 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "E-Commerce API",
+        "version": "1.0.0",
+        "description": "API documentation for E-Commerce application"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "confirmPassword": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "confirmPassword"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful"
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh access token and refresh token",
+                "responses": {
+                    "200": {
+                        "description": "Refreshed access token and refresh token successfully"
+                    }
+                }
+            }
+        },
+        "/api/auth/session": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get current session",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session information"
+                    }
+                }
+            }
+        },
+        "/api/order/{id}": {
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update an order",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "payment": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": [
+                                    "payment"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Delete an order",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/order/add": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create a new order",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "delivery_info",
+                                    "products",
+                                    "cargoFee"
+                                ],
+                                "properties": {
+                                    "delivery_info": {
+                                        "type": "object",
+                                        "properties": {
+                                            "firstName": {
+                                                "type": "string"
+                                            },
+                                            "lastName": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "phoneNumber": {
+                                                "type": "string"
+                                            },
+                                            "city": {
+                                                "type": "string"
+                                            },
+                                            "country": {
+                                                "type": "string"
+                                            },
+                                            "state": {
+                                                "type": "string"
+                                            },
+                                            "street": {
+                                                "type": "string"
+                                            },
+                                            "zipCode": {
+                                                "type": "string"
+                                            },
+                                            "paymentMethod": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "products": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "price": {
+                                                    "type": "number"
+                                                },
+                                                "quantity": {
+                                                    "type": "number"
+                                                },
+                                                "size": {
+                                                    "type": "string"
+                                                },
+                                                "image": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "cargoFee": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order created successfully"
+                    }
+                }
+            }
+        },
+        "/api/order/my-order": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get user's orders",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User's orders retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/order/admin/list": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get all orders (Admin only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All orders retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/add": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Add a new product (Admin only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "sizes": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "subCategory": {
+                                        "type": "string"
+                                    },
+                                    "mainImage": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage1": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage2": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage3": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "description",
+                                    "sizes",
+                                    "category",
+                                    "subCategory",
+                                    "mainImage"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product added successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/list": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get products by queries",
+                "parameters": [
+                    {
+                        "name": "categories",
+                        "in": "query",
+                        "description": "Product categories",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "subCategory",
+                        "in": "query",
+                        "description": "Product subcategory",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sorting",
+                        "in": "query",
+                        "description": "Sorting method",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "description": "Search text",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/latest-products/list": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get latest collections",
+                "responses": {
+                    "200": {
+                        "description": "Latest products retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/best-seller-products/list": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get best seller products",
+                "responses": {
+                    "200": {
+                        "description": "Best seller products retrieved successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product details",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update product (Admin only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "sizes": {
+                                        "type": "string"
+                                    },
+                                    "category": {
+                                        "type": "string"
+                                    },
+                                    "subCategory": {
+                                        "type": "string"
+                                    },
+                                    "mainImage": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage1": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage2": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subImage3": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "description",
+                                    "sizes",
+                                    "category",
+                                    "subCategory",
+                                    "mainImage"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete product (Admin only)",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/comment/add": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Add a comment to a product",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "productId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment added successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/comment/{id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update a comment",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "productId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment updated successfully"
+                    }
+                }
+            }
+        },
+        "/api/product/{productId}/comment/{commentId}": {
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a comment",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "productId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "commentId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment deleted successfully"
+                    }
+                }
+            }
+        },
+        "/api/admin/stats": {
+            "get": {
+                "tags": [
+                    "Statistics"
+                ],
+                "summary": "Get statistics card data",
+                "responses": {
+                    "200": {
+                        "description": "Statistics retrieved successfully"
+                    }
+                }
+            }
+        }
+    }
+}

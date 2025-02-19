@@ -1,0 +1,77 @@
+@use "../../../../sass/mixins" as m;
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/variables" as v;
+
+.reviews_wrapper {
+  h5 {
+    margin: 30px 0;
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .reviews {
+    @include u.col-start;
+    gap: 30px;
+    .review_item {
+      margin: 20px 0;
+      display: flex;
+      width: 100%;
+      gap: 16px;
+      @include m.responsive(xs) {
+        gap: 8px;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        @include m.responsive(xs) {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .review_item_right {
+        width: 500px;
+        @include m.responsive(sm) {
+          flex: 1;
+        }
+        .review_item_infos {
+          @include u.row-center;
+          gap: 10px;
+          @include m.responsive(xs) {
+            font-size: 13px;
+            gap: 7px;
+            flex-wrap: wrap;
+          }
+          h6 {
+            font-size: 15px;
+            font-weight: 500;
+          }
+          .review_dropdown{
+            margin-left: 24px;
+            cursor: pointer;
+          }
+        }
+
+        .review_item_stars {
+          @include u.row-center;
+          gap: 3px;
+          margin: 8px 0;
+          .review_item_star_icon {
+            fill: orangered;
+            opacity: 0.5;
+            cursor: pointer;
+            &.starred {
+              opacity: 1;
+            }
+          }
+        }
+        p {
+          font-size: 15px;
+          @include m.responsive(xs) {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

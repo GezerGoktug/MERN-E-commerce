@@ -1,0 +1,26 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.features {
+  @include u.flex-around;
+  margin: 70px  0;
+  text-align: center;
+  @include m.responsive(lg) {
+    gap: 50px;
+  }
+  @include m.responsive(sm) {
+    @include u.col-center;
+  }
+  .features_item {
+    h6 {
+      font-size: 17px;
+      margin: 8px 0;
+      color: v.$text-color;
+
+    }
+    p {
+      color: v.$secondary-color;
+    }
+  }
+}

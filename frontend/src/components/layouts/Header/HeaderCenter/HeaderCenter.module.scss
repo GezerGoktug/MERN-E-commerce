@@ -1,0 +1,27 @@
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/mixins" as m;
+
+.header_center_links {
+  @include u.row-center;
+  gap: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  @include m.responsive(md) {
+    display: none;
+  }
+  li {
+    text-transform: uppercase;
+    position: relative;
+    & .active::after {
+      content: "";
+      width: 50%;
+      height: 2px;
+      background-color: black;
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: sas;
+    }
+  }
+}

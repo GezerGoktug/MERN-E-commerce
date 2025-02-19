@@ -1,0 +1,26 @@
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/mixins" as m;
+
+.mobile_sidebar_wrapper {
+  display: none;
+  width: 40%;
+  height: 100vh;
+  background-color: aliceblue;
+  padding-left: 10px;
+  @include m.responsive(sm) {
+    display: block;
+  }
+  @include m.responsive(xls) {
+    width: 45%;
+  }
+  @media (max-width: 450px) {
+    width: 55%;
+  }
+  @include m.responsive(xs) {
+    width: 65%;
+  }
+  img {
+    width: 100%;
+    padding: 10px 20px 10px 10px;
+  }
+}

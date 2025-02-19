@@ -1,0 +1,65 @@
+@use "../../../sass/mixins" as m;
+@use "../../../sass/variables" as v;
+@use "../../../sass/utils-mixins" as u;
+
+.product_wrapper {
+  .product_header {
+    @include u.flex-between;
+    margin-bottom: 20px;
+    @include m.responsive(xls) {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    h5 {
+      margin-bottom: auto;
+      font-size: 26px;
+      font-weight: 500;
+      color: v.$secondary-color;
+      @include m.responsive(lg) {
+        font-size: 22px;
+      }
+      @include m.responsive(md) {
+        font-size: 18px;
+      }
+      span {
+        @include u.row-center;
+        margin-left: 5px;
+        display: inline-flex !important;
+
+        &::after {
+          width: 50px;
+          margin: 0 0 0 10px;
+          background-color: v.$third-color;
+          height: 3px;
+          content: "";
+        }
+      }
+    }
+    .product_sort_select {
+      padding: 10px;
+      border-radius: 0px;
+      border: 2px solid rgb(185, 185, 185);
+      font-size: 15px;
+      color: v.$text-color;
+      @include m.responsive(md) {
+        font-size: 13px;
+        padding: 5px;
+      }
+    }
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    @include m.responsive(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include m.responsive(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @include m.responsive(xs) {
+      gap: 10px;
+    }
+  }
+}
+

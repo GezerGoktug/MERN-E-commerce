@@ -1,0 +1,142 @@
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/mixins" as m;
+
+.edit_product_modal_wrapper {
+  width: 100%;
+  h6 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .edit_product_modal_form {
+    @include u.col-start;
+    gap: 10px;
+    .edit_product_modal_files_upload {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      @include m.responsive(xls) {
+        flex-direction: column;
+      }
+      .edit_product_modal_main_image {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background-color: rgb(209, 209, 209);
+        border: 1px dashed gray;
+        @include u.flex-center;
+        @include m.responsive(xls) {
+          width: 150px;
+          height: 150px;
+        }
+        .edit_product_modal_file_input {
+          opacity: 0;
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+        }
+        img {
+          position: absolute;
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .edit_product_modal_sub_images {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+        height: 85px;
+        .edit_product_modal_sub_image {
+          position: relative;
+          width: 85px;
+          background-color: rgb(209, 209, 209);
+          border: 1px dashed gray;
+          @include u.flex-center;
+          .edit_product_modal_file_input {
+            opacity: 0;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+          }
+          img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+    textarea {
+      width: 100%;
+      padding: 12px;
+      outline: none;
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 6px;
+    }
+    .edit_product_modal_input {
+      border-radius: 6px;
+    }
+    .edit_product_modal_selects {
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      @include m.responsive(xs) {
+        flex-direction: column;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        text-wrap: nowrap;
+      }
+      select {
+        border-radius: 4px;
+        padding: 9px 7px;
+        width: 100%;
+      }
+      .edit_product_modal_select_section {
+        flex: 1;
+        .edit_product_modal_input {
+          width: 100%;
+        }
+      }
+    }
+    .edit_product_modal_sizes {
+      display: flex;
+      gap: 15px;
+      .edit_product_modal_size {
+        background-color: rgb(237, 237, 237);
+        border: 1px solid rgb(207, 206, 206);
+        padding: 8px 15px;
+        &.active {
+          border-color: orangered;
+        }
+      }
+    }
+    .edit_product_modal_errors {
+      margin-top: 10px;
+      @include u.col-start;
+      gap: 10px;
+      .edit_product_modal_error {
+        @include u.row-center;
+        gap: 10px;
+        span,
+        div {
+          color: rgb(204, 0, 0);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+@use "mixins" as m;
+
+@mixin flex-center {
+  @include m.flex-control(center, center);
+}
+@mixin flex-start {
+  @include m.flex-control(flex-start, center);
+}
+@mixin flex-end {
+  @include m.flex-control(flex-end, center);
+}
+@mixin flex-between {
+  @include m.flex-control(space-between, center);
+}
+@mixin flex-around {
+  @include m.flex-control(space-around, center);
+}
+@mixin col-center {
+  @include m.flex-control(normal, center, column);
+}
+@mixin col-start {
+  @include m.flex-control(flex-start, flex-start, column);
+}
+@mixin col-end {
+  @include m.flex-control(flex-end, flex-end, column);
+}
+@mixin row-center {
+  @include m.flex-control(normal, center, row);
+}
+
+@mixin skeleton_animate(
+  $width: auto,
+  $height: auto,
+  $bg-color: rgb(195, 195, 195)
+) {
+  animation: skeleton_animate 1s linear infinite alternate-reverse;
+  background-color: $bg-color;
+  opacity: 0.35;
+  width: $width;
+  height: $height;
+}
+
+@keyframes skeleton_animate {
+  0% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}

@@ -1,0 +1,50 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.error_modal_wrapper {
+  @include u.row-center;
+  height: 100%;
+  width: 400px;
+  margin: auto;
+  @include m.responsive(xs){
+    width: 100%;
+  }
+  .error_modal_container {
+    @include u.col-center;
+    background-color: white;
+    min-height: 30vh;
+    max-height: 70vh;
+    overflow-y: auto;
+    width: 100%;
+    padding: 20px;
+    h6 {
+      font-size: 40px;
+      font-weight: 500;
+      color: v.$text-color;
+    }
+    .error_modal_icon {
+      fill: rgb(177, 3, 3);
+      flex-shrink: 0;
+    }
+    .errors {
+      margin-bottom: 15px;
+      font-size: 15px;
+      .error_article {
+        color: rgb(146, 0, 0);
+        display: block;
+        margin-bottom: 2px;
+        display: flex;
+        gap: 8px;
+
+        .dot_icon {
+          color: rgb(146, 0, 0);
+        }
+      }
+    }
+    .error_modal_btn {
+      margin-top: 10px;
+      margin-left: auto;
+    }
+  }
+}

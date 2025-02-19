@@ -1,0 +1,51 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.cash_wrapper {
+  width: 100%;
+  h5 {
+    font-size: 23px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: v.$secondary-color;
+    span {
+      @include u.row-center;
+      margin-left: 5px;
+      display: inline-flex !important;
+
+      &::after {
+        width: 50px;
+        margin: 0 0 0 10px;
+        background-color: v.$third-color;
+        height: 3px;
+        content: "";
+      }
+    }
+  }
+  .cash_infos {
+    @include u.col-start;
+    margin: 20px 0;
+    gap: 10px;
+    li {
+      width: 100%;
+      @include u.flex-between;
+      padding: 4px 0;
+      span {
+        font-size: 14px;
+      }
+      &:not(:nth-last-child(1)) {
+        border-bottom: 1px solid v.$secondary-color;
+      }
+      &:nth-last-child(1) {
+        span {
+          font-weight: 700;
+          color: v.$text-color;
+        }
+      }
+    }
+  }
+  button {
+    margin-left: auto;
+  }
+}

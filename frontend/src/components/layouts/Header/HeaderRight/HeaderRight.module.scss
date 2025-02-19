@@ -1,0 +1,32 @@
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/mixins" as m;
+
+.header_right_links {
+  @include u.row-center;
+  gap: 16px;
+
+  li {
+    position: relative;
+  }
+
+  .cart_count_badge {
+    position: absolute;
+    background-color: black;
+    color: white;
+    bottom: 0;
+    right: -2px;
+    text-align: center;
+    font-size: 9px;
+    @include u.flex-center;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+  }
+
+  li:nth-last-child(1) {
+    display: none;
+    @include m.responsive(md) {
+      display: inline;
+    }
+  }
+}

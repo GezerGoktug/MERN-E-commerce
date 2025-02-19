@@ -1,0 +1,48 @@
+@use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/mixins" as m;
+
+.topbar_wrapper {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: white;
+  padding: 10px 50px;
+  border-bottom: 1.5px solid rgb(212, 212, 212);
+  @include m.responsive(md) {
+    padding: 10px 30px;
+  }
+  @include m.responsive(xls) {
+    padding: 10px 20px;
+  }
+  @include m.responsive(xs) {
+    padding: 10px 14px;
+  }
+  .topbar {
+    @include u.flex-between;
+    .topbar_left {
+      @include u.row-center;
+      gap: 20px;
+      .topbar_toggle_bar_icon {
+        display: none;
+        @include m.responsive(sm) {
+          display: inline;
+        }
+      }
+      img {
+        height: 60px;
+      }
+    }
+    .topbar_logout_btn {
+      border-radius: 2px;
+      font-size: 16px;
+      font-weight: 400;
+      @include m.responsive(xs) {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+    }
+  }
+}
+

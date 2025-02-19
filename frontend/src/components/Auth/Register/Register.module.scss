@@ -1,0 +1,101 @@
+@use "../../../sass/mixins" as m;
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+.register_wrapper {
+  margin: 60px 0;
+  @include u.col-center;
+  gap: 20px;
+  h5 {
+    font-size: 30px;
+    font-family: v.$secondary-font-family;
+    color: v.$text-color;
+    font-weight: 300;
+    @include u.row-center;
+
+    &::after {
+      width: 40px;
+      margin: 0 0 0 10px;
+      background-color: v.$text-color;
+      height: 2px;
+      content: "";
+    }
+  }
+  .register_form {
+    width: 450px;
+    @include m.responsive(xls) {
+      width: 100%;
+    }
+    .register_input {
+      margin-bottom: 20px;
+    }
+    .error_message {
+      color: rgb(231, 11, 11);
+      font-size: 14px;
+      margin-bottom: 10px;
+      margin-top: -10px;
+    }
+    .register_interactions {
+      @include u.flex-between;
+      margin-bottom: 15px;
+      @include m.responsive(xs) {
+        font-size: 14px;
+      }
+      span {
+        cursor: pointer;
+      }
+    }
+    .register_btn {
+      margin: 0 auto;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+  .login_with_app_provider_section {
+    width: 450px;
+    @include m.responsive(xls) {
+      width: 100%;
+    }
+    .or_section {
+      @include u.row-center;
+
+      div {
+        height: 1.5px;
+        background-color: black;
+        flex: 1;
+      }
+      span {
+        padding: 0 16px;
+        font-family: v.$secondary-font-family;
+        color: v.$text-color;
+      }
+    }
+    .login_with_google_btn {
+      @include u.flex-between;
+      cursor: pointer;
+      width: 100%;
+      padding: 15px 30px;
+      gap: 10px;
+      font-weight: 500;
+      margin-top: 15px;
+      border-radius: 5px;
+      font-size: 20px;
+      background: rgb(237, 237, 237);
+      background: linear-gradient(
+        63deg,
+        rgba(237, 237, 237, 1) 0%,
+        rgb(239, 239, 239) 58%
+      );
+      transition: box-shadow 0.1s ease-in;
+      &:hover{
+        box-shadow: 0px 1px 6px  rgba(0, 0, 0, 0.2);
+      }
+      @include m.responsive(xs) {
+        padding: 15px 15px;
+      }
+      span {
+        margin: auto;
+      }
+    }
+  }
+}

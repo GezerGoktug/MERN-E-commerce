@@ -1,0 +1,94 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.cart_wrapper {
+  h5 {
+    font-size: 26px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: v.$secondary-color;
+    span {
+      @include u.row-center;
+      margin-left: 5px;
+      display: inline-flex !important;
+
+      &::after {
+        width: 50px;
+        margin: 0 0 0 10px;
+        background-color: v.$third-color;
+        height: 3px;
+        content: "";
+      }
+    }
+  }
+  .cart_product_list {
+    @include u.col-start;
+    .cart_product_item {
+      @include u.row-center;
+      width: 100%;
+      border: solid v.$secondary-color;
+      border-width: 1px 0;
+      padding: 20px 0;
+      gap: 20px;
+      @include m.responsive(xs) {
+        gap: 10px;
+      }
+      img {
+        height: 80px;
+      }
+      .cart_product_item_content {
+        @include u.col-start;
+        flex: 2;
+        margin-bottom: auto;
+        gap: 15px;
+        @include m.responsive(xls) {
+          flex: content;
+        }
+        h6 {
+          font-size: 16px;
+          font-weight: 500;
+          @include m.responsive(xls) {
+            font-size: 14px;
+          }
+          @include m.responsive(xs) {
+            font-size: 13px;
+          }
+        }
+        .cart_product_price_and_size {
+          @include u.row-center;
+          gap: 20px;
+          div {
+            background-color: rgb(237, 237, 237);
+            border: 1px solid rgb(207, 206, 206);
+            padding: 5px 12px;
+          }
+        }
+      }
+      .cart_product_item_quantity {
+        flex: 1;
+        @include m.responsive(sm) {
+          flex: none;
+        }
+        .cart_product_item_quantity_input {
+          max-width: 80px;
+          @include m.responsive(xls) {
+            max-width: 50px;
+          }
+          @include m.responsive(xs) {
+            margin-right: 5px;
+            max-width: 40px;
+          }
+        }
+      }
+      .cart_product_item_trash_icon {
+        flex: 0.5;
+        cursor: pointer;
+        @include m.responsive(sm) {
+          flex: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+@use "../../../sass/mixins" as m;
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+.input_wrapper {
+  border: 1px solid v.$secondary-color;
+  position: relative;
+  width: 100%;
+  input {
+    border: 0px;
+    outline: 0px;
+    width: 100%;
+    background-color: transparent;
+  }
+  .input_right_icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
+}
+
+.lg {
+  padding: 12px 14px;
+  &.isRightIcon {
+    padding-right: 40px;
+  }
+  input {
+    font-size: 16px;
+  }
+}
+
+.md {
+  padding: 8px 14px;
+  &.isRightIcon {
+    padding-right: 40px;
+  }
+  input {
+    font-size: 14px;
+  }
+}
+
+.sm {
+  padding: 5px 14px;
+  &.isRightIcon {
+    padding-right: 40px;
+  }
+  input {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,12 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+
+
+.header{
+    @include u.flex-between;
+    height: 80px;
+    border-bottom:1px solid v.$secondary-color;
+
+
+}

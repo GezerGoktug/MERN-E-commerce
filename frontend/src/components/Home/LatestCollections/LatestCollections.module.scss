@@ -1,0 +1,50 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.latest_collections {
+  margin-bottom: 70px;
+
+  .latest_collections_top {
+    margin-bottom: 40px;
+    text-align: center;
+    @include u.col-center;
+    .latest_collections_title {
+      font-size: 30px;
+      font-weight: 500;
+      color: v.$secondary-color;
+      span {
+        @include u.row-center;
+        margin-left: 5px;
+        display: inline-flex;
+        &::after {
+          width: 50px;
+          margin: 0 0 0 10px;
+          background-color: v.$third-color;
+          height: 2px;
+          content: "";
+        }
+      }
+    }
+
+    .latest_collections_description {
+      color: v.$third-color;
+      margin-top: 15px;
+    }
+  }
+  .latest_collections_products {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    @include m.responsive(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    @include m.responsive(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include m.responsive(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+  }
+}

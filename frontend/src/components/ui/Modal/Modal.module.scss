@@ -1,0 +1,32 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/mixins" as m;
+
+.modal_wrapper {
+  @include u.flex-center;
+  height: 100%;
+}
+.modal_content {
+  position: relative;
+  width: 600px;
+  background-color: white;
+  min-height: 30vh;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  @include m.responsive(sm) {
+    width: 90%;
+  }
+  @include m.responsive(xs) {
+    width: 100%;
+    padding: 20px 10px;
+  }
+}
+
+.modal_close_btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}

@@ -1,0 +1,76 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/mixins" as m;
+@use "../../../sass/variables" as v;
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #787878;
+
+    @include m.responsive(md) {
+      padding: 8px;
+    }
+  }
+
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: v.$third-color;
+  }
+
+  tr {
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+  td {
+    color: v.$text-color;
+    img {
+      height: 60px;
+      border-radius: 6px;
+      object-fit: contain;
+      margin-right: auto;
+    }
+    .actions {
+      @include u.row-center;
+      gap: 13px;
+      .actions_icon {
+        @include u.flex-center;
+        width: 26px;
+        height: 26px;
+        border-radius: 3px;
+        cursor: pointer;
+        &.remove {
+          background-color: rgb(176, 0, 0);
+        }
+        &.edit {
+          background-color: rgb(0, 131, 22);
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  margin: 30px auto;
+  @include u.flex-center;
+  gap: 10px;
+  .pagination_item {
+    @include u.flex-center;
+    color: white;
+    background-color: #000000;
+    border-radius: 3px;
+    width: 40px;
+    height: 40px;
+    &:not(:nth-child(2)) {
+      cursor: pointer;
+    }
+  }
+}

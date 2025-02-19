@@ -1,0 +1,24 @@
+
+.product_card {
+  cursor: pointer;
+  .product_card_img {
+    overflow: hidden;
+    img {
+      width: 100%;
+      transition: transform linear 0.1s;
+      &:hover {
+        transform: scale(110%);
+      }
+    }
+  }
+  h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 7px 0;
+  }
+  span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+

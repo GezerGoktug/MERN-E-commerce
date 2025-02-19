@@ -1,0 +1,50 @@
+@use "variables" as v;
+
+
+
+@mixin flex-control($x: flex-start, $y: normal, $direction: row) {
+  display: flex;
+  justify-content: $x;
+  align-items: $y;
+  flex-direction: $direction;
+}
+
+@mixin position-control($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: v.$breakpoint-xs) {
+      @content;
+    }
+  } @else if $breakpoint == xls {
+    @media (max-width: v.$breakpoint-xls) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
+    @media (max-width: v.$breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (max-width: v.$breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (max-width: v.$breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (max-width: v.$breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == 2xl {
+    @media (max-width: v.$breakpoint-2xl) {
+      @content;
+    }
+  }
+}

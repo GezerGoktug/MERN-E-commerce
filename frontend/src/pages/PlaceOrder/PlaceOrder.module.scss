@@ -1,0 +1,20 @@
+@use "../../sass/utils-mixins" as u;
+@use "../../sass/mixins" as m;
+@use "../../sass/variables" as v;
+
+.place_order_wrapper {
+  @include u.flex-between;
+  gap: 135px;
+  margin: 80px 0;
+  @include m.responsive(lg) {
+    gap: 30px;
+  }
+  @include m.responsive(md) {
+    gap: 15px;
+  }
+  @include m.responsive(sm) {
+    @include u.col-start;
+    margin: 30px 0;
+    gap: 50px;
+  }
+}

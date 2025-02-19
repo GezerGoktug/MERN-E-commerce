@@ -1,0 +1,45 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+.orders_wrapper {
+  .orders_btn {
+    @include u.row-center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgb(231, 214, 231);
+    background: linear-gradient(
+      63deg,
+      rgba(231, 214, 231, 1) 0%,
+      rgba(233, 223, 255, 1) 55%
+    );
+    width: max-content;
+
+    border-radius: 4px 4px 0 0;
+    .orders_btn_icon {
+      background: rgb(237, 25, 237);
+      background: linear-gradient(
+        63deg,
+        rgba(237, 25, 237, 1) 0%,
+        rgba(108, 65, 201, 1) 55%
+      );
+      fill: white;
+      padding: 5px;
+      border-radius: 50%;
+      overflow: visible;
+    }
+    span {
+      font-family: v.$secondary-font-family;
+      font-size: 18px;
+      color: v.$text-color;
+      font-weight: 500;
+      flex: 1;
+    }
+  }
+  hr {
+    margin-bottom: 20px;
+    border: 1.5px solid rgb(255, 221, 255);
+  }
+  .orders {
+    margin-bottom: 50px;
+  }
+}

@@ -1,0 +1,104 @@
+@use "../../../sass//utils-mixins" as u;
+@use "../../../sass//variables" as v;
+
+.button {
+  @include u.flex-center;
+  gap: 5px;
+  border: none;
+  border-radius: 0px;
+  background-color: transparent;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  overflow: visible;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in, color 0.3s ease-in;
+  .loaderIcon {
+    animation: spin 1.2s linear infinite;
+  }
+}
+
+.loading {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+.primary {
+  background-color: v.$text-color;
+  color: v.$primary-color;
+  .loaderIcon,
+  .iconLeft,
+  .iconRight {
+    fill: v.$primary-color;
+    
+  }
+  .loaderText {
+    color: v.$primary-color;
+  }
+}
+.secondary {
+  background-color: v.$primary-color;
+  color: v.$text-color;
+  border: 1px solid v.$text-color;
+  .loaderIcon,
+  .iconLeft,
+  .iconRight {
+    fill: v.$text-color;
+  }
+  &:hover {
+    background-color: v.$text-color;
+    color: v.$primary-color;
+    .iconLeft,
+    .iconRight {
+      fill: v.$primary-color;
+    }
+  }
+  &:disabled {
+    background-color: v.$text-color;
+    color: v.$primary-color;
+    .loaderIcon {
+      fill: v.$primary-color;
+    }
+    .loaderText {
+      color: v.$primary-color;
+    }
+  }
+}
+.danger {
+  background-color: rgb(165, 1, 1);
+  color: white;
+  .loaderIcon,
+  .iconLeft,
+  .iconRight {
+    fill: white;
+  }
+  &:disabled {
+    background-color: rgb(165, 1, 1);
+    color: v.$primary-color;
+    .loaderIcon {
+      fill: v.$primary-color;
+    }
+    .loaderText {
+      color: v.$primary-color;
+    }
+  }
+}
+
+.sm {
+  padding: 10px 30px;
+  font-size: 11px;
+}
+.md {
+  padding: 15px 40px;
+  font-size: 13px;
+}
+.lg {
+  padding: 18px 40px;
+  font-size: 15px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

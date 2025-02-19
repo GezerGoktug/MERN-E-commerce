@@ -1,0 +1,67 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.hero {
+    @include u.row-center;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: v.$secondary-color;
+    margin-bottom: 100px;
+    @include m.responsive(sm) {
+      @include u.col-center;
+    }
+  .hero_left {
+    flex: 1;
+    @include u.flex-center;
+    @include m.responsive(sm) {
+        margin: 80px 0;
+      }
+    .hero_left_content {
+      .hero_left_main_title {
+        font-family: v.$secondary-font-family;
+        font-size: 48px;
+        font-weight: 300;
+        @include m.responsive(lg) {
+          font-size: 30px;
+        }
+        @include m.responsive(sm) {
+            font-size: 44px;
+          }
+          @include m.responsive(xs) {
+            font-size: 34px;
+          }
+      }
+      .hero_left_top_title {
+        font-weight: 500;
+        @include u.row-center;
+        &::before {
+          width: 20%;
+          margin: 0px 10px 0 0;
+          background-color: v.$secondary-color;
+          height: 1.5px;
+          content: "";
+        }
+      }
+      .hero_left_bottom_title {
+        font-weight: 600;
+        @include u.row-center;
+        &::after {
+          width: 20%;
+          margin: 0 0 0 10px;
+          background-color: v.$secondary-color;
+          height: 1.5px;
+          content: "";
+        }
+      }
+    }
+  }
+  .hero_right {
+    flex: 1;
+    
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+}

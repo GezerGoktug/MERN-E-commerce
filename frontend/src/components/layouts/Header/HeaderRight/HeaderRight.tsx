@@ -1,0 +1,76 @@
+import { Link } from "react-router-dom";
+import styles from "./HeaderRight.module.scss";
+import { RiUser3Line } from "react-icons/ri";
+import { HiOutlineShoppingBag } from "react-icons/hi";
+import { IoSearch } from "react-icons/io5";
+import { FaBars } from "react-icons/fa6";
+import { useState } from "react";
+import Sidebar from "../../Sidebar/Sidebar";
+import { AnimatePresence } from "framer-motion";
+import { useTotalCartQuantities } from "../../../../store/cart/hooks";
+const HeaderRight = () => {
+  const totalQuantity = useTotalCartQuantities();
+  const [isOpen, setIsOpen] = useState(false);
+  const links = [
+    {
+      icon: IoSearch,
+      href: "/collection",
+      state: { searchBarOpen: true },
+    },
+    {
+      icon: RiUser3Line,
+      href: "/profile",
+    },
+    {
+      icon: HiOutlineShoppingBag,
+      href: "/cart",
+      cart_icons: true,
+    },
+    {
+      icon: FaBars,
+      menu_icon: true,
+    },
+  ];
+
+  return (
+    <nav>
+      <AnimatePresence>
+        {isOpen && (
+          <Sidebar
+            onClose={() => {
+              setIsOpen(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
+      <ul className={styles.header_right_links}>
+        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon }, i) => (
+          <li key={"header_links_" + i}>
+            {menu_icon ? (
+              <>
+                <Icon
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={styles.toggle_menu_icon}
+                  size={25}
+                />
+              </>
+            ) : (
+              href && (
+                <Link to={href} state={state}>
+                  <Icon size={25} />
+                  {cart_icons && (
+                    <span className={styles.cart_count_badge}>
+                      {totalQuantity}
+                    </span>
+                  )}
+                </Link>
+              )
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default HeaderRight;

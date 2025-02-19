@@ -1,0 +1,41 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/mixins" as m;
+
+.detail_pictures_section {
+  @include u.row-center;
+  gap: 15px;
+  height: 400px;
+  @include m.responsive(sm) {
+    @include u.col-start;
+    flex-direction: column-reverse;
+    height: auto;
+  }
+  .detail_pictures_section_left {
+    @include u.col-start;
+    gap: 10px;
+    height: 100%;
+    width: 16%;
+    @include m.responsive(sm) {
+      @include u.row-center;
+      width: 100%;
+    }
+    img {
+      width: 100%;
+      cursor: pointer;
+      @include m.responsive(sm) {
+        width: 22%;
+      }
+    }
+  }
+  .detail_pictures_section_right {
+    width: 80%;
+    height: 100%;
+    @include m.responsive(sm) {
+      width: 100%;
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

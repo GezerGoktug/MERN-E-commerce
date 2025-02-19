@@ -1,0 +1,73 @@
+@use "../../../sass/mixins" as m;
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+.product_detail {
+  .product_detail_title {
+    font-size: 25px;
+    font-weight: 500;
+    color: v.$text-color;
+    margin-top: 10px;
+  }
+  .product_detail_rating {
+    @include u.row-center;
+    gap: 15px;
+    margin: 15px 0;
+    .product_detail_stars {
+      @include u.row-center;
+      gap: 2px;
+      .product_detail_star_icon {
+        fill: orangered;
+        opacity: 0.5;
+        &.starred {
+          opacity: 1;
+        }
+      }
+    }
+    span {
+      color: v.$text-color;
+    }
+  }
+  .product_detail_price {
+    font-size: 30px;
+    color: v.$text-color;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .product_detail_desc {
+    margin-bottom: 30px;
+    padding-right: 20%;
+    @include m.responsive(lg) {
+        padding-right: 0;
+      }
+  }
+  .product_detail_select_size {
+    .product_detail_select_size_title {
+      color: v.$text-color;
+    }
+    .product_detail_sizes {
+      @include u.row-center;
+      gap: 10px;
+      margin: 20px 0;
+      div {
+        background-color: rgb(237, 237, 237);
+        border: 1px solid rgb(207, 206, 206);
+        padding: 10px 16px;
+        cursor: pointer;
+        &.selected {
+            border: 1px solid orangered;
+        }
+      }
+    }
+  }
+  .product_detail_short_features{
+    border-top: 1px solid v.$secondary-color;
+    margin: 20px 0;
+    padding-top: 20px ;
+    ul{
+        @include u.col-start;
+        gap: 10px;
+        font-size: 14px;
+    }
+  }
+}

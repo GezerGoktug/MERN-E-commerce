@@ -1,0 +1,74 @@
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+@use "../../../sass/mixins" as m;
+
+.best_sellers {
+  margin-bottom: 70px;
+
+  .best_sellers_top {
+    margin-bottom: 40px;
+    text-align: center;
+    @include u.col-center;
+    .best_sellers_title {
+      font-size: 30px;
+      font-weight: 500;
+      color: v.$secondary-color;
+      span {
+        @include u.row-center;
+        margin-left: 5px;
+        display: inline-flex !important;
+
+        &::after {
+          width: 50px;
+          margin: 0 0 0 10px;
+          background-color: v.$third-color;
+          height: 2px;
+          content: "";
+        }
+      }
+    }
+
+    .best_sellers_description {
+      color: v.$third-color;
+      margin-top: 15px;
+    }
+  }
+  .best_sellers_products {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    @include m.responsive(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    @include m.responsive(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include m.responsive(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+  }
+}
+
+.product_card {
+  cursor: pointer;
+  .product_card_img {
+    overflow: hidden;
+    img {
+      width: 100%;
+      transition: transform linear 0.1s;
+      &:hover {
+        transform: scale(110%);
+      }
+    }
+  }
+  h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 7px 0;
+  }
+  span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,19 @@
+@use "../../sass/utils-mixins" as u;
+
+.error{
+    padding: 50px 0;
+    text-align: center;
+    @include u.col-center;
+    h5{
+        font-size: 100px;
+    }
+    h6{
+        font-size: 30px;
+
+    }
+    p{
+        margin: 10px;
+        font-size: 18px;
+    }
+
+}

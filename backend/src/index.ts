@@ -15,7 +15,7 @@ import helmet from "helmet";
 
 import swagger from "swagger-ui-express";
 
-const swaggerDocument = require("./swagger.json");
+
 
 dotenv.config();
 connectDB();
@@ -46,6 +46,7 @@ app.use("/api/payment", paymentRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/admin", statsRouter);
 if (process.env.NODE_ENV === "development") {
+  const swaggerDocument = require("./swagger.json");
   app.use(
     "/api-docs",
     swagger.serve,

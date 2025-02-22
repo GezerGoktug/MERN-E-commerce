@@ -21,7 +21,7 @@ router.get("/refresh", asyncHandler(refreshToken));
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"], prompt:"select_account" })
 );
 router.get(
   "/google/callback",

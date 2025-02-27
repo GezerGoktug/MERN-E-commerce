@@ -6,6 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ResponseHandler from "../util/response";
 import { ErrorHandler } from "../error/errorHandler";
 import { Order } from "../models/Order.schema";
+import { productSchema } from "../validations/schema";
 
 const getSortingStatusToProducts = (
   sorting: string
@@ -37,11 +38,18 @@ export const addProduct = async (req: Request, res: Response) => {
   const subImg2 = files?.subImage2 && files?.subImage2[0];
   const subImg3 = files?.subImage3 && files?.subImage3[0];
 
-  console.log(sizes);
-  console.log(typeof sizes);
-  console.log(JSON.stringify(sizes));
-  console.log(sizes);
-  console.log(JSON.parse(JSON.stringify(sizes)));
+  productSchema.parse({
+    subCategory,
+    category,
+    name,
+    price: +price,
+    description,
+    sizes: JSON.parse(sizes),
+    mainImage: mainImg,
+    subImage1: subImg1,
+    subImage2: subImg2,
+    subImage3: subImg3,
+  });
 
   if (!mainImg) {
     throw new ErrorHandler(400, "Required main image for product.");
@@ -108,14 +116,27 @@ export const updateProduct = async (req: Request, res: Response) => {
 
   const id = req.params.id;
 
-  const product = await Product.findById(id);
-
-  const subImages = product?.subImages === undefined ? [] : product?.subImages;
-
   const mainImg = files?.mainImage && files?.mainImage[0];
   const subImg1 = files?.subImage1 && files?.subImage1[0];
   const subImg2 = files?.subImage2 && files?.subImage2[0];
   const subImg3 = files?.subImage3 && files?.subImage3[0];
+
+  productSchema.parse({
+    subCategory,
+    category,
+    name,
+    price: +price,
+    description,
+    sizes: JSON.parse(sizes),
+    mainImage: mainImg,
+    subImage1: subImg1,
+    subImage2: subImg2,
+    subImage3: subImg3,
+  });
+
+  const product = await Product.findById(id);
+
+  const subImages = product?.subImages === undefined ? [] : product?.subImages;
 
   const images = [mainImg, subImg1, subImg2, subImg3];
 

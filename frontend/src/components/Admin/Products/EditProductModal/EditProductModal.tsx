@@ -90,9 +90,16 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
       closeModal();
     },
     onError: (err) => {
-      const errorMessage = err.response?.data.error.errorMessage;
-      if (typeof errorMessage === "string") {
-        toast.error(errorMessage);
+      const apiError = err.response?.data.error.errorMessage;
+      if (typeof apiError === "string") {
+        toast.error(apiError);
+      }
+      if (typeof apiError === "object") {
+        Object.entries(apiError).forEach(([key, value]) => {
+          value.forEach((val) => {
+            toast.error(`${key} : ${val}`);
+          });
+        });
       }
     },
   });

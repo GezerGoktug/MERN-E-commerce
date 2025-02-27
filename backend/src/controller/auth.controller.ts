@@ -1,6 +1,6 @@
 import User from "../models/User.schema";
 import { Request, Response } from "express";
-import { schema } from "../validations/schema";
+import { registerSchema } from "../validations/schema";
 import bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ExtendedRequest } from "../types/types";
@@ -17,7 +17,7 @@ const generateRandomAvatar = () => {
 export const register = async (req: Request, res: Response) => {
   const { name, email, password, confirmPassword } = req.body;
 
-  schema.parse({
+  registerSchema.parse({
     name,
     email,
     password,
@@ -28,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
 
   if (existEmail) throw new ErrorHandler(400, "This email is already in use");
 
-  const users = await User.find();
+  const users = await User.find().select("password");
 
   const promises = users.map(async (user) => {
     if (user.password === null) {

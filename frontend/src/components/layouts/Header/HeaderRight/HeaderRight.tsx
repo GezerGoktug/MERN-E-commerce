@@ -8,6 +8,7 @@ import { useState } from "react";
 import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "../../../../store/cart/hooks";
+import Tooltip from "../../../ui/Tooltip/Tooltip";
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
   const [isOpen, setIsOpen] = useState(false);
@@ -16,15 +17,18 @@ const HeaderRight = () => {
       icon: IoSearch,
       href: "/collection",
       state: { searchBarOpen: true },
+      message: "Search",
     },
     {
       icon: RiUser3Line,
       href: "/profile",
+      message: "Profile",
     },
     {
       icon: HiOutlineShoppingBag,
       href: "/cart",
       cart_icons: true,
+      message: "Cart",
     },
     {
       icon: FaBars,
@@ -44,7 +48,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon }, i) => (
+        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon ,message}, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -56,14 +60,16 @@ const HeaderRight = () => {
               </>
             ) : (
               href && (
-                <Link to={href} state={state}>
-                  <Icon size={25} />
-                  {cart_icons && (
-                    <span className={styles.cart_count_badge}>
-                      {totalQuantity}
-                    </span>
-                  )}
-                </Link>
+                <Tooltip message={message}>
+                  <Link to={href} state={state}>
+                    <Icon size={25} />
+                    {cart_icons && (
+                      <span className={styles.cart_count_badge}>
+                        {totalQuantity}
+                      </span>
+                    )}
+                  </Link>
+                </Tooltip>
               )
             )}
           </li>

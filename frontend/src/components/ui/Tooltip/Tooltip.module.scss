@@ -1,0 +1,43 @@
+@use "../../../sass/variables" as v;
+
+@keyframes tooltip_animate {
+  0% {
+    transform: translate(-10%, 10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-10%, 0);
+    opacity: 1;
+  }
+}
+
+.tooltip_wrapper {
+  position: relative;
+  &:hover {
+    .tooltip_content {
+      display: inline-block;
+    }
+  }
+  .tooltip_content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 3px);
+    left: -50%;
+    transform: translate(-10%, 0);
+    padding: 6px 10px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid v.$secondary-color;
+    animation: tooltip_animate 0.2s linear;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 45%;
+      margin-left: -5px;
+      border-width: 7px;
+      border-style: solid;
+      border-color: transparent transparent rgb(91, 91, 91) transparent;
+    }
+  }
+}

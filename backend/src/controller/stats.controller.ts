@@ -1,21 +1,9 @@
 import { Request, Response } from "express";
-import { ExtendedRequest } from "../types/types";
 import { Product } from "../models/Product.schema";
 import User from "../models/User.schema";
 import { Order } from "../models/Order.schema";
 import ResponseHandler from "../util/response";
 
-//? Sipariş sayısı günlük (card)
-//? Toplam gelir (yıllık) (card)
-//? Ortalama sipariş değeri (card)
-//? Sisteme kayıtlı olan kullanıcılar  (card)
-//? Sisteme kayıtlı olan ürünler  (card)
-
-//? Topwear bottomwear winterwear ürün sayıları grafikleri (barplot)
-//? Günlük aylık yıllık satış grafikleri (histogram)
-//? Siparişlerin kategorik dağılımı (topwear ve men) pasta grafiği
-//? harita bazlı sipariş dağılımı dünya haritası siparişlerin nereden geldiği
-//? en çok satan ürünler bar plot
 
 export const getStatsCardStatictics = async (req: Request, res: Response) => {
   const currentDate = new Date();
@@ -70,8 +58,8 @@ export const getStatsCardStatictics = async (req: Request, res: Response) => {
         },
       },
     },
+    
   ]);
-
   const todayOrders = await Order.countDocuments({
     createdAt: {
       $gte: new Date().setHours(0, 0, 0, 0),
@@ -211,7 +199,7 @@ export const getStatsCardStatictics = async (req: Request, res: Response) => {
   ResponseHandler.success(res, 200, {
     stats_card: [
       {
-        dt: yearIncome[0].totalIncome,
+        dt: yearIncome[0]?.totalIncome || 0,
         key: "YEAR_INCOME",
       },
       {
@@ -227,11 +215,11 @@ export const getStatsCardStatictics = async (req: Request, res: Response) => {
         key: "USER_COUNT",
       },
       {
-        dt: productCommentsAvgRating[0].avgRating,
+        dt: productCommentsAvgRating[0]?.avgRating || 0,
         key: "PRODUCT_COMMENT_AVG_RATING",
       },
       {
-        dt: averageMonthlyOrderSalesValue[0].averageMonthlyOrderSalesValue,
+        dt: averageMonthlyOrderSalesValue[0]?.averageMonthlyOrderSalesValue || 0,
         key: "AVG_MONTHLY_ORDER_SALES",
       },
     ],

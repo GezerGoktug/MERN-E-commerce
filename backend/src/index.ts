@@ -12,14 +12,12 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import { errorHandler } from "./middleware/errorHandler.middleware";
 import helmet from "helmet";
-
 import swagger from "swagger-ui-express";
-
-
 
 dotenv.config();
 connectDB();
 
+require("../src/config/redis");
 require("./strategy/google_strategy");
 require("./config/cloudinary");
 

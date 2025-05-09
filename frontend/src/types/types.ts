@@ -23,7 +23,7 @@ export type ReviewType = {
   createdAt: Date;
   user: {
     _id: string;
-    email:string;
+    email: string;
     name: string;
     image: string;
   };
@@ -74,4 +74,13 @@ export interface IOrder {
   createdAt: Date;
   products: (CartProductType & { product: string })[];
   __v: number;
+}
+
+export interface IPaginationResult<T> {
+  totalPage: number;
+  pageSize: number;
+  current: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+  content: T[];
 }

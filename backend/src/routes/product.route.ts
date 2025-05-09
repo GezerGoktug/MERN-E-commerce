@@ -15,6 +15,11 @@ import {
 } from "../controller/product.controller";
 import { isAdmin, protect } from "../middleware/auth.middleware";
 import upload from "../middleware/upload.middleware";
+import rateLimiter from "../util/rate-limiter";
+import {
+  cacheable,
+  createDynamicVariables,
+} from "../middleware/cache.middleware";
 
 const router = express.Router();
 
@@ -30,7 +35,18 @@ router.post(
   ]),
   asyncHandler(addProduct)
 );
-router.get("/list", asyncHandler(getProductsByQueries));
+router.get(
+  "/list",
+  rateLimiter("product-list"),
+  cacheable(
+    "product-list",
+    createDynamicVariables(
+      [],
+      ["page", "sorting", "categories", "subCategory", "sorting", "searchQuery"]
+    )
+  ),
+  asyncHandler(getProductsByQueries)
+);
 router.get("/latest-products/list", asyncHandler(getLatestCollections));
 router.get("/best-seller-products/list", asyncHandler(getBestSellerProducts));
 router.get("/admin/list", asyncHandler(getProductsForAdmin));
@@ -59,6 +75,11 @@ router.delete(
   asyncHandler(protect),
   asyncHandler(deleteComment)
 );
-router.get("/:id", asyncHandler(getProductDetail));
+router.get(
+  "/:id",
+  rateLimiter("product-detail", 10, 1000 * 60 * 1.5), // 1.5 minutes
+  cacheable("product-detail", createDynamicVariables(["id"])),
+  asyncHandler(getProductDetail)
+);
 
 export default router;

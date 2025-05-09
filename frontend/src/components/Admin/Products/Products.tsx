@@ -11,6 +11,7 @@ import {
 import Modal from "../../ui/Modal/Modal";
 import DeleteProductModal from "./DeleteProductModal/DeleteProductModal";
 import EditProductModal from "./EditProductModal/EditProductModal";
+import { IPaginationResult } from "../../../types/types";
 
 interface IComment {
   content: string;
@@ -59,7 +60,7 @@ const Products = () => {
     EditProductDTO | DeleteProductDTO
   > | null>(null);
 
-  const { data } = useQuery({
+  const { data } = useQuery<{ data: IPaginationResult<IProduct> }>({
     queryKey: ["admin-products", page],
     queryFn: () => {
       return api.get(`/product/admin/list?page=${page}`);
@@ -98,7 +99,7 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data.products.map((product: IProduct) => (
+          {data?.data.content.map((product: IProduct) => (
             <tr key={product._id}>
               <td>
                 <img src={product.image} alt="" />
@@ -152,7 +153,7 @@ const Products = () => {
       </table>
       <div className={styles.pagination}>
         <div
-          onClick={() => setPage(page > 0 ? page - 1 : page)}
+          onClick={() => setPage(data?.data.hasPrev ? page - 1 : page)}
           className={styles.pagination_item}
         >
           <IoIosArrowDropleftCircle fill="white" size={25} />
@@ -160,9 +161,7 @@ const Products = () => {
         <div className={styles.pagination_item}>{page}</div>
         <div className={styles.pagination_item}>
           <IoIosArrowDroprightCircle
-            onClick={() =>
-              setPage(page < data?.data.totalPage - 1 ? page + 1 : page)
-            }
+            onClick={() => setPage(data?.data.hasNext ? page + 1 : page)}
             fill="white"
             size={25}
           />

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Product } from "../models/Product.schema";
 import { ExtendedRequest } from "../types/types";
 import { JwtPayload } from "jsonwebtoken";
@@ -7,6 +7,13 @@ import ResponseHandler from "../util/response";
 import { ErrorHandler } from "../error/errorHandler";
 import { Order } from "../models/Order.schema";
 import { productSchema } from "../validations/schema";
+import { pageableToResponse } from "../util/pagination";
+import {
+  cacheEvict,
+  createDynamicVariables,
+  setCache,
+  updateCache,
+} from "../middleware/cache.middleware";
 
 const getSortingStatusToProducts = (
   sorting: string
@@ -191,12 +198,18 @@ export const getProductsForAdmin = async (req: Request, res: Response) => {
 
   const productsCount = await Product.countDocuments();
 
-  const totalPage = Math.ceil(productsCount / limit);
-
-  ResponseHandler.success(res, 200, { products, totalPage });
+  ResponseHandler.success(
+    res,
+    200,
+    pageableToResponse(productsCount, Number(page), products)
+  );
 };
 
-export const getProductsByQueries = async (req: Request, res: Response) => {
+export const getProductsByQueries = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const page = req.query.page || "0";
   const categories = req.query.categories || "";
   const subCategory = req.query.subCategory || "";
@@ -241,9 +254,21 @@ export const getProductsByQueries = async (req: Request, res: Response) => {
     ...filterSearchText,
   }).countDocuments();
 
-  const totalPage = Math.ceil(productsCount / limit);
+  await setCache(
+    req,
+    "product-list",
+    pageableToResponse(productsCount, Number(page), products),
+    createDynamicVariables(
+      [],
+      ["page", "categories", "subCategory", "sorting", "searchQuery"]
+    )
+  );
 
-  ResponseHandler.success(res, 200, { products, totalPage });
+  ResponseHandler.success(
+    res,
+    200,
+    pageableToResponse(productsCount, Number(page), products)
+  );
 };
 
 export const getProductDetail = async (req: Request, res: Response) => {
@@ -273,8 +298,23 @@ export const getProductDetail = async (req: Request, res: Response) => {
     .select("image name price _id");
 
   const totalRating =
-    product.comments.reduce((acc, comment) => +comment.rating + acc, 0) /
-    product.comments.length;
+    product.comments.length === 0
+      ? 0
+      : product.comments.reduce((acc, comment) => +comment.rating + acc, 0) /
+        product.comments.length;
+
+  await setCache(
+    req,
+    "product-detail",
+    {
+      ...product.toObject(),
+      reviewsCount: product.comments.length,
+      totalRating,
+      relatedProducts,
+    },
+    createDynamicVariables(["id"]),
+    300
+  );
 
   ResponseHandler.success(res, 200, {
     ...product.toObject(),
@@ -304,6 +344,13 @@ export const createComment = async (req: ExtendedRequest, res: Response) => {
       },
     },
   });
+
+  await cacheEvict(
+    req,
+    "product-detail",
+    createDynamicVariables([], [], [["productId", "id"]])
+  );
+
   ResponseHandler.success(res, 200, { message: "Create comment successfully" });
 };
 
@@ -325,6 +372,12 @@ export const deleteComment = async (req: ExtendedRequest, res: Response) => {
   await Product.findByIdAndUpdate(productId, {
     $pull: { comments: { _id: commentId, user: currentUser.userId } },
   });
+
+  await cacheEvict(
+    req,
+    "product-detail",
+    createDynamicVariables([["productId", "id"]])
+  );
 
   ResponseHandler.success(res, 200, {
     message: "Deleted comment successfully",
@@ -351,7 +404,7 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
     throw new ErrorHandler(404, "Comment not found");
   }
 
-  await Product.findByIdAndUpdate(
+  const updatedProduct = await Product.findByIdAndUpdate(
     productId,
     {
       $set: {
@@ -360,10 +413,32 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
       },
     },
     {
+      new: true,
       arrayFilters: [
         { "comment._id": commentId, "comment.user": currentUser.userId },
       ],
     }
+  ).populate("comments.user", "name email image");
+
+  if (updatedProduct === null)
+    throw new ErrorHandler(500, "Product update error");
+
+  const totalRating =
+    updatedProduct?.comments.length === 0
+      ? 0
+      : updatedProduct?.comments.reduce(
+          (acc, comment) => +comment?.rating + acc,
+          0
+        ) / updatedProduct?.comments.length;
+
+  await updateCache(
+    req,
+    "product-detail",
+    {
+      ...updatedProduct?.toObject(),
+      totalRating,
+    },
+    createDynamicVariables([], [], [["productId", "id"]])
   );
 
   ResponseHandler.success(res, 200, { message: "Update comment successfully" });

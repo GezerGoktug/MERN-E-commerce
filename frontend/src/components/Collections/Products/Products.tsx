@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductType } from "../../../types/types";
+import { IPaginationResult, ProductType } from "../../../types/types";
 import styles from "./Products.module.scss";
 import api from "../../../utils/api";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ const Products = () => {
   const searchQuery = useSearchQuery();
 
   const { data, isPending } = useQuery<{
-    data: { products: ProductType[]; totalPage: number };
+    data: IPaginationResult<ProductType>;
   }>({
     queryKey: [
       "products",
@@ -85,11 +85,8 @@ const Products = () => {
           </>
         ) : (
           <>
-            {data?.data?.products.map((item, i) => (
-              <ProductCard
-              key={"product" + i}
-              product={item}
-              />
+            {data?.data?.content.map((item, i) => (
+              <ProductCard key={"product" + i} product={item} />
             ))}
           </>
         )}

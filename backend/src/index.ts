@@ -17,7 +17,7 @@ import swagger from "swagger-ui-express";
 dotenv.config();
 connectDB();
 
-require("../src/config/redis");
+require("./config/redis");
 require("./strategy/google_strategy");
 require("./config/cloudinary");
 

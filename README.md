@@ -64,6 +64,7 @@ This project is an e-commerce clothing platform developed using MERN Stack techn
 - **Cookie Parser**: Parses cookies for session management.
 - **JWT**: More secure session management with access token and refresh token .
 - **MongoDB**: Database system.
+- **Redis**: Database that we use to cache data for faster responses and request limiting.
 - **Bcryptjs**: For hashing password with encryption algorithm.
 - **Mongoose**: ODM for MongoDB.
 - **Cloudinary & Multer**: Media hosting and file upload handling.

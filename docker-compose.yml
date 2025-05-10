@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  redis-db:
+    image: redis:latest
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./../redis-data:/data
+    networks:
+      - mern-network      
+    depends_on:
+      - database  
+
   frontend:
     build: ./frontend
     container_name: react-ui
@@ -22,7 +34,7 @@ services:
     environment:
       -  NODE_ENV=production
     depends_on:
-      - database  
+      - redis-db  
     networks:
       - mern-network
 

@@ -50,6 +50,7 @@ router.get(
         "categories",
         "subCategory",
         "searchQuery",
+        "minPrice",
       ]
     )
   ),

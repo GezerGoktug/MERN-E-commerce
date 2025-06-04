@@ -76,11 +76,12 @@ export interface IOrder {
   __v: number;
 }
 
-export interface IPaginationResult<T> {
+export interface IPaginationResult<T, OtherDataType> {
   totalPage: number;
   pageSize: number;
   current: number;
   hasNext: boolean;
   hasPrev: boolean;
   content: T[];
+  otherData?: OtherDataType;
 }

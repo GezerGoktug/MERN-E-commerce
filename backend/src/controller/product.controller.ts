@@ -221,13 +221,14 @@ export const getProductsByQueries = async (
 ) => {
   const pageRequest = PaginationRequest(req, 15);
 
-  const { categories, subCategory, searchQuery } = filterQuery(
+  const { categories, subCategory, searchQuery, minPrice } = filterQuery(
     req,
-    ["categories", "subCategory", "searchQuery"],
+    ["categories", "subCategory", "searchQuery", "minPrice"],
     {
       categories: "",
       subCategory: "",
       searchQuery: "",
+      minPrice: "0",
     }
   );
 
@@ -251,16 +252,15 @@ export const getProductsByQueries = async (
       ? null
       : { $text: { $search: searchQuery as string } };
 
-  // const filterSortingQuery = getSortingStatusToProducts(
-  //   sorting as string
-  // ) as object;
-
   const filterSortingQuery = generateSortingQuery(
     pageRequest.sortField ? pageRequest.sortField : "_id",
     pageRequest.sortType
   ) as object;
+
+  const filterMinPice = { price: { $gte: +minPrice } };
+
   const products = await Product.find({
-    $and: [filterCategory, filterSubCategory],
+    $and: [filterCategory, filterSubCategory, filterMinPice],
     ...filterSearchText,
   })
     .limit(limit)
@@ -269,9 +269,14 @@ export const getProductsByQueries = async (
     .select("image name price _id");
 
   const productsCount = await Product.find({
-    $and: [filterCategory, filterSubCategory],
+    $and: [filterCategory, filterSubCategory, filterMinPice],
     ...filterSearchText,
   }).countDocuments();
+
+  const maxPricedItem = await Product.find()
+    .sort({ price: "desc" })
+    .limit(1)
+    .select("price");
 
   await setCache(
     req,
@@ -280,7 +285,10 @@ export const getProductsByQueries = async (
       productsCount,
       pageRequest.pageNumber,
       pageRequest.pageSize,
-      products
+      products,
+      {
+        maxPrice: maxPricedItem[0].price,
+      }
     ),
     createDynamicVariables(
       [],
@@ -292,6 +300,7 @@ export const getProductsByQueries = async (
         "categories",
         "subCategory",
         "searchQuery",
+        "minPrice",
       ]
     )
   );
@@ -303,7 +312,10 @@ export const getProductsByQueries = async (
       productsCount,
       pageRequest.pageNumber,
       pageRequest.pageSize,
-      products
+      products,
+      {
+        maxPrice: maxPricedItem[0].price,
+      }
     )
   );
 };

@@ -1,11 +1,12 @@
 import { Request } from "express";
 import { paginationRequestSchema } from "../validations/schema";
 
-export const pageableToResponse = <T>(
+export const pageableToResponse = <T, OtherDataType>(
   totalItems: number,
   page: number,
   pageSize: number,
-  data: T[]
+  data: T[],
+  otherData?: OtherDataType
 ) => {
   return {
     totalPage: Math.ceil(totalItems / pageSize),
@@ -14,6 +15,9 @@ export const pageableToResponse = <T>(
     hasNext: !(page + 1 >= Math.ceil(totalItems / pageSize)),
     hasPrev: page !== 0,
     content: data,
+    otherData: {
+      ...otherData,
+    },
   };
 };
 

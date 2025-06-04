@@ -7,6 +7,8 @@ type Store = {
   subCategories: string[];
   page: number;
   pageCount: number;
+  minPrice: number;
+  maxPrice: number;
   searchQuery: string;
   __setCategory: (category: string, opr: OprType) => void;
   __setSubCategory: (subCategory: string, opr: OprType) => void;
@@ -14,6 +16,8 @@ type Store = {
   __prevPage: () => void;
   __setSearchQuery: (query: string) => void;
   __setPageCount: (pageCount: number) => void;
+  __setMinPrice: (price: number) => void;
+  __setMaxPrice: (price: number) => void;
 };
 
 const filterStore = create<Store>()((set) => ({
@@ -22,6 +26,8 @@ const filterStore = create<Store>()((set) => ({
   page: 0,
   pageCount: 1,
   searchQuery: "",
+  minPrice: 0,
+  maxPrice: 2000,
   __setCategory: (category, opr) =>
     set((state) => {
       if (opr === "DELETE") {
@@ -80,6 +86,20 @@ const filterStore = create<Store>()((set) => ({
       return {
         ...state,
         pageCount: pageCount,
+      };
+    }),
+  __setMinPrice: (price) =>
+    set((state) => {
+      return {
+        ...state,
+        minPrice: price,
+      };
+    }),
+  __setMaxPrice: (price) =>
+    set((state) => {
+      return {
+        ...state,
+        maxPrice: price,
       };
     }),
 }));

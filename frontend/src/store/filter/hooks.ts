@@ -7,3 +7,5 @@ export const useSubCategories = () =>
   useFilterStore((state) => state.subCategories);
 export const useSearchQuery = () =>
   useFilterStore((state) => state.searchQuery);
+export const useMinPrice = () => useFilterStore((state) => state.minPrice);
+export const useMaxPrice = () => useFilterStore((state) => state.maxPrice);

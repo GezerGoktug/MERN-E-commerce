@@ -3,13 +3,22 @@ import styles from "./Filter.module.scss";
 import { IoIosArrowUp } from "react-icons/io";
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
-import { setCategories, setSubCategories } from "../../../store/filter/actions";
+import {
+  setCategories,
+  setMinPrice,
+  setSubCategories,
+} from "../../../store/filter/actions";
+import Button from "../../ui/Button/Button";
+import { useMaxPrice } from "../../../store/filter/hooks";
 
 const Filter = () => {
   const [openFilterOptions, setOpenFilterOptions] = useState(true);
   const isMobile = useMediaQuery({
     query: "(max-width: 640px)",
   });
+
+  const maxPrice = useMaxPrice();
+  const [lowerPrice, setLowerPrice] = useState(0);
 
   const handleCategoryChance = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -26,6 +35,8 @@ const Filter = () => {
       setSubCategories(e.target.value, "DELETE");
     }
   };
+
+  const handleMinPriceChance = () => setMinPrice(lowerPrice);
 
   return (
     <div className={styles.filter}>
@@ -99,6 +110,29 @@ const Filter = () => {
               />
               <span>Winterwear</span>
             </div>
+          </div>
+
+          <div className={styles.filter_box}>
+            <h6>PRICE</h6>
+            <div className={styles.filter_range_prices}>
+              <span>${lowerPrice}</span>
+              <span>${maxPrice}</span>
+            </div>
+            <input
+              onChange={(e) => setLowerPrice(+e.target.value)}
+              className={styles.filter_range}
+              defaultValue="0"
+              min="0"
+              max={maxPrice}
+              type="range"
+            />
+            <Button
+              onClick={() => handleMinPriceChance()}
+              className={styles.filter_range_btn}
+              size="sm"
+            >
+              APPLY
+            </Button>
           </div>
         </>
       )}

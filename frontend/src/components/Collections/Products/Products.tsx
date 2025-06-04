@@ -5,11 +5,12 @@ import api from "../../../utils/api";
 import { useEffect, useState } from "react";
 import {
   useCategories,
+  useMinPrice,
   usePage,
   useSearchQuery,
   useSubCategories,
 } from "../../../store/filter/hooks";
-import { setPageCount } from "../../../store/filter/actions";
+import { setMaxPrice, setPageCount } from "../../../store/filter/actions";
 import ProductCard from "../../common/ProductItem/ProductItem";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 
@@ -34,9 +35,10 @@ const Products = () => {
   const categories = useCategories();
   const subCategories = useSubCategories();
   const searchQuery = useSearchQuery();
+  const minPrice = useMinPrice();
 
   const { data, isPending } = useQuery<{
-    data: IPaginationResult<ProductType>;
+    data: IPaginationResult<ProductType, { maxPrice: number }>;
   }>({
     queryKey: [
       "products",
@@ -45,6 +47,7 @@ const Products = () => {
       categories,
       subCategories,
       searchQuery,
+      minPrice,
     ],
     queryFn: () => {
       const categoriesUrl = categories
@@ -69,14 +72,15 @@ const Products = () => {
         `sortType=${sortProps.type}`;
 
       return api.get(
-        `/product/list?${categoriesUrl}${subCategoriesUrl}page=${page}&pageSize=15${sortUrl}${searchQueryUrl}`
+        `/product/list?${categoriesUrl}${subCategoriesUrl}page=${page}&pageSize=15${sortUrl}${searchQueryUrl}&minPrice=${minPrice}`
       );
     },
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && data.data.otherData) {
       setPageCount(data?.data.totalPage);
+      setMaxPrice(data.data.otherData?.maxPrice);
     }
   }, [data]);
 

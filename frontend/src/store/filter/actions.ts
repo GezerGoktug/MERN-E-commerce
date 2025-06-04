@@ -10,3 +10,7 @@ export const setSearchQuery = (query: string) =>
   filterStore.getState().__setSearchQuery(query);
 export const setPageCount = (pageCount: number) =>
   filterStore.getState().__setPageCount(pageCount);
+export const setMinPrice = (price: number) =>
+  filterStore.getState().__setMinPrice(price);
+export const setMaxPrice = (price: number) =>
+  filterStore.getState().__setMaxPrice(price);

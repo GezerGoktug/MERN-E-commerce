@@ -60,7 +60,7 @@ const Products = () => {
     EditProductDTO | DeleteProductDTO
   > | null>(null);
 
-  const { data } = useQuery<{ data: IPaginationResult<IProduct> }>({
+  const { data } = useQuery<{ data: IPaginationResult<IProduct,null> }>({
     queryKey: ["admin-products", page],
     queryFn: () => {
       return api.get(`/product/admin/list?page=${page}&pageSize=15`);

@@ -63,7 +63,7 @@ const Products = () => {
   const { data } = useQuery<{ data: IPaginationResult<IProduct> }>({
     queryKey: ["admin-products", page],
     queryFn: () => {
-      return api.get(`/product/admin/list?page=${page}`);
+      return api.get(`/product/admin/list?page=${page}&pageSize=15`);
     },
   });
 

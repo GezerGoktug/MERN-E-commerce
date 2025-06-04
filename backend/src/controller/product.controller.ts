@@ -7,28 +7,31 @@ import ResponseHandler from "../util/response";
 import { ErrorHandler } from "../error/errorHandler";
 import { Order } from "../models/Order.schema";
 import { productSchema } from "../validations/schema";
-import { pageableToResponse } from "../util/pagination";
+import { pageableToResponse, PaginationRequest } from "../util/pagination";
 import {
   cacheEvict,
   createDynamicVariables,
   setCache,
   updateCache,
 } from "../middleware/cache.middleware";
+import filterQuery from "../util/query";
 
-const getSortingStatusToProducts = (
-  sorting: string
+const generateSortingQuery = (
+  field: string,
+  sortType: string
 ): Record<string, number> => {
-  switch (sorting) {
-    case "LOW_TO_HIGH":
-      return { price: 1 };
-    case "HIGH_TO_LOW":
-      return { price: -1 };
-    case "DEFAULT":
+  switch (sortType) {
+    case "asc":
+      return { [field]: 1 };
+    case "desc":
+      return { [field]: -1 };
+    case "default":
       return { _id: 1 };
     default:
       return { _id: 1 };
   }
 };
+
 const getPublicIdFromUrl = (url: string): string | null => {
   const regex = /\/upload\/(?:v\d+\/)?([^\.]+)/;
   const match = url.match(regex);
@@ -190,9 +193,10 @@ export const updateProduct = async (req: Request, res: Response) => {
 };
 
 export const getProductsForAdmin = async (req: Request, res: Response) => {
-  const page = req.query.page || "0";
-  const limit = 15;
-  const skip = Number(page) * 15;
+  const pageRequest = PaginationRequest(req, 15);
+
+  const limit = pageRequest.pageSize;
+  const skip = pageRequest.pageNumber * limit;
 
   const products = await Product.find().limit(limit).skip(skip);
 
@@ -201,7 +205,12 @@ export const getProductsForAdmin = async (req: Request, res: Response) => {
   ResponseHandler.success(
     res,
     200,
-    pageableToResponse(productsCount, Number(page), products)
+    pageableToResponse(
+      productsCount,
+      pageRequest.pageNumber,
+      pageRequest.pageSize,
+      products
+    )
   );
 };
 
@@ -210,14 +219,20 @@ export const getProductsByQueries = async (
   res: Response,
   next: NextFunction
 ) => {
-  const page = req.query.page || "0";
-  const categories = req.query.categories || "";
-  const subCategory = req.query.subCategory || "";
-  const sorting = req.query.sorting || "DEFAULT";
-  const searchQuery = req.query.searchQuery || "";
+  const pageRequest = PaginationRequest(req, 15);
 
-  const limit = 15;
-  const skip = Number(page) * 15;
+  const { categories, subCategory, searchQuery } = filterQuery(
+    req,
+    ["categories", "subCategory", "searchQuery"],
+    {
+      categories: "",
+      subCategory: "",
+      searchQuery: "",
+    }
+  );
+
+  const limit = pageRequest.pageSize;
+  const skip = pageRequest.pageNumber * limit;
 
   const filterCategory = Array.isArray(categories)
     ? { category: { $in: categories } }
@@ -236,10 +251,14 @@ export const getProductsByQueries = async (
       ? null
       : { $text: { $search: searchQuery as string } };
 
-  const filterSortingQuery = getSortingStatusToProducts(
-    sorting as string
-  ) as object;
+  // const filterSortingQuery = getSortingStatusToProducts(
+  //   sorting as string
+  // ) as object;
 
+  const filterSortingQuery = generateSortingQuery(
+    pageRequest.sortField ? pageRequest.sortField : "_id",
+    pageRequest.sortType
+  ) as object;
   const products = await Product.find({
     $and: [filterCategory, filterSubCategory],
     ...filterSearchText,
@@ -257,17 +276,35 @@ export const getProductsByQueries = async (
   await setCache(
     req,
     "product-list",
-    pageableToResponse(productsCount, Number(page), products),
+    pageableToResponse(
+      productsCount,
+      pageRequest.pageNumber,
+      pageRequest.pageSize,
+      products
+    ),
     createDynamicVariables(
       [],
-      ["page", "categories", "subCategory", "sorting", "searchQuery"]
+      [
+        "page",
+        "pageSize",
+        "sortType",
+        "sortField",
+        "categories",
+        "subCategory",
+        "searchQuery",
+      ]
     )
   );
 
   ResponseHandler.success(
     res,
     200,
-    pageableToResponse(productsCount, Number(page), products)
+    pageableToResponse(
+      productsCount,
+      pageRequest.pageNumber,
+      pageRequest.pageSize,
+      products
+    )
   );
 };
 

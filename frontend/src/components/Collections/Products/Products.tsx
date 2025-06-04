@@ -13,8 +13,23 @@ import { setPageCount } from "../../../store/filter/actions";
 import ProductCard from "../../common/ProductItem/ProductItem";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 
+type SortType = "DEFAULT" | "LOW_TO_HIGH" | "HIGH_TO_LOW";
+
+const generateSortingType = (sort: SortType) => {
+  switch (sort) {
+    case "DEFAULT":
+      return { type: "default", field: null };
+    case "HIGH_TO_LOW":
+      return { type: "desc", field: "price" };
+    case "LOW_TO_HIGH":
+      return { type: "asc", field: "price" };
+    default:
+      return { type: "default", field: null };
+  }
+};
+
 const Products = () => {
-  const [sorting, setSorting] = useState("DEFAULT");
+  const [sorting, setSorting] = useState<SortType>("DEFAULT");
   const page = usePage();
   const categories = useCategories();
   const subCategories = useSubCategories();
@@ -47,8 +62,14 @@ const Products = () => {
       const searchQueryUrl =
         searchQuery.trim().length < 3 ? "" : `&searchQuery=${searchQuery}`;
 
+      const sortProps = generateSortingType(sorting);
+      const sortUrl =
+        "&" +
+        (sortProps.field ? `sortField=${sortProps.field}&` : "") +
+        `sortType=${sortProps.type}`;
+
       return api.get(
-        `/product/list?${categoriesUrl}${subCategoriesUrl}page=${page}&sorting=${sorting}${searchQueryUrl}`
+        `/product/list?${categoriesUrl}${subCategoriesUrl}page=${page}&pageSize=15${sortUrl}${searchQueryUrl}`
       );
     },
   });
@@ -67,7 +88,7 @@ const Products = () => {
         </h5>
 
         <select
-          onChange={(e) => setSorting(e.target.value)}
+          onChange={(e) => setSorting(e.target.value as SortType)}
           className={styles.product_sort_select}
           name="sorting_products"
         >

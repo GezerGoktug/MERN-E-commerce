@@ -42,7 +42,15 @@ router.get(
     "product-list",
     createDynamicVariables(
       [],
-      ["page", "sorting", "categories", "subCategory", "sorting", "searchQuery"]
+      [
+        "page",
+        "pageSize",
+        "sortType",
+        "sortField",
+        "categories",
+        "subCategory",
+        "searchQuery",
+      ]
     )
   ),
   asyncHandler(getProductsByQueries)

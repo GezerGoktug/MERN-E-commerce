@@ -12,14 +12,14 @@ export const sendOrderMail = async (
 ) => {
   const { delivery_info, products, totalPrice } = order;
 
+  const publicMailPath = path.resolve(process.cwd(), "public", "mail");
+
   const templatePath = path.join(
-    __dirname,
-    "..",
-    "mail",
+    publicMailPath,
     "payment",
     "template.ejs"
   );
-  const cssPath = path.join(__dirname, "..", "mail", "payment", "style.css");
+  const cssPath = path.join(publicMailPath, "payment", "style.css");
 
   const ejsTemplate = fs.readFileSync(templatePath, "utf8");
   const css = fs.readFileSync(cssPath, "utf8");
@@ -50,15 +50,13 @@ export const sendOrderMail = async (
     attachments: [
       {
         filename: "logo.png",
-        path: path.join(__dirname, "..", "mail", "payment", "png", "logo.png"),
+        path: path.join(publicMailPath, "payment", "png", "logo.png"),
         cid: "logo",
       },
       {
         filename: "success-icon.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "payment",
           "png",
           "success-icon.png"
@@ -68,9 +66,7 @@ export const sendOrderMail = async (
       {
         filename: "delivery-icon.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "payment",
           "png",
           "delivery-icon.png"
@@ -80,9 +76,7 @@ export const sendOrderMail = async (
       {
         filename: "instagram-icon.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "payment",
           "png",
           "instagram-icon.png"
@@ -92,9 +86,7 @@ export const sendOrderMail = async (
       {
         filename: "shopping-bag-icon.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "payment",
           "png",
           "shopping-bag-icon.png"
@@ -104,9 +96,7 @@ export const sendOrderMail = async (
       {
         filename: "x-icon.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "payment",
           "png",
           "x-icon.png"
@@ -121,18 +111,16 @@ export const sendResetPasswordCodeEmail = async (
   toEmail: string,
   resetCode: string
 ) => {
+  const publicMailPath = path.resolve(process.cwd(), "public", "mail");
+
   const ejsPath = path.join(
-    __dirname,
-    "..",
-    "mail",
+    publicMailPath,
     "reset-password",
     "template.ejs"
   );
 
   const cssPath = path.join(
-    __dirname,
-    "..",
-    "mail",
+    publicMailPath,
     "reset-password",
     "style.css"
   );
@@ -163,9 +151,7 @@ export const sendResetPasswordCodeEmail = async (
       {
         filename: "logo.png",
         path: path.join(
-          __dirname,
-          "..",
-          "mail",
+          publicMailPath,
           "reset-password",
           "png",
           "logo.png"

@@ -13,11 +13,7 @@ const Pagination = () => {
           onClick={() => prevPage()}
           className={styles.pagination_arrow_icon_wrapper}
         >
-          <FaArrowLeft
-            className={styles.pagination_arrow_icon}
-            fill="black"
-            size={20}
-          />
+          <FaArrowLeft className={styles.pagination_arrow_icon} size={20} />
         </div>
 
         <div className={styles.pagination_title}>
@@ -30,11 +26,7 @@ const Pagination = () => {
           onClick={() => nextPage()}
           className={styles.pagination_arrow_icon_wrapper}
         >
-          <FaArrowRight
-            className={styles.pagination_arrow_icon}
-            fill="black"
-            size={20}
-          />
+          <FaArrowRight className={styles.pagination_arrow_icon} size={20} />
         </div>
       </div>
     </div>

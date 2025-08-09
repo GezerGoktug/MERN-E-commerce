@@ -32,6 +32,7 @@ import {
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { useQuery } from "@tanstack/react-query";
+import { useTheme } from "../../../store/theme/hooks";
 
 const statsCardDefaultData = [
   {
@@ -107,10 +108,18 @@ interface GeographyOrderDistribution {
 }
 
 const options = {
-  colorAxis: { colors: ["#d4e4ff", "#08306b"] }, 
-  backgroundColor: "#f8f9fa", 
-  datalessRegionColor: "#eeeeee", 
-  defaultColor: "#f5f5f5",
+  default: {
+    colorAxis: { colors: ["#d4e4ff", "#08306b"] },
+    backgroundColor: "#f8f9fa",
+    datalessRegionColor: "#eeeeee",
+    defaultColor: "#f5f5f5",
+  },
+  darkMode: {
+    colorAxis: { colors: ["#93bbff", "#031530"] },
+    backgroundColor: "#0e0e0e",
+    datalessRegionColor: "#9c9c9c",
+    defaultColor: "#f5f5f5",
+  },
 };
 
 const CustomTooltip = ({
@@ -141,6 +150,8 @@ const Stats = () => {
   const [statsCard, setStatsCard] =
     useState<StatCardType[]>(statsCardDefaultData);
 
+  const theme = useTheme();
+
   const { data } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: () => {
@@ -162,11 +173,15 @@ const Stats = () => {
 
   const editedGeoOrderDistributionData =
     data?.data.geographicDistribution.map(
-      (item: GeographyOrderDistribution) => [item._id, item.totalIncome]
+      (item: GeographyOrderDistribution) => [
+        item._id,
+        item.totalIncome,
+        item.orderCount,
+      ]
     ) || [];
 
   const geoChartData = [
-    ["Country", "Total Income"],
+    ["Country", "Total Income", "Order Count"],
     ...editedGeoOrderDistributionData,
   ];
 
@@ -299,7 +314,7 @@ const Stats = () => {
                     )
                   )}
                 </Pie>
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -325,7 +340,7 @@ const Stats = () => {
                 />
                 <YAxis stroke="#1a8595" />
 
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Bar
                   barSize={50}
                   dataKey="counts"
@@ -355,7 +370,7 @@ const Stats = () => {
                 />
                 <YAxis stroke="#681389" />
 
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Bar
                   barSize={50}
                   dataKey="counts"
@@ -377,7 +392,7 @@ const Stats = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="_id" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Area
                   type="monotone"
                   dataKey="totalSales"
@@ -397,7 +412,7 @@ const Stats = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="_id" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Area
                   type="monotone"
                   dataKey="totalSales"
@@ -423,7 +438,7 @@ const Stats = () => {
                   dataKey="_id"
                 />
                 <YAxis />
-                <Tooltip />
+                <Tooltip wrapperClassName={styles.default_tooltip} />
                 <Area
                   type="monotone"
                   dataKey="totalSales"
@@ -441,7 +456,7 @@ const Stats = () => {
               chartType="GeoChart"
               width="100%"
               height="400px"
-              options={options}
+              options={theme === "dark" ? options.darkMode : options.default}
               data={geoChartData}
             />
           </div>

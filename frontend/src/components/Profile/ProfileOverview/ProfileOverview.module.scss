@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
   img {
     width: 150px;
     height: 150px;
@@ -47,6 +47,14 @@
           rgba(213, 195, 255, 1) 55%
         );
         flex: 1;
+        @include u.dark-mode {
+          background: rgb(212, 126, 212);
+          background: linear-gradient(
+            63deg,
+            rgb(212, 126, 212) 0%,
+            rgb(168, 133, 251) 55%
+          );
+        }
       }
       .profile_overview_feature_icon {
         background: rgb(237, 25, 237);

@@ -1,5 +1,6 @@
 @use "../../../../sass/utils-mixins" as u;
 @use "../../../../sass/mixins" as m;
+@use "../../../../sass/variables" as v;
 
 .header_right_links {
   @include u.row-center;
@@ -11,8 +12,8 @@
 
   .cart_count_badge {
     position: absolute;
-    background-color: black;
-    color: white;
+    background-color: v.$text-color;
+    color: v.$primary-color;
     bottom: 0;
     right: -2px;
     text-align: center;

@@ -4,7 +4,7 @@
 
 .features {
   @include u.flex-around;
-  margin: 70px  0;
+  margin: 70px 0;
   text-align: center;
   @include m.responsive(lg) {
     gap: 50px;
@@ -17,10 +17,18 @@
       font-size: 17px;
       margin: 8px 0;
       color: v.$text-color;
-
+      // @include u.dark-mode {
+      //   color: v.$dark-text-color;
+      // }
     }
     p {
       color: v.$secondary-color;
+    }
+    svg {
+      fill: v.$text-color;
+      // @include u.dark-mode {
+      //   fill: v.$dark-text-color;
+      // }
     }
   }
 }

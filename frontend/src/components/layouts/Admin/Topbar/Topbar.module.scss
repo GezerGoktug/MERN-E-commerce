@@ -7,7 +7,6 @@
   left: 0;
   right: 0;
   z-index: 10;
-  background-color: white;
   padding: 10px 50px;
   border-bottom: 1.5px solid rgb(212, 212, 212);
   @include m.responsive(md) {

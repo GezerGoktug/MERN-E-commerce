@@ -107,6 +107,7 @@ const DeliveryInfoForm = () => {
         />
         <div className={styles.side_by_side_inputs}>
           <Select
+          
             placeholder="Select a city"
             className={styles.form_select}
             onChange={(e) => form.setValue("city", e?.value)}

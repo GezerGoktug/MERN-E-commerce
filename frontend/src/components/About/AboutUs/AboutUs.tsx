@@ -1,15 +1,31 @@
 import styles from "./AboutUs.module.scss";
+import { motion } from "framer-motion";
 
 const AboutUs = () => {
   return (
     <div className={styles.about_wrapper}>
-      <h5>
+      <motion.h5
+        initial={{ x: 250, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
         ABOUT <span>US</span>
-      </h5>
+      </motion.h5>
       <div className={styles.about}>
-        <img src="/about_img.png" alt="" />
+        <motion.img
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          src="/about_img.png"
+          alt=""
+        />
         <div className={styles.about_content}>
-          <p className={styles.about_desc_1}>
+          <motion.p
+            initial={{ x: 150, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
+            className={styles.about_desc_1}
+          >
             Forever was born out of a passion for innovation and a desire to
             revolutionize the way people shop online. Our journey began with a
             simple idea: to provide a platform where customers can easily
@@ -22,14 +38,25 @@ const AboutUs = () => {
             preference. From fashion and beauty to electronics and home
             essentials, we offer an extensive collection sourced from trusted
             brands and suppliers.
-          </p>
-          <h6>Our Mission</h6>
-          <p className={styles.about_desc_2}>
+          </motion.p>
+          <motion.h6
+            initial={{ x: 150, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+          >
+            Our Mission
+          </motion.h6>
+          <motion.p
+            initial={{ x: 150, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.9 }}
+            className={styles.about_desc_2}
+          >
             Our mission at Forever is to empower customers with choice,
             convenience, and confidence. We're dedicated to providing a seamless
             shopping experience that exceeds expectations, from browsing and
             ordering to delivery and beyond.
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>

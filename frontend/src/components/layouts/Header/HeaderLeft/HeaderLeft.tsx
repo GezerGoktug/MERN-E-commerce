@@ -1,11 +1,7 @@
-import styles from "./HeaderLeft.module.scss"
+import Logo from "../../../common/Logo/Logo";
 
 const HeaderLeft = () => {
-  return (
-    <div className={styles.logo}>
-      <img src="/logo.png" alt="" />
-    </div>
-  );
+  return <Logo />;
 };
 
 export default HeaderLeft;

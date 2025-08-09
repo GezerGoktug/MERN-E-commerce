@@ -1,27 +1,28 @@
 @use "../../../../sass/utils-mixins" as u;
+@use "../../../../sass/variables" as v;
 
-
-.edit_review_modal_wrapper{
-    width: 100%;
-    h6{
-        font-size: 30px;
-        font-weight: 400;
-        margin-bottom: 15px;
-    }
-    textarea{
-        margin: 6px 0;
-        border: 1.5px solid rgba(201, 201, 201, 0.6);
-        min-width: 100%;
-        max-width: 100%;
-        min-height: 80px;
-        max-height: 200px;
-        border-radius: 5px;
-        padding: 10px;
-        outline: 0px;
-    }
-    .edit_review_modal_btn_group{
-        display: flex;
-        justify-content: end;
-        gap: 10px;
-    }
+.edit_review_modal_wrapper {
+  width: 100%;
+  h6 {
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+  textarea {
+    margin: 6px 0;
+    border: 1.5px solid rgba(201, 201, 201, 0.6);
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 80px;
+    max-height: 200px;
+    border-radius: 5px;
+    padding: 10px;
+    outline: 0px;
+    background-color: v.$primary-color;
+  }
+  .edit_review_modal_btn_group {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+  }
 }

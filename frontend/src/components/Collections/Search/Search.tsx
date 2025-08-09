@@ -3,7 +3,7 @@ import Input from "../../ui/Input/Input";
 import styles from "./Search.module.scss";
 import { CiSearch } from "react-icons/ci";
 import { setSearchQuery } from "../../../store/filter/actions";
-import useDebounce from "../../../hooks/useDebounce";
+import useDebounce from "../../../hooks/use-debounce";
 import { useEffect, useState } from "react";
 const Search = ({ closeSearchBar }: { closeSearchBar: () => void }) => {
   const [text, setText] = useState("");

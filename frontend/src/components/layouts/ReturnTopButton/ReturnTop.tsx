@@ -34,14 +34,14 @@ const ReturnTop = () => {
       <AnimatePresence>
         {show && (
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
+            initial={{ rotate:180, y: 60, opacity: 0 }}
+            animate={{rotate:0, y: 0, opacity: 1 }}
+            exit={{rotate:180, y: 60, opacity: 0 }}
             transition={{ duration: 0.4 }}
             className={styles.return_top_btn}
             onClick={returnTopHandle}
           >
-            <FaArrowUp fill="white" size={25} />
+            <FaArrowUp size={25} />
           </motion.div>
         )}
       </AnimatePresence>

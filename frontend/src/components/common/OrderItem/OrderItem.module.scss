@@ -23,9 +23,15 @@
       border: 0.5px solid rgba(128, 128, 128, 0.516);
       border-radius: 10px;
       @include u.flex-center;
+      @include u.dark-mode {
+        background-color: rgb(20, 20, 20);
+      }
       @include m.responsive(xs) {
         width: 60px;
         height: 60px;
+      }
+      svg {
+        fill: v.$text-color;
       }
     }
     .order_info {
@@ -36,7 +42,7 @@
       h6 {
         font-size: 16px;
         font-weight: 600;
-        color: black;
+        color: v.$text-color;
       }
     }
     .order_right {
@@ -75,7 +81,7 @@
         }
       }
       .order_accordion_icon_wrapper {
-        border: 1px solid black;
+        border: 1px solid v.$text-color;
         width: 40px;
         height: 40px;
         border-radius: 10px;
@@ -83,6 +89,7 @@
         @include u.flex-center;
         .order_accordion_icon {
           transition: transform 0.2s ease;
+          fill: v.$text-color;
           &.open {
             transform: rotate(180deg);
           }
@@ -138,6 +145,10 @@
         border-radius: 10px;
         width: 100%;
         gap: 20px;
+        @include u.dark-mode {
+          box-shadow: rgba(255, 255, 255, 0.02) 0px 1px 3px 0px,
+            rgba(196, 226, 255, 0.15) 0px 0px 0px 1px;
+        }
         img {
           height: 90px;
           border-radius: 15px;
@@ -158,13 +169,16 @@
             @include u.row-center;
             gap: 20px;
             span {
-              color: black;
+              color: v.$text-color;
               font-weight: 600;
             }
             div {
               background-color: rgb(237, 237, 237);
               border: 1px solid rgb(207, 206, 206);
               padding: 5px 12px;
+              @include u.dark-mode {
+                background-color: rgb(37, 37, 37);
+              }
             }
           }
           .order_product_item_quantity {

@@ -2,6 +2,7 @@ import { BsInstagram } from "react-icons/bs";
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import styles from "./Footer.module.scss";
+import Logo from "../../common/Logo/Logo";
 const Footer = () => {
   const links = [
     {
@@ -26,7 +27,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footer_top}>
         <div className={styles.footer_top_left}>
-          <img src="/logo.png" alt="" />
+          <Logo/>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text

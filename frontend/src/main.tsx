@@ -24,11 +24,9 @@ declare module "@tanstack/react-query" {
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      {/* <SessionProvider> */}
       <ScrollTop>
         <App />
       </ScrollTop>
-      {/* </SessionProvider> */}
     </BrowserRouter>
   </QueryClientProvider>
 );

@@ -3,6 +3,7 @@
 @use "../../../sass/mixins" as m;
 
 .about_wrapper {
+  overflow-y: hidden;
   h5 {
     text-align: center;
     font-size: 26px;

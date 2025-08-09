@@ -24,7 +24,7 @@ export const protectResetPasswordRequest = async (
   }
 
   const val = await RedisClient.get(`reset-password-uid:${resetPasswordEmail}`);
-  
+
   if (val !== uidToken) throw new ErrorHandler(401, "Unauthorized");
 
   next();

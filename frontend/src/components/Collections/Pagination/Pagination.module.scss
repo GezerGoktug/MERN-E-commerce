@@ -21,14 +21,15 @@
       @include u.flex-center;
       width: 40px;
       height: 40px;
-      border: 1.5px solid black;
-
+      border: 1.5px solid v.$text-color;
       position: relative;
       transition: all 0.2s linear;
-
+      .pagination_arrow_icon {
+        fill: v.$text-color;
+      }
       &:hover {
         .pagination_arrow_icon {
-          fill: white;
+          fill: v.$primary-color;
         }
         &::after {
           width: 100%;
@@ -48,7 +49,7 @@
         bottom: 0;
         width: 0%;
         height: 100%;
-        background-color: black;
+        background-color: v.$text-color;
         z-index: -1;
       }
       &:nth-child(1)::after {

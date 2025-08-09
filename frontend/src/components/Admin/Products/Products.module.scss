@@ -22,11 +22,17 @@
     background-color: #f8f9fa;
     font-weight: 600;
     color: v.$third-color;
+    @include u.dark-mode {
+      background-color: #252525;
+    }
   }
 
   tr {
     &:hover {
       background-color: #f8f9fa;
+      @include u.dark-mode {
+        background-color: #252525;
+      }
     }
   }
 
@@ -64,13 +70,16 @@
   gap: 10px;
   .pagination_item {
     @include u.flex-center;
-    color: white;
-    background-color: #000000;
+    color: v.$primary-color;
+    background-color: v.$text-color;
     border-radius: 3px;
     width: 40px;
     height: 40px;
     &:not(:nth-child(2)) {
       cursor: pointer;
+      svg {
+        fill: v.$primary-color;
+      }
     }
   }
 }

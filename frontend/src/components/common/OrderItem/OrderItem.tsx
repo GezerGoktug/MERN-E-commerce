@@ -20,12 +20,11 @@ const OrderItem = ({
 }) => {
   const [accordionOpen, setAccordionOpen] = useState(false);
 
-  
   return (
     <div className={styles.order_item}>
       <div className={styles.order_content}>
         <div className={styles.order_icon_wrapper}>
-          <BsBoxSeam fill="black" size={35} />
+          <BsBoxSeam size={35} />
         </div>
         <div className={styles.order_info}>
           <h6>
@@ -127,7 +126,7 @@ const OrderItem = ({
                     <div className={styles.order_product_item_quantity}>
                       Quantity : <span>{product.quantity}</span>
                     </div>
-                    {!isAdminOrder && (  
+                    {!isAdminOrder && (
                       <Link to={"/product/" + product.product}>
                         <Button
                           className={styles.order_product_item_btn}

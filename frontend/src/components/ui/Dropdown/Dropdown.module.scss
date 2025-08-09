@@ -13,7 +13,7 @@
   top: 140%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: white;
+  background-color: v.$primary-color;
   border: 1px solid v.$secondary-color;
   box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -26,9 +26,12 @@
   transition: background-color 0.3s ease;
   padding: 5px 10px;
   border-radius: 4px;
-  color: black;
+  color: v.$text-color;
   &:hover {
     background-color: rgb(235, 235, 235);
+    @include u.dark-mode {
+      background-color: rgb(31, 31, 31);
+    }
   }
 }
 .dropdown_trigger {

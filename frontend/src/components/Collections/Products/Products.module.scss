@@ -41,6 +41,7 @@
       border: 2px solid rgb(185, 185, 185);
       font-size: 15px;
       color: v.$text-color;
+      background-color: v.$primary-color;
       @include m.responsive(md) {
         font-size: 13px;
         padding: 5px;

@@ -5,9 +5,11 @@ import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import MobileAside from "../MobileAside/MobileAside";
 import { AnimatePresence } from "framer-motion";
+import { useTheme } from "../../../../store/theme/hooks";
 
 const Topbar = () => {
   const [sideBarOpen, setSideBarOpen] = useState(false);
+  const theme = useTheme();
 
   return (
     <div className={styles.topbar_wrapper}>
@@ -23,7 +25,7 @@ const Topbar = () => {
             size={25}
             className={styles.topbar_toggle_bar_icon}
           />
-          <img src="/admin-logo.png" alt="" />
+          <img src={theme === "dark"? "/admin-logo-dark.png": "/admin-logo.png"} alt="" />
         </div>
         <Link to="/">
           <Button size="sm" className={styles.topbar_logout_btn}>

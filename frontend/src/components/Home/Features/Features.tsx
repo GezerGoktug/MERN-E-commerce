@@ -26,7 +26,7 @@ const Features = () => {
     <div className={styles.features}>
       {features.map(({ icon: Icon, ...item },i) => (
         <div key={"features_" + i} className={styles.features_item}>
-          <Icon fill="black" size={65} />
+          <Icon className="icon" size={65} />
           <h6>{item.title}</h6>
           <p>{item.desc}</p>
         </div>

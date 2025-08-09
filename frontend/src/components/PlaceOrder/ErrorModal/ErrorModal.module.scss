@@ -12,7 +12,7 @@
   }
   .error_modal_container {
     @include u.col-center;
-    background-color: white;
+    background-color: v.$primary-color;
     min-height: 30vh;
     max-height: 70vh;
     overflow-y: auto;

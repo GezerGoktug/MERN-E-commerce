@@ -13,8 +13,15 @@
       rgba(233, 223, 255, 1) 55%
     );
     width: max-content;
-
     border-radius: 4px 4px 0 0;
+    @include u.dark-mode {
+      background: rgb(211, 79, 211);
+      background: linear-gradient(
+        63deg,
+        rgb(224, 132, 224) 0%,
+        rgb(189, 159, 253) 55%
+      );
+    }
     .orders_btn_icon {
       background: rgb(237, 25, 237);
       background: linear-gradient(

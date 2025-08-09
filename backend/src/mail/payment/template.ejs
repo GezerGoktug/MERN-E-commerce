@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Success</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Prata&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <img class="success-icon" src="cid:success-icon" />
+      <h5>Payment Succesfully</h5>
+      <p>
+        <%= payment ? `${name}, your order payment has been made successfully.
+        Your order information has reached us. It will be delivered to your
+        delivery address as soon as possible ☺️. Your order details are below.`
+        : `${name}, your order has been made successfully. Your order
+        information has reached us. It will be delivered to your delivery
+        address as soon as possible ☺️. Please don't forget to pay your order at
+        the door. Your order details are below.` %>
+      </p>
+      <div class="sub-header">
+        <img class="icon" src="cid:shopping-bag-icon" />
+        <h6>Order Items Summary:</h6>
+      </div>
+      <div class="order-product-list">
+        <% products.forEach(product => { %>
+        <div class="order-product-list-item">
+          <img src="<%= product.image %>" alt="<%= product.name %>" alt="" />
+          <div class="order-product-list-item-center">
+            <h6><%= product.name %></h6>
+            <p>Size : <%= product.size %></p>
+            <span>Quantity : <%= product.quantity %></span>
+          </div>
+          <span class="order-product-list-item-price"
+            ><%= product.price %>$</span
+          >
+        </div>
+        <% }) %>
+      </div>
+      <hr />
+      <div class="total-orders-price-cash-summary">
+        Total:<span> <%= totalPrice %>$</span>
+      </div>
+      <hr />
+      <div class="sub-header">
+        <img class="icon" src="cid:delivery-icon" />
+        <h6>Delivery İnformation:</h6>
+      </div>
+      <div class="delivery-info">
+        <div class="col">
+          <h5>User Contact Information:</h5>
+          <div class="rows">
+            <div>Phone number: <%= deliveryInfos.phoneNumber %></div>
+            <div>Email: <%= deliveryInfos.emailAddress %></div>
+          </div>
+        </div>
+        <div class="col">
+          <h5>Order Address Information:</h5>
+          <address class="rows">
+            <div>Street: <%= deliveryInfos.street %></div>
+            <div>State: <%= deliveryInfos.state %></div>
+            <div>City: <%= deliveryInfos.city %></div>
+            <div>Country: <%= deliveryInfos.country %></div>
+            <div>Zipcode: <%= deliveryInfos.zipCode %></div>
+          </address>
+        </div>
+      </div>
+      <hr />
+      <div class="footer">
+        <img src="cid:logo" alt="logo" />
+
+        <div class="footer-right">
+          <h5>GET IN TOUCH</h5>
+          <div>+1-000-000-0000</div>
+          <div>forever@example.com</div>
+          <div class="contact-links">
+            <a href="#" target="_blank">
+              <img src="cid:instagram-icon" />
+            </a>
+            <a href="#" target="_blank">
+              <img src="cid:x-icon" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

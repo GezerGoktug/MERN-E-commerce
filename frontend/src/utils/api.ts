@@ -1,6 +1,7 @@
 import axios from "axios";
 import { clearUser } from "../store/auth/actions";
 
+const NOT_AGAIN_REQUEST_ENDPOINTS_PATH = ['/api/user/reset-password', '/api/auth/refresh'];
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_REACT_API_URL,
@@ -22,9 +23,12 @@ api.interceptors.response.use(
   async (error) => {
     const req = error.config;
 
+    console.log(error.response.data.error.path);
+
+
     if (
       error.response.status === 401 &&
-      error.response.data.error.path !== "/api/auth/refresh"
+      !NOT_AGAIN_REQUEST_ENDPOINTS_PATH.includes(error.response.data.error.path)
     ) {
       try {
         const res = await api.get("/auth/refresh");

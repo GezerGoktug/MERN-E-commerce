@@ -5,14 +5,38 @@ import { deliveryInfoSchema } from "../validations/schema";
 import ResponseHandler from "../util/response";
 import { JwtPayload } from "jsonwebtoken";
 import { ErrorHandler } from "../error/errorHandler";
+import { sendOrderMail } from "./mail.controller";
 
 export const updateOrder = async (req: ExtendedRequest, res: Response) => {
   const { payment } = req.body;
   const orderId = req.params.id;
 
-  await Order.findByIdAndUpdate(orderId, {
-    payment: payment,
-  });
+  const order = await Order.findByIdAndUpdate(
+    orderId,
+    {
+      payment: payment,
+    },
+    {
+      new: true,
+    }
+  );
+
+  await sendOrderMail(
+    {
+      products: order?.products,
+      delivery_info: {
+        phoneNumber: order?.phoneNumber,
+        emailAdress: order?.emailAddress,
+        firstName: order?.firstName,
+        lastName: order?.lastName,
+        ...order?.locationInfo,
+      },
+      totalPrice: order?.totalPrice,
+    },
+    order?.emailAddress,
+    true
+  );
+
   ResponseHandler.success(res, 200, { message: "Order update success" });
 };
 
@@ -58,7 +82,28 @@ export const createOrder = async (body: any) => {
     });
 
     await newOrder.save();
-
+    //! Not yet for Email html template problems
+    /* 
+    await sendOrderMail(
+      {
+        products: products,
+        delivery_info: {
+          phoneNumber: delivery_info?.phoneNumber,
+          emailAdress: delivery_info?.email,
+          firstName: delivery_info.firstName,
+          lastName: delivery_info.lastName,
+          street: delivery_info.street,
+          city: delivery_info.city,
+          state: delivery_info.state,
+          zipCode: delivery_info.zipCode,
+          country: delivery_info.country,
+        },
+        totalPrice: totalPrice,
+      },
+      delivery_info.email,
+      false
+    );
+    */
     return {
       message: "Create order success",
       orderId: newOrder._id,

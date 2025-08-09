@@ -1,0 +1,34 @@
+@use "../../../sass//utils-mixins" as u;
+@use "../../../sass//variables" as v;
+
+.pin_input_wrapper {
+    @include u.row-center;
+    gap: 20px;
+
+    .pin_input_character {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        text-align: center;
+        font-size: 19px;
+        position: relative;
+        &::placeholder {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -61%);
+            text-align: center;
+        }
+        &:focus{
+            &::placeholder{
+                opacity: 0;
+            }
+        }
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}

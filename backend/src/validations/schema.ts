@@ -18,6 +18,16 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
+export const resetPasswordsSchema = z.object({
+  password: z
+    .string()
+    .min(8, "Password cannot be less than 8 characters")
+    .regex(
+      /(?=(?:[^a-zA-Z]*[a-zA-Z]){4})/,
+      "Password must contain at least 4 letters"
+    ),
+});
+
 export const deliveryInfoSchema = z.object({
   firstName: z.string().min(3, "First name must be at least 3 characters long"),
   lastName: z.string().min(3, "Last name must be at least 3 characters long"),
@@ -67,7 +77,9 @@ export const paginationRequestSchema = z.object({
   page: z.number().min(0, "Minimum page number can be 0"),
   pageSize: z.number().min(0, "Minimum number of page elements can be 0"),
   sortType: z.enum(["asc", "desc", "default"], {
-    errorMap: () => ({ message: "Please select a valid sort type.(asc,desc,default)" }),
+    errorMap: () => ({
+      message: "Please select a valid sort type.(asc,desc,default)",
+    }),
   }),
   sortField: z.string().nullable(),
 });

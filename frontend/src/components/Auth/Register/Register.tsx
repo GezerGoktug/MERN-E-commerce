@@ -13,6 +13,8 @@ import api from "../../../utils/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setUser } from "../../../store/auth/actions";
+import Modal from "../../ui/Modal/Modal";
+import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
 
 type RegisterProps = {
   chanceForm: () => void;
@@ -58,7 +60,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
           searchParams[0].get("accessToken") as string
         );
       } else return;
-      
+
       const res = await api.get("/auth/session");
       setUser(res.data.user);
 
@@ -103,6 +105,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
   };
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
 
   const ShowPasswordIcon = showPassword ? FaEye : FaEyeSlash;
 
@@ -112,6 +115,9 @@ const Register = ({ chanceForm }: RegisterProps) => {
 
   return (
     <div className={styles.register_wrapper}>
+      <Modal className={styles.reset_password_request_modal} open={modal} closeModal={() => setModal(false)}>
+        <ResetPasswordModal closeModal={() => setModal(false)} />
+      </Modal>
       <h5>Sign Up</h5>
       <form
         className={styles.register_form}
@@ -201,7 +207,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
         />
 
         <div className={styles.register_interactions}>
-          <span>Forgot your password?</span>
+          <span onClick={() => setModal(true)}>Forgot your password?</span>
           <span onClick={() => chanceForm()}>Login here</span>
         </div>
         <Button className={styles.register_btn} type="submit">

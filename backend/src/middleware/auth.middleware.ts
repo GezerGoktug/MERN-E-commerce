@@ -3,7 +3,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { ExtendedRequest } from "../types/types";
 import { ErrorHandler } from "../error/errorHandler";
 
-
 export const protect = async (
   req: ExtendedRequest,
   res: Response,

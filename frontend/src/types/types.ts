@@ -85,3 +85,12 @@ export interface IPaginationResult<T, OtherDataType> {
   content: T[];
   otherData?: OtherDataType;
 }
+
+export type ProductSearchQueryType = {
+  categories: string[];
+  subCategories: string[];
+  page: number;
+  minPrice: number;
+  searchQuery: string;
+  sorting: "DEFAULT" | "LOW_TO_HIGH" | "HIGH_TO_LOW"
+}

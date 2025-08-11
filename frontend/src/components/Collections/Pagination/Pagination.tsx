@@ -1,10 +1,31 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import styles from "./Pagination.module.scss";
-import { nextPage, prevPage } from "../../../store/filter/actions";
-import { usePage } from "../../../store/filter/hooks";
+import { usePageCount } from "../../../store/product/hooks";
+import { useQueryParams } from "../../../hooks/use-query-params";
+import { useEffect } from "react";
 
 const Pagination = () => {
-  const page = usePage();
+  const pageCount = usePageCount();
+
+  const { queryState: { page }, querySetters: { setPage } } = useQueryParams<{ page: number }>({
+    page: 0
+  })
+
+  const nextPage = () => setPage(page === pageCount - 1 ? page : page + 1);
+  const prevPage = () => setPage(page === 0 ? page : page - 1);
+
+  useEffect(() => {
+    if (page < 0)
+      setPage(0);
+    else if ((page > pageCount - 1) && pageCount > 1)
+      setPage(pageCount - 1);
+    else if (pageCount === 1)
+      setPage(0);
+
+  }, [page, pageCount])
+
+  if (pageCount === 0)
+    return null;
 
   return (
     <div className={styles.pagination_wrapper}>

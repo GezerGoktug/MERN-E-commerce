@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./HeaderRight.module.scss";
 import { RiUser3Line } from "react-icons/ri";
 import { HiOutlineShoppingBag } from "react-icons/hi";
@@ -9,8 +9,10 @@ import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "../../../../store/cart/hooks";
 import Tooltip from "../../../ui/Tooltip/Tooltip";
+
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const links = [
     {
@@ -18,6 +20,7 @@ const HeaderRight = () => {
       href: "/collection",
       state: { searchBarOpen: true },
       message: "Search",
+      preserveSearch: true
     },
     {
       icon: RiUser3Line,
@@ -48,7 +51,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon ,message}, i) => (
+        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon, message, preserveSearch }, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -61,7 +64,13 @@ const HeaderRight = () => {
             ) : (
               href && (
                 <Tooltip message={message}>
-                  <Link to={href} state={state}>
+                  <Link
+                    to={{
+                      pathname: href,
+                      search: preserveSearch ? location.search : '',
+                    }}
+                    state={state}
+                  >
                     <Icon size={25} />
                     {cart_icons && (
                       <span className={styles.cart_count_badge}>

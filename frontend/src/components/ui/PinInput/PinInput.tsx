@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, ClipboardEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import styles from './PinInput.module.scss'
 
 const PinInput = ({ characterLength, onInputChange }: { characterLength: number, onInputChange?: (val: string) => void }) => {
@@ -50,6 +50,25 @@ const PinInput = ({ characterLength, onInputChange }: { characterLength: number,
         }
     }
 
+    const handlePaste = (e: ClipboardEvent, index: number) => {
+        e.preventDefault();
+
+        const copiedText = e.clipboardData.getData('text');
+
+        if (!/^\d*$/.test(copiedText)) return;
+
+        const remainsCharacter = characterLength - index;
+
+        const editedCopiedText = copiedText.substring(0, remainsCharacter).split('');
+        setCharacters(characters.map((item, i) => i >= index ? editedCopiedText[i - index] : item))
+
+        const nextInput = inputsRef.current[characterLength - 1];
+        nextInput.focus();
+        const len = nextInput.value.length;
+        nextInput.setSelectionRange(len, len);
+
+    }
+
     return (
         <div className={styles.pin_input_wrapper}>
             {
@@ -62,6 +81,7 @@ const PinInput = ({ characterLength, onInputChange }: { characterLength: number,
                             value={characters[val]}
                             type='text'
                             onChange={(e) => handleInput(e, val)}
+                            onPaste={(e) => handlePaste(e, val)}
                             placeholder='o'
                             onKeyDown={(e) => handleKeyDown(e, val)}
                         />

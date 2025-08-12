@@ -19,10 +19,8 @@ export const sendOrderMail = async (
     "payment",
     "template.ejs"
   );
-  const cssPath = path.join(publicMailPath, "payment", "style.css");
 
   const ejsTemplate = fs.readFileSync(templatePath, "utf8");
-  const css = fs.readFileSync(cssPath, "utf8");
 
   const renderedHtml = ejs.render(ejsTemplate, {
     name: delivery_info.firstName + " " + delivery_info.lastName,
@@ -32,7 +30,6 @@ export const sendOrderMail = async (
     payment,
   });
 
-  const htmlWithInlineCss = juice.inlineContent(renderedHtml, css);
 
   const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -46,7 +43,7 @@ export const sendOrderMail = async (
     from: `"Forever E-commerce" <${process.env.EMAIL}>`,
     to: toEmail,
     subject: "Payment Successfully",
-    html: htmlWithInlineCss,
+    html: renderedHtml,
     attachments: [
       {
         filename: "logo.png",

@@ -82,14 +82,13 @@ export const createOrder = async (body: any) => {
     });
 
     await newOrder.save();
-    //! Not yet for Email html template problems
-    /* 
+    
     await sendOrderMail(
       {
         products: products,
         delivery_info: {
           phoneNumber: delivery_info?.phoneNumber,
-          emailAdress: delivery_info?.email,
+          emailAddress: delivery_info?.email,
           firstName: delivery_info.firstName,
           lastName: delivery_info.lastName,
           street: delivery_info.street,
@@ -103,7 +102,7 @@ export const createOrder = async (body: any) => {
       delivery_info.email,
       false
     );
-    */
+    
     return {
       message: "Create order success",
       orderId: newOrder._id,

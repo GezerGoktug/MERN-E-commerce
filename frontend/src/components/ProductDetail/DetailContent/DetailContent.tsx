@@ -68,7 +68,7 @@ const DetailContent = ({
       if (typeof apiError === "string") toast.error(apiError);
     }
   })
-  const toggleFavourite = () => isAccess() ? mutation.mutate() : null;
+  const toggleFavourite = () => isAccess() ? mutation.mutate() : toast.error('Please you login for add product to your favourites');
 
   const handleAddCart = () => {
     if (selectedSize === null) {

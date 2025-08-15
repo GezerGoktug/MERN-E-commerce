@@ -1,4 +1,3 @@
-import React from 'react'
 import { Helmet } from 'react-helmet'
 import TopSection from '../components/Favourites/TopSection/TopSection'
 import Filter from '../components/Favourites/Filter/Filter'

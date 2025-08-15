@@ -43,7 +43,7 @@ export function useQueryParams<T extends Record<string, ValueTypes>>(defaults: T
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
       const setterName = `set${capitalizedKey}` as keyof Setters<T>;
 
-      (setters[setterName] as Setter<T[typeof key]>) = (value) => {        
+      (setters[setterName] as Setter<T[typeof key]>) = (value) => {
         const newParams = new URLSearchParams(searchParams);
         if (
           value === null ||
@@ -68,7 +68,36 @@ export function useQueryParams<T extends Record<string, ValueTypes>>(defaults: T
     return setters;
   }, [searchParams, setSearchParams, defaults]);
 
+  const setQueries = useMemo(() => {
+    return (values: Partial<T>) => {
+      const newParams = new URLSearchParams(searchParams);
+
+      Object.keys(values).forEach((key) => {
+        const value = values[key as keyof T];
+        const defaultValue = defaults[key as keyof T];
+
+        if (
+          value === null ||
+          value === '' ||
+          value === defaultValue
+        ) {
+          newParams.delete(key);
+        } else if (Array.isArray(defaultValue)) {
+          newParams.delete(key);
+          (value as Array<string | number>).forEach((item) => {
+            newParams.append(key, item.toString());
+          });
+        } else {
+          newParams.set(key, String(value));
+        }
+      });
+
+      newParams.sort();
+      setSearchParams(newParams);
+    };
+  }, [searchParams, setSearchParams, defaults]);
+
   const clearQuery = () => setSearchParams(new URLSearchParams());
 
-  return { queryState, clearQuery, querySetters };
+  return { queryState, setQueries, clearQuery, querySetters };
 }

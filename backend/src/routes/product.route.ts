@@ -12,6 +12,12 @@ import {
   getProductsForAdmin,
   getLatestCollections,
   getBestSellerProducts,
+  getFavouriteProducts,
+  addFavouriteProduct,
+  removeFavouriteProduct,
+  getIsProductInFavourites,
+  getFavProductLength,
+  getIsFavouriteByProductId,
 } from "../controller/product.controller";
 import { isAdmin, protect } from "../middleware/auth.middleware";
 import upload from "../middleware/upload.middleware";
@@ -52,7 +58,8 @@ router.get(
         "searchQuery",
         "minPrice",
       ]
-    )
+    ),
+    true
   ),
   asyncHandler(getProductsByQueries)
 );
@@ -87,8 +94,31 @@ router.delete(
 router.get(
   "/:id",
   rateLimiter("product-detail", 10, 1000 * 60 * 1.5), // 1.5 minutes
-  cacheable("product-detail", createDynamicVariables(["id"])),
+  cacheable("product-detail", createDynamicVariables(["id"]), true),
   asyncHandler(getProductDetail)
 );
+
+router.get(
+  '/favourites/list',
+  asyncHandler(protect),
+  cacheable('favProducts', createDynamicVariables([], [
+    "page",
+    "pageSize",
+    "sortType",
+    "sortField",
+    "categories",
+    "subCategory",
+    "searchQuery",
+  ], []),
+    true
+  ),
+  asyncHandler(getFavouriteProducts)
+)
+
+router.post('/favourites/add', asyncHandler(protect), asyncHandler(addFavouriteProduct))
+router.delete('/favourites/:productId', asyncHandler(protect), asyncHandler(removeFavouriteProduct))
+router.post('/favourites/isProductInFav', asyncHandler(protect), asyncHandler(getIsProductInFavourites))
+router.get('/favourites/count', asyncHandler(protect), asyncHandler(getFavProductLength))
+router.get('/favourites/:id', asyncHandler(protect), asyncHandler(getIsFavouriteByProductId))
 
 export default router;

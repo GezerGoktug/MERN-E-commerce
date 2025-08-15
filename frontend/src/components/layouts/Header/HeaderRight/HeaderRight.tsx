@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./HeaderRight.module.scss";
-import { RiUser3Line } from "react-icons/ri";
+import { RiHeartLine, RiUser3Line } from "react-icons/ri";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
 import { FaBars } from "react-icons/fa6";
@@ -9,11 +9,21 @@ import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "../../../../store/cart/hooks";
 import Tooltip from "../../../ui/Tooltip/Tooltip";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../../../utils/api";
+import { isAccess } from "../../../../store/auth/hooks";
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ['favProductCount', isAccess()],
+    queryFn: () => api.get(`/product/favourites/count`),
+    enabled: isAccess()
+  })
+
   const links = [
     {
       icon: IoSearch,
@@ -28,9 +38,20 @@ const HeaderRight = () => {
       message: "Profile",
     },
     {
+      icon: RiHeartLine,
+      href: "/favourite",
+      message: "Favourite",
+      badge_data: data?.data.count || 0,
+      is_count_badge: true,
+      badge_style: {
+        backgroundColor: 'darkred'
+      }
+    },
+    {
       icon: HiOutlineShoppingBag,
       href: "/cart",
-      cart_icons: true,
+      is_count_badge: true,
+      badge_data: totalQuantity,
       message: "Cart",
     },
     {
@@ -51,7 +72,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, cart_icons, menu_icon, message, preserveSearch }, i) => (
+        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, badge_style, message, preserveSearch }, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -72,9 +93,9 @@ const HeaderRight = () => {
                     state={state}
                   >
                     <Icon size={25} />
-                    {cart_icons && (
-                      <span className={styles.cart_count_badge}>
-                        {totalQuantity}
+                    {is_count_badge && (
+                      <span style={badge_style} className={styles.header_right_badge}>
+                        {badge_data}
                       </span>
                     )}
                   </Link>

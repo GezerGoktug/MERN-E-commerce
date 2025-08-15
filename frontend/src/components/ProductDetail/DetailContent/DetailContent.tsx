@@ -1,12 +1,21 @@
-import { IoIosStar } from "react-icons/io";
+import { IoIosStar, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import Button from "../../ui/Button/Button";
 import styles from "./DetailContent.module.scss";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductDetailContentType, SizeType } from "../../../types/types";
 import { createRatingArray } from "../../../helper/createRatingArray";
 import { addProductOfCart } from "../../../store/cart/actions";
 import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "../../../utils/api";
+import { isAccess } from "../../../store/auth/hooks";
+
+const addFav = (_id: string) => api.post('/product/favourites/add', {
+  productId: _id
+})
+
+const removeFav = (_id: string) => api.delete(`/product/favourites/${_id}`);
 
 const getSize = (size: string) => {
   switch (size) {
@@ -31,6 +40,35 @@ const DetailContent = ({
   productDetail: ProductDetailContentType;
 }) => {
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
+  const [isFav, setIsFav] = useState(false);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setIsFav(productDetail.isFav);
+  }, [productDetail.isFav])
+
+  useEffect(() => {
+    if (!isAccess()) {
+      setIsFav(false)
+    }
+  }, [isAccess()])
+
+
+  const mutation = useMutation({
+    mutationFn: () => isFav ? removeFav(productDetail._id) : addFav(productDetail._id),
+    onSuccess: async (data) => {
+      toast.success(data.data.message);
+      setIsFav(!isFav);
+      await queryClient.invalidateQueries({ queryKey: ['favProductCount'] })
+      await queryClient.invalidateQueries({ queryKey: ['favProducts'] })
+    },
+    onError: (error) => {
+      setIsFav(!isFav)
+      const apiError = error?.response?.data?.error.errorMessage;
+      if (typeof apiError === "string") toast.error(apiError);
+    }
+  })
+  const toggleFavourite = () => isAccess() ? mutation.mutate() : null;
 
   const handleAddCart = () => {
     if (selectedSize === null) {
@@ -68,7 +106,7 @@ const DetailContent = ({
       </div>
       <div className={styles.product_detail_price}>${productDetail.price}</div>
       <p className={styles.product_detail_desc}>
-          {productDetail.description}
+        {productDetail.description}
       </p>
 
       <div className={styles.product_detail_select_size}>
@@ -89,10 +127,15 @@ const DetailContent = ({
           ))}
         </div>
       </div>
-      <Button onClick={() => handleAddCart()}>ADD TO CART</Button>
+      <div className={styles.product_detail_actions}>
+        <Button onClick={() => handleAddCart()}>ADD TO CART</Button>
+        <div onClick={() => toggleFavourite()} className={styles.product_detail_fav_action_btn}>
+          {isFav ? <IoMdHeart fill="red" size={20} /> : <IoMdHeartEmpty size={20} />}
+        </div>
+      </div>
       <div className={styles.product_detail_short_features}>
         <ul>
-          <li>100% Original product.</li>
+          <li>100% Original p roduct.</li>
           <li>Cash on delivery is available on this product.</li>
           <li>Easy return and exchange policy within 7 days.</li>
         </ul>

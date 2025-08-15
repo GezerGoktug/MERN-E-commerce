@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+const CommentSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+    maxLength: 250,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: "User",
+  },
+})
+
 export const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -37,28 +58,7 @@ export const productSchema = new mongoose.Schema({
     enum: ["Topwear", "Bottomwear", "Winterwear"],
     required: true,
   },
-  comments: [
-    {
-      content: {
-        type: String,
-        required: true,
-        maxLength: 250,
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      createdAt: {
-        type: Date,
-        default: new Date(),
-      },
-      user: {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        ref: "User",
-      },
-    },
-  ],
+  comments: [CommentSchema],
 });
 
 export const Product = mongoose.model("Product", productSchema);

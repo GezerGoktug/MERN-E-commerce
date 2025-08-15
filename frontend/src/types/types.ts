@@ -14,6 +14,7 @@ export type ProductType = {
   name: string;
   price: number;
   image: string;
+  isFav: boolean;
 };
 
 export type ReviewType = {
@@ -34,6 +35,7 @@ export type ProductDetailContentType = {
   name: string;
   price: number;
   image: string;
+  isFav: boolean;
   sizes: string[];
   description: string;
   reviewsCount: number;

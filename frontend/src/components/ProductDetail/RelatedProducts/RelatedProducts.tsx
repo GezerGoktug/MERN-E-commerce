@@ -1,41 +1,29 @@
-import { motion } from "framer-motion";
-import styles from "./RelatedProducts.module.scss";
-import { Link } from "react-router-dom";
-import { ProductType } from "../../../types/types";
 
-const RelatedProductCard = ({
-  product,
-  index,
-}: {
-  product: ProductType;
-  index: number;
-}) => {
-  return (
-    <Link to={`/product/${product._id}`}>
-      <motion.div
-        whileInView={{ y: 0, opacity: 1 }}
-        initial={{ y: 120, opacity: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 * (index + 2) }}
-        viewport={{ once: true }}
-        className={styles.product_card}
-      >
-        <div className={styles.product_card_img}>
-          <img src={product.image} alt="" />
-        </div>
-        <h4>{product.name}</h4>
-        <span>${product.price}</span>
-      </motion.div>
-    </Link>
-  );
-};
+import styles from "./RelatedProducts.module.scss";
+import { ProductType } from "../../../types/types";
+import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
+import ProductCard from "../../common/ProductItem/ProductItem";
+import { useQuery } from "@tanstack/react-query";
+import { isAccess } from "../../../store/auth/hooks";
+import api from "../../../utils/api";
 
 const RelatedProducts = ({
-  products,
+  products = [],
   isPending,
 }: {
   products: ProductType[];
   isPending: boolean;
 }) => {
+
+  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
+    queryKey: ['isRelatedProductInFavProduct', products.map(p => p._id).toString()],
+    queryFn: () => api.post("/product/favourites/isProductInFav", {
+      productIds: products.map(item => item._id)
+    }),
+    enabled: (!!products.length && isAccess())
+  });
+
+  const isFavProduct = (_id: string) => favProductInfo?.data.find(dt => dt._id === _id)?.isFav || false
   return (
     <div className={styles.related_products}>
       <div className={styles.related_products_top}>
@@ -48,22 +36,16 @@ const RelatedProducts = ({
         {isPending ? (
           <>
             {[0, 1, 2, 3, 4].map((item) => (
-              <div
-                key={"related_product_skeleton" + item}
-                className={styles.product_card_skeleton}
-              >
-                <div className={styles.product_skeleton_image} />
-                <div className={styles.product_skeleton_content}>
-                  <div className={styles.product_skeleton_title} />
-                  <div className={styles.product_skeleton_price} />
-                </div>
-              </div>
+              <ProductItemSkeleton key={'related_product_skeleton_' + item} />
             ))}
           </>
         ) : (
           <>
             {products.map((item, i) => (
-              <RelatedProductCard product={item} index={i} key={item._id} />
+              <ProductCard
+                key={"product" + i}
+                product={{ ...item, isFav: isFavProduct(item._id) }}
+              />
             ))}
           </>
         )}

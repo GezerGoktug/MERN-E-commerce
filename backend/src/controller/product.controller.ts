@@ -10,11 +10,14 @@ import { productSchema } from "../validations/schema";
 import { pageableToResponse, PaginationRequest } from "../util/pagination";
 import {
   cacheEvict,
+  createCacheKeyWithBrowserId,
   createDynamicVariables,
   setCache,
   updateCache,
 } from "../middleware/cache.middleware";
 import filterQuery from "../util/query";
+import { UserFavouriteProducts } from "../models/user-metada-models/UserFavouriteProduct.schema";
+import mongoose from "mongoose";
 
 const generateSortingQuery = (
   field: string,
@@ -238,14 +241,14 @@ export const getProductsByQueries = async (
   const filterCategory = Array.isArray(categories)
     ? { category: { $in: categories } }
     : (categories as string).trim().length === 0
-    ? {}
-    : { category: { $in: categories } };
+      ? {}
+      : { category: { $in: categories } };
 
   const filterSubCategory = Array.isArray(subCategory)
     ? { subCategory: { $in: subCategory } }
     : (subCategory as string).trim().length === 0
-    ? {}
-    : { subCategory: { $in: subCategory } };
+      ? {}
+      : { subCategory: { $in: subCategory } };
 
   const filterSearchText =
     (searchQuery as string).trim().length < 3
@@ -253,7 +256,7 @@ export const getProductsByQueries = async (
       : { $text: { $search: searchQuery as string } };
 
   const filterSortingQuery = generateSortingQuery(
-    pageRequest.sortField ? pageRequest.sortField : "_id",
+    pageRequest.sortField || "_id",
     pageRequest.sortType
   ) as object;
 
@@ -280,7 +283,7 @@ export const getProductsByQueries = async (
 
   await setCache(
     req,
-    "product-list",
+    createCacheKeyWithBrowserId(req, "product-list"),
     pageableToResponse(
       productsCount,
       pageRequest.pageNumber,
@@ -320,12 +323,15 @@ export const getProductsByQueries = async (
   );
 };
 
-export const getProductDetail = async (req: Request, res: Response) => {
+export const getProductDetail = async (req: ExtendedRequest, res: Response) => {
   const productId = req.params.id;
 
-  const product = await Product.findById(productId).populate(
+  const product = await Product.findById(productId).populate({
+    path: "comments",
+    options: { sort: { createdAt: -1 } },
+  }).populate(
     "comments.user",
-    "name email image"
+    "name email image",
   );
 
   if (!product) throw new ErrorHandler(404, "Product not found");
@@ -350,11 +356,11 @@ export const getProductDetail = async (req: Request, res: Response) => {
     product.comments.length === 0
       ? 0
       : product.comments.reduce((acc, comment) => +comment.rating + acc, 0) /
-        product.comments.length;
+      product.comments.length;
 
   await setCache(
     req,
-    "product-detail",
+    createCacheKeyWithBrowserId(req, "product-detail"),
     {
       ...product.toObject(),
       reviewsCount: product.comments.length,
@@ -396,7 +402,7 @@ export const createComment = async (req: ExtendedRequest, res: Response) => {
 
   await cacheEvict(
     req,
-    "product-detail",
+    createCacheKeyWithBrowserId(req, "product-detail"),
     createDynamicVariables([], [], [["productId", "id"]])
   );
 
@@ -424,7 +430,7 @@ export const deleteComment = async (req: ExtendedRequest, res: Response) => {
 
   await cacheEvict(
     req,
-    "product-detail",
+    createCacheKeyWithBrowserId(req, "product-detail"),
     createDynamicVariables([["productId", "id"]])
   );
 
@@ -476,13 +482,13 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
     updatedProduct?.comments.length === 0
       ? 0
       : updatedProduct?.comments.reduce(
-          (acc, comment) => +comment?.rating + acc,
-          0
-        ) / updatedProduct?.comments.length;
+        (acc, comment) => +comment?.rating + acc,
+        0
+      ) / updatedProduct?.comments.length;
 
   await updateCache(
     req,
-    "product-detail",
+    createCacheKeyWithBrowserId(req, "product-detail"),
     {
       ...updatedProduct?.toObject(),
       totalRating,
@@ -517,3 +523,241 @@ export const getBestSellerProducts = async (req: Request, res: Response) => {
 
   ResponseHandler.success(res, 200, bestSellingProducts);
 };
+
+export const getFavProductLength = async (req: ExtendedRequest, res: Response) => {
+  const currentUser = req?.user as JwtPayload;
+
+  const favProductLength = await UserFavouriteProducts.aggregate([
+    { $match: { user: new mongoose.Types.ObjectId(currentUser.userId) } },
+    { $project: { count: { $size: "$products" } } }
+  ]);
+
+  ResponseHandler.success(res, 200, { count: favProductLength[0].count });
+
+}
+
+export const getFavouriteProducts = async (req: ExtendedRequest, res: Response) => {
+
+  const currentUser = req?.user as JwtPayload;
+
+  const paginationRequest = PaginationRequest(req, 10);
+
+  const { sortField, sortType, pageNumber, pageSize } = paginationRequest;
+
+  const { categories, subCategory, searchQuery } = filterQuery(
+    req,
+    ["categories", "subCategory", "searchQuery"],
+    {
+      categories: "",
+      subCategory: "",
+      searchQuery: "",
+    }
+  );
+
+  const filterCategory = Array.isArray(categories)
+    ? { category: { $in: categories } }
+    : (categories as string).trim().length === 0
+      ? {}
+      : { category: { $in: [categories] } };
+
+  const filterSubCategory = Array.isArray(subCategory)
+    ? { subCategory: { $in: subCategory } }
+    : (subCategory as string).trim().length === 0
+      ? {}
+      : { subCategory: { $in: [subCategory] } };
+
+  const filterSearchText =
+    (searchQuery as string).trim().length < 3
+      ? null
+      : { $text: { $search: searchQuery as string } };
+
+  const filterSortingQuery = generateSortingQuery(
+    sortField || '_id',
+    sortType
+  ) as object
+
+
+  const favouriteProducts = await UserFavouriteProducts
+    .findOne({ user: currentUser.userId })
+    .populate({
+      path: 'products',
+      match: {
+        $and: [filterCategory, filterSubCategory],
+        ...filterSearchText,
+      },
+      options: {
+        sort: { ...filterSortingQuery },
+        skip: pageSize * pageNumber,
+        limit: pageSize
+      },
+      select: 'image name price _id'
+    })
+    .select('products')
+
+  const productMatch: any = {
+    $expr: { $in: ["$_id", "$$productIds"] },
+    ...filterCategory,
+    ...filterSubCategory,
+    ...filterSearchText
+  };
+
+  const favProductLength = await UserFavouriteProducts.aggregate([
+    { $match: { user: new mongoose.Types.ObjectId(currentUser.userId) } },
+    {
+      $lookup: {
+        from: "products",
+        let: { productIds: "$products" },
+        pipeline: [
+          { $match: productMatch },
+        ],
+        as: "productDocs",
+      },
+    },
+    { $project: { count: { $size: "$productDocs" } } },
+  ]);
+
+  await setCache(
+    req,
+    createCacheKeyWithBrowserId(req, 'favProducts'),
+    pageableToResponse(favProductLength[0].count, pageNumber, pageSize, favouriteProducts?.products || []),
+    createDynamicVariables(
+      [],
+      [
+        "page",
+        "pageSize",
+        "sortType",
+        "sortField",
+        "categories",
+        "subCategory",
+        "searchQuery",
+      ]
+    ),
+    300
+  )
+
+  ResponseHandler.success(res, 200, pageableToResponse(favProductLength[0].count, pageNumber, pageSize, favouriteProducts?.products || []));
+
+}
+
+export const addFavouriteProduct = async (req: ExtendedRequest, res: Response) => {
+
+  const currentUser = req?.user as JwtPayload;
+
+  const { productId } = req.body;
+
+  //? addToSet obstruct to duplicate datas
+  await UserFavouriteProducts.findOneAndUpdate({
+    user: currentUser.userId
+  }, {
+    $addToSet: {
+      products: productId
+    }
+  },
+    { new: true, upsert: true }
+  );
+
+  await cacheEvict(req, createCacheKeyWithBrowserId(req, 'favProducts'));
+
+
+  ResponseHandler.success(res, 200, { message: 'Successfully product added to your favourite products.' });
+
+}
+
+export const removeFavouriteProduct = async (req: ExtendedRequest, res: Response) => {
+  const currentUser = req?.user as JwtPayload;
+
+  const productId = req.params.productId || ''
+
+  if (productId.trim().length === 0) {
+    throw new ErrorHandler(400, 'Could not be find product your want to delete.');
+  }
+
+  await UserFavouriteProducts.findOneAndUpdate({
+    user: currentUser.userId
+  }, {
+    $pull: {
+      products: productId
+    }
+  },
+    { new: true, upsert: true }
+  );
+
+  await cacheEvict(req, createCacheKeyWithBrowserId(req, 'favProducts'));
+
+  ResponseHandler.success(res, 200, { message: 'Successfully product remove to your favourite products.' });
+
+}
+
+export const getIsProductInFavourites = async (req: ExtendedRequest, res: Response) => {
+
+  const currentUser = req?.user as JwtPayload;
+
+  const { productIds } = req.body;
+
+  const result = await UserFavouriteProducts.aggregate([
+    {
+      $match: { user: new mongoose.Types.ObjectId(currentUser.userId) }
+    },
+    {
+      $project: {
+        _id: 0,
+        result: {
+          $map: {
+            input: productIds.map((id: string) => (new mongoose.Types.ObjectId(id))),
+            as: "pid",
+            in: {
+              _id: "$$pid",
+              isFav: { $in: ["$$pid", "$products"] }
+            }
+          }
+        }
+      }
+    },
+    {
+      $unwind: "$result"
+    },
+    {
+      $replaceRoot: { newRoot: "$result" }
+    }
+  ]);
+
+  ResponseHandler.success(res, 200, result)
+
+}
+
+export const getIsFavouriteByProductId = async (req: ExtendedRequest, res: Response) => {
+
+  const currentUser = req?.user as JwtPayload;
+
+  const productId = req.params.id || '';
+
+  const result = await UserFavouriteProducts.aggregate([
+    {
+      $match: { user: new mongoose.Types.ObjectId(currentUser.userId) }
+    },
+    {
+      $project: {
+        _id: 0,
+        result: {
+          $map: {
+            input: [new mongoose.Types.ObjectId(productId)],
+            as: "pid",
+            in: {
+              _id: "$$pid",
+              isFav: { $in: ["$$pid", "$products"] }
+            }
+          }
+        }
+      }
+    },
+    {
+      $unwind: "$result"
+    },
+    {
+      $replaceRoot: { newRoot: "$result" }
+    }
+  ]);
+
+  ResponseHandler.success(res, 200, result[0]);
+
+}

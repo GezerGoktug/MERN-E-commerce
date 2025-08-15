@@ -1,0 +1,94 @@
+@use '../../../../sass/utils-mixins' as u;
+@use '../../../../sass/mixins' as m;
+@use '../../../../sass/variables' as v;
+
+
+
+
+.filter_modal_content {
+    h6 {
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .form_select {
+        margin-bottom: 20px;
+
+        :global {
+
+            .react-select__control {
+                background-color: v.$primary-color;
+                border-color: v.$secondary-color;
+                color: v.$text-color;
+                height: 50px;
+                border-radius: 0;
+            }
+
+            .react-select__single-value {
+                color: v.$text-color;
+            }
+
+            .react-select__menu {
+                background-color: v.$primary-color;
+                border-color: v.$secondary-color;
+            }
+
+            .react-select__option {
+                background-color: v.$primary-color;
+                color: v.$text-color;
+
+                &--is-focused {
+                    background-color: #d6d6d6;
+                }
+
+                &--is-selected {
+                    background-color: #d6d6d6;
+                }
+
+                @include u.dark-mode {
+                    &--is-focused {
+                        background-color: #333;
+                    }
+
+                    &--is-selected {
+                        background-color: #555;
+                    }
+
+                }
+            }
+
+            .react-select__multi-value {
+                background-color: #d6d6d6;
+
+                @include u.dark-mode {
+                    background-color: #333;
+                }
+
+            }
+
+            .react-select__multi-value__label {
+                color: v.$text-color;
+            }
+
+            .react-select__multi-value__remove {
+                background-color: transparent;
+                color: v.$text-color;
+
+                &:hover {
+                    background-color: #555;
+                    color: v.$text-color;
+                }
+            }
+        }
+    }
+
+
+    .search_input {
+        margin: 20px 0;
+    }
+
+    .filter_modal_btn {
+        margin-left: auto;
+    }
+}

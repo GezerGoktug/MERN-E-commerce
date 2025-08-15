@@ -29,6 +29,14 @@ const CacheManager = {
       throw new ErrorHandler(500, "Error deleting cache");
     }
   },
+  delByAllPrefix: async (key: string) => {
+    try {
+      await RedisClient.delByPrefix(key);
+    } catch (error) {
+      console.error("Cache delete error:", error);
+      throw new ErrorHandler(500, "Error deleting all prefix cache");
+    }
+  },
 };
 
 export default CacheManager;

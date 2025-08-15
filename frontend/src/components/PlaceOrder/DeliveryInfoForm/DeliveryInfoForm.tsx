@@ -107,11 +107,11 @@ const DeliveryInfoForm = () => {
         />
         <div className={styles.side_by_side_inputs}>
           <Select
-          
             placeholder="Select a city"
             className={styles.form_select}
             onChange={(e) => form.setValue("city", e?.value)}
             options={cityOptions}
+            classNamePrefix="react-select"
           />
 
           <Select
@@ -119,6 +119,7 @@ const DeliveryInfoForm = () => {
             className={styles.form_select}
             onChange={(e) => form.setValue("country", e?.value)}
             options={countriesOptions}
+            classNamePrefix="react-select"
           />
         </div>
         <div className={styles.side_by_side_inputs}>

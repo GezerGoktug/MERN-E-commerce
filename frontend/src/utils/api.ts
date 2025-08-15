@@ -23,9 +23,6 @@ api.interceptors.response.use(
   async (error) => {
     const req = error.config;
 
-    console.log(error.response.data.error.path);
-
-
     if (
       error.response.status === 401 &&
       !NOT_AGAIN_REQUEST_ENDPOINTS_PATH.includes(error.response.data.error.path)

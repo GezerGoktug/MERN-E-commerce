@@ -18,6 +18,7 @@ import AdminStats from "./pages/Admin/Stats/AdminStats";
 import AdminAddProduct from "./pages/Admin/AddProduct/AdminAddProduct";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import AdminOrders from "./pages/Admin/Orders/AdminOrders";
+import Favourites from "./pages/Favourites";
 
 const PrivateRoute = () => {
   return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
@@ -41,6 +42,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/cart" element={<Cart />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/favourite" element={<Favourites />} />
+          </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/payment/result" element={<PaymentResult />} />
           </Route>

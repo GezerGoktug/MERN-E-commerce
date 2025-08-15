@@ -11,19 +11,21 @@ const Modal = ({
   children,
   open,
   closeModal,
-  className
+  className,
+  wrapperClassName
 }: {
   children: ReactNode;
   open: boolean;
   closeModal: () => void;
-  className?: string
+  className?: string,
+  wrapperClassName?: string
 }) => {
   return (
     <AnimatePresence>
       {open && (
         <Overlay>
           <Backdrop>
-            <div className={styles.modal_wrapper}>
+            <div className={clsx(styles.modal_wrapper, wrapperClassName)}>
               <OutsideClickHandler
                 onOutsideClick={() => closeModal()}
                 display="contents"

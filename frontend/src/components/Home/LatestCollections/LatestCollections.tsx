@@ -4,14 +4,25 @@ import styles from "./LatestCollections.module.scss";
 import api from "../../../utils/api";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import ProductCard from "../../common/ProductItem/ProductItem";
+import { isAccess } from "../../../store/auth/hooks";
 
 const LatestCollections = () => {
-  const { data, isPending } = useQuery({
+  const { data, isPending } = useQuery<{ data: ProductType[] }>({
     queryKey: ["latest_collections"],
     queryFn: () => {
       return api.get("/product/latest-products/list");
     },
   });
+
+  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
+    queryKey: ['isLatestProductInFavProduct', data?.data?.map(p => p._id).toString()],
+    queryFn: () => api.post("/product/favourites/isProductInFav", {
+      productIds: data!.data.map(item => item._id)
+    }),
+    enabled: (!!data?.data?.length && isAccess())
+  });
+
+  const isFavProduct = (_id: string) => favProductInfo?.data.find(dt => dt._id === _id)?.isFav || false
 
   return (
     <div className={styles.latest_collections}>
@@ -28,10 +39,9 @@ const LatestCollections = () => {
       <div className={styles.latest_collections_products}>
         {isPending ? (
           <>
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, i) => (
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <ProductItemSkeleton
-                key={"latest_collection_skeleton_" + i}
-                item={item}
+                key={"latest_collection_skeleton_" + item}
               />
             ))}
           </>
@@ -40,7 +50,7 @@ const LatestCollections = () => {
             {data?.data.map((item: ProductType, i: number) => (
               <ProductCard
                 useWhileInView
-                product={item}
+                product={{ ...item, isFav: isFavProduct(item._id) }}
                 customIndex={i}
                 key={"latest_collection_" + item._id}
               />

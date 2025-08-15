@@ -10,21 +10,8 @@ import { useQueryParams } from "../../../hooks/use-query-params";
 import { RiMenuSearchLine } from "react-icons/ri";
 import Button from "../../ui/Button/Button";
 import { GrPowerReset } from "react-icons/gr";
-
-type SortType = "DEFAULT" | "LOW_TO_HIGH" | "HIGH_TO_LOW";
-
-const generateSortingType = (sort: SortType) => {
-  switch (sort) {
-    case "DEFAULT":
-      return { type: "default", field: null };
-    case "HIGH_TO_LOW":
-      return { type: "desc", field: "price" };
-    case "LOW_TO_HIGH":
-      return { type: "asc", field: "price" };
-    default:
-      return { type: "default", field: null };
-  }
-};
+import { isAccess } from "../../../store/auth/hooks";
+import { generateSortingType, SortType } from "../../../helper/generateSortingType";
 
 const Products = () => {
   const { queryState, clearQuery, querySetters: { setSorting } } = useQueryParams<Pick<ProductSearchQueryType, 'page' | 'categories' | 'minPrice' | 'searchQuery' | 'subCategories' | 'sorting'>>({
@@ -50,7 +37,7 @@ const Products = () => {
       searchQuery,
       minPrice,
     ],
-    queryFn: () => {
+    queryFn: async () => {
       const categoriesUrl = categories
         .map((item) => {
           return `categories=${item}&`;
@@ -78,12 +65,22 @@ const Products = () => {
     },
   });
 
+  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
+    queryKey: ['isProductInFavProduct', data?.data?.content?.map(p => p._id).toString()], 
+    queryFn: () => api.post("/product/favourites/isProductInFav", {
+      productIds: data!.data.content.map(item => item._id)
+    }),
+    enabled: (!!data?.data?.content?.length && isAccess())
+  });
+
   useEffect(() => {
     if (data && data.data.otherData) {
       setPageCount(data?.data.totalPage);
       setMaxPrice(data.data.otherData?.maxPrice);
     }
   }, [data]);
+
+  const isFavProduct = (_id: string) => favProductInfo?.data.find(dt => dt._id === _id)?.isFav || false
 
 
   return (
@@ -107,7 +104,7 @@ const Products = () => {
         {isPending ? (
           <>
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
-              <ProductItemSkeleton key={'product_skeleton_item' + item} item={item} />
+              <ProductItemSkeleton key={'product_skeleton_item' + item} />
             ))}
           </>
         ) : (
@@ -132,7 +129,10 @@ const Products = () => {
                   </div>
                 </div>
               ) : data?.data?.content.map((item, i) => (
-                <ProductCard key={"product" + i} product={item} />
+                <ProductCard
+                  key={"product" + i}
+                  product={{ ...item, isFav: isFavProduct(item._id) }}
+                />
               ))
             }
           </>

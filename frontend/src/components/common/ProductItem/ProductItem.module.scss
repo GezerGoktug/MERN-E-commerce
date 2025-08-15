@@ -1,24 +1,55 @@
+@use '../../../sass/variables' as v;
+@use '../../../sass/utils-mixins' as u;
 
 .product_card {
   cursor: pointer;
+  position: relative;
+  overflow-x: hidden;
+
+  &:hover {
+    .product_card_fav_icon {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+
+  .product_card_fav_icon {
+    position: absolute;
+    z-index: 50;
+    top: 10px;
+    opacity: 0;
+    transform: translateX(20px);
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    @include u.flex-center;
+    border: 1px solid v.$secondary-color;
+    background-color: v.$primary-color ;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
   .product_card_img {
     overflow: hidden;
+
     img {
       width: 100%;
       transition: transform linear 0.1s;
+
       &:hover {
         transform: scale(110%);
       }
     }
   }
+
   h4 {
     font-weight: 400;
     font-size: 14px;
     margin: 7px 0;
   }
+
   span {
     font-size: 15px;
     font-weight: 600;
   }
 }
-

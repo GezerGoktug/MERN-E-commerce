@@ -14,6 +14,7 @@ import passport from "passport";
 import { errorHandler } from "./middleware/errorHandler.middleware";
 import helmet from "helmet";
 import swagger from "swagger-ui-express";
+import defineClientId from "./util/client-id-generator";
 
 dotenv.config();
 connectDB();
@@ -38,6 +39,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
+
+app.use(defineClientId);
 
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);

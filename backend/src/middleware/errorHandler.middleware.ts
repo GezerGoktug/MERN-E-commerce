@@ -9,8 +9,7 @@ export const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  
+) => {  
   if (err instanceof ErrorHandler) {
     ResponseHandler.error(
       res,

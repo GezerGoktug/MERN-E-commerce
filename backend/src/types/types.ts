@@ -3,6 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 export interface ExtendedRequest extends Request {
   user?: JwtPayload | string;
+  browserId?: string
 }
 
 export interface IError<T> {

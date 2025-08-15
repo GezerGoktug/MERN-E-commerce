@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import ResponseHandler from "../util/response";
 import CacheManager from "../cache/cache";
+import { ExtendedRequest } from "../types/types";
 
 type VariablesKeysType = "params" | "query" | "body";
 
@@ -58,11 +59,15 @@ export const createDynamicVariables = (
 
 export const cacheable = (
   cacheKey: string,
-  dynamicKeys: Map<VariablesKeysType, string[][]>
+  dynamicKeys: Map<VariablesKeysType, string[][]>,
+  isCacheKeyWithBrowserId?: boolean
 ) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const cached = await CacheManager.get(
-      `${cacheKey}:${generateCacheKey(req, dynamicKeys)}`
+      `${isCacheKeyWithBrowserId ?
+        createCacheKeyWithBrowserId(req, cacheKey)
+        : cacheKey
+      }:${generateCacheKey(req, dynamicKeys)}`
     );
 
     if (cached) {
@@ -90,11 +95,15 @@ export const setCache = async <T>(
 export const cacheEvict = async <T>(
   req: Request,
   cacheKey: string,
-  dynamicKeys: Map<VariablesKeysType, string[][]>
+  dynamicKeys?: Map<VariablesKeysType, string[][]>
 ) => {
-  const key = `${cacheKey}:${generateCacheKey(req, dynamicKeys)}`;
-
-  await CacheManager.del(key);
+  if (dynamicKeys) {
+    const key = `${cacheKey}:${generateCacheKey(req, dynamicKeys)}`;
+    await CacheManager.del(key);
+  }
+  else {
+    await CacheManager.delByAllPrefix(`${cacheKey}:`)
+  }
 };
 
 export const updateCache = async <T>(
@@ -110,3 +119,6 @@ export const updateCache = async <T>(
 
   await CacheManager.set(key, { ...cached, ...newData }, ttl);
 };
+
+
+export const createCacheKeyWithBrowserId = (req: ExtendedRequest, key: string) => `${req.browserId}:${key}`

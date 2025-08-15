@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import api from "../../utils/api";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Helmet } from "react-helmet";
+import { isAccess } from "../../store/auth/hooks";
 
 const ProductDetail = () => {
   const [tabChange, setTabChange] = useState(true);
@@ -24,6 +25,12 @@ const ProductDetail = () => {
       return api.get(`/product/${params.id}`);
     },
   });
+
+  const { data:productFavData } = useQuery({
+    queryKey: ['productDetailFav', params.id],
+    queryFn: () => api.get(`/product/favourites/${params.id}`),
+    enabled: isAccess()
+  })
 
   if (error)
     return (
@@ -98,7 +105,7 @@ const ProductDetail = () => {
         ) : (
           <>
             <DetailPictures images={{ image, subImages }} />
-            <DetailContent productDetail={{ image, ...productDetail }} />
+            <DetailContent productDetail={{ image, isFav: productFavData?.data.isFav, ...productDetail }} />
           </>
         )}
       </div>

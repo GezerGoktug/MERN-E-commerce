@@ -94,7 +94,6 @@ export const sendResetPasswordCodeEmail = async (
   resetCode: string
 ) => {
   try {
-    throw new Error('')
     const publicMailPath = path.resolve(process.cwd(), "public", "mail");
 
     const ejsPath = path.join(

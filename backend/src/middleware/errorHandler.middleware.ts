@@ -3,19 +3,22 @@ import { ZodError } from "zod";
 import ResponseHandler from "../util/response";
 import { ErrorHandler } from "../error/errorHandler";
 import { createError } from "../util/createError";
+import logger from "../config/logger";
 
 export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
   next: NextFunction
-) => {  
+) => {
   if (err instanceof ErrorHandler) {
     ResponseHandler.error(
       res,
       err.statusCode,
       createError<string>(req, err.message)
     );
+
+    logger.error(`ErrorHandler: ${err.message}`, err);
     return;
   }
 
@@ -25,10 +28,14 @@ export const errorHandler = (
       400,
       createError(req, err.flatten().fieldErrors)
     );
+
+    logger.error(`Zod validation error`, err);
     return;
   }
 
   if (err.name === "CastError") {
+    logger.error(`Invalid MongoDB ID`, err);
+
     ResponseHandler.error(
       res,
       404,
@@ -43,6 +50,8 @@ export const errorHandler = (
       validationErrors[key] = [(err as any).errors[key].message];
     });
 
+    logger.warn(`Mongoose validation error`, err);
+
     ResponseHandler.error(
       res,
       400,
@@ -52,6 +61,8 @@ export const errorHandler = (
   }
 
   if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
+    logger.warn(`JWT error`, err);
+
     ResponseHandler.error(
       res,
       401,
@@ -59,6 +70,9 @@ export const errorHandler = (
     );
     return;
   }
+
+  logger.error(`Unexpected error`, err);
+
   ResponseHandler.error(
     res,
     500,

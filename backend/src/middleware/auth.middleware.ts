@@ -17,7 +17,7 @@ export const protect = async (
     process.env.JWT_ACCESS_SECRET as string
   );
 
-  req.user = decoded;
+  req.user = decoded as JwtPayload;
   next();
 };
 
@@ -26,7 +26,7 @@ export const isAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (req.user && (req.user as JwtPayload).role === "ADMIN") {
+  if (req.user && req.user.role === "ADMIN") {
     next();
   } else {
     throw new ErrorHandler(401, "Unauthorized");

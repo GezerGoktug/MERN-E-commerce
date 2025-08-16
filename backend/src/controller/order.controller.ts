@@ -33,7 +33,7 @@ export const updateOrder = async (req: ExtendedRequest, res: Response) => {
       },
       totalPrice: order?.totalPrice,
     },
-    order?.emailAddress,
+    order?.emailAddress as string,
     true
   );
 

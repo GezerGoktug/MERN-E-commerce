@@ -38,6 +38,7 @@
     "jsonwebtoken": "^9.0.2",
     "juice": "^11.0.1",
     "mongoose": "^8.9.5",
+    "morgan": "^1.10.1",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.3",
@@ -45,12 +46,16 @@
     "passport-google-oauth20": "^2.0.0",
     "rate-limit-redis": "^4.2.0",
     "redis": "^5.0.0",
+    "serialize-javascript": "^6.0.2",
     "stripe": "^17.6.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/morgan": "^1.9.10",
+    "@types/serialize-javascript": "^5.0.4",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"

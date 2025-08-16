@@ -8,6 +8,7 @@ import ResponseHandler from "../util/response";
 import { generateAccessToken, generateRefreshToken } from "../util/token";
 import { setCookie } from "../util/cookie";
 import { ErrorHandler } from "../error/errorHandler";
+import logger from "../config/logger";
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 71);
@@ -66,7 +67,13 @@ export const register = async (req: Request, res: Response) => {
     role: newUser.role,
   });
 
-  setCookie("token",refreshToken,res)
+  setCookie("token", refreshToken, res);
+
+  logger.info(`New user registered`, {
+    userId: newUser._id.toString(),
+    email: newUser.email,
+    role: newUser.role,
+  });
 
   ResponseHandler.success(res, 200, {
     message: "Register successful",
@@ -110,9 +117,14 @@ export const login = async (req: Request, res: Response) => {
     email: existUser.email,
     role: existUser.role,
   });
-  
-  setCookie("token",refreshToken,res)
 
+  setCookie("token", refreshToken, res);
+
+  logger.info(`User logged in`, {
+    userId: existUser._id.toString(),
+    email: existUser.email,
+    role: existUser.role,
+  });
 
   ResponseHandler.success(res, 200, {
     message: "Login successful",
@@ -129,6 +141,14 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = async (req: ExtendedRequest, res: Response) => {
   res.clearCookie("token");
+
+  if (req.user) {
+    logger.info(`User logged out`, {
+      userId: req.user.userId,
+      email: req.user.email,
+      role: req.user.role,
+    });
+  }
 
   ResponseHandler.success(res, 200, { message: "Logout successfully" });
 };
@@ -155,8 +175,13 @@ export const refreshToken = async (req: Request, res: Response) => {
     role: decoded.role,
   });
 
-  setCookie("token",newRefreshToken,res)
+  setCookie("token", newRefreshToken, res)
 
+  logger.info(`Refresh token issued`, {
+    userId: decoded.userId,
+    email: decoded.email,
+    role: decoded.role,
+  });
 
   ResponseHandler.success(res, 200, accessToken);
 };
@@ -179,21 +204,27 @@ export const loginWithGoogle = async (req: ExtendedRequest, res: Response) => {
   if (!req.user) throw new ErrorHandler(401, "Unauthorized");
 
   const accessToken = generateAccessToken({
-    userId: (req.user as JwtPayload).userId,
-    email: (req.user as JwtPayload).email,
-    role: (req.user as JwtPayload).role,
+    userId: req.user.userId,
+    email: req.user.email,
+    role: req.user.role,
   });
 
   const refreshToken = generateRefreshToken({
-    userId: (req.user as JwtPayload).userId,
-    email: (req.user as JwtPayload).email,
-    role: (req.user as JwtPayload).role,
+    userId: req.user.userId,
+    email: req.user.email,
+    role: req.user.role,
   });
-  
-  setCookie("token",refreshToken,res)
+
+  setCookie("token", refreshToken, res)
+
+  logger.info(`User logged in with Google`, {
+    userId: req.user.userId,
+    email: req.user.email,
+    role: req.user.role,
+  });
 
   res.redirect(
     (process.env.CLIENT_URL as string) +
-      `/auth?google_login=true&accessToken=${accessToken}`
+    `/auth?google_login=true&accessToken=${accessToken}`
   );
 };

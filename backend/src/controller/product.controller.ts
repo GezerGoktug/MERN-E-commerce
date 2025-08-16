@@ -18,6 +18,7 @@ import {
 import filterQuery from "../util/query";
 import { UserFavouriteProducts } from "../models/user-metada-models/UserFavouriteProduct.schema";
 import mongoose from "mongoose";
+import logger from "../config/logger";
 
 const generateSortingQuery = (
   field: string,
@@ -99,6 +100,13 @@ export const addProduct = async (req: Request, res: Response) => {
 
   await newProduct.save();
 
+  logger.info(`Product added`, {
+    productId: newProduct._id.toString(),
+    name: newProduct.name,
+    category: newProduct.category,
+    subCategory: newProduct.subCategory,
+  });
+
   ResponseHandler.success(res, 200, { message: "Added product successfully" });
 };
 
@@ -118,6 +126,14 @@ export const deleteProduct = async (req: Request, res: Response) => {
   );
 
   await Product.findByIdAndDelete(id);
+
+  logger.info(`Product deleted`, {
+    productId: id,
+    name: product?.name,
+    category: product?.category,
+    subCategory: product?.subCategory,
+  });
+
 
   ResponseHandler.success(res, 200, { message: "Deleted product succesfully" });
 };
@@ -189,6 +205,15 @@ export const updateProduct = async (req: Request, res: Response) => {
       a === "" ? 1 : b === "" ? -1 : 0
     ),
   });
+
+  logger.info(`Product updated`, {
+    productId: id,
+    oldName: product?.name,
+    newName: name,
+    category,
+    subCategory,
+  });
+
 
   ResponseHandler.success(res, 200, {
     message: "Updated product successfully",
@@ -406,6 +431,12 @@ export const createComment = async (req: ExtendedRequest, res: Response) => {
     createDynamicVariables([], [], [["productId", "id"]])
   );
 
+  logger.info(`Comment created`, {
+    userId: currentUser.userId,
+    productId,
+    rating,
+  });
+
   ResponseHandler.success(res, 200, { message: "Create comment successfully" });
 };
 
@@ -433,6 +464,12 @@ export const deleteComment = async (req: ExtendedRequest, res: Response) => {
     createCacheKeyWithBrowserId(req, "product-detail"),
     createDynamicVariables([["productId", "id"]])
   );
+
+  logger.info(`Comment deleted`, {
+    userId: currentUser.userId,
+    productId,
+    commentId,
+  });
 
   ResponseHandler.success(res, 200, {
     message: "Deleted comment successfully",
@@ -495,6 +532,13 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
     },
     createDynamicVariables([], [], [["productId", "id"]])
   );
+
+  logger.info(`Comment updated`, {
+    userId: currentUser.userId,
+    productId,
+    commentId,
+    rating,
+  });
 
   ResponseHandler.success(res, 200, { message: "Update comment successfully" });
 };

@@ -48,7 +48,7 @@ export const sendResetPasswordRequest = async (req: Request, res: Response) => {
     300
   );
 
-  sendResetPasswordCodeEmail(resetPasswordEmail, resetCode);
+  await sendResetPasswordCodeEmail(resetPasswordEmail, resetCode);
 
   ResponseHandler.success(res, 200, {
     message: "Successfully sended reset code your email",

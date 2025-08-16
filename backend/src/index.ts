@@ -3,18 +3,16 @@ import dotenv from "dotenv";
 import connectDB from "./config/db";
 import cors from "cors";
 
-import authRouter from "./routes/auth.route";
-import productRouter from "./routes/product.route";
-import statsRouter from "./routes/stats.route";
-import paymentRouter from "./routes/payment.route";
-import userRouter from "./routes/user.route";
-import orderRouter from "./routes/order.route";
+import mainRouter from "./routes/index";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import { errorHandler } from "./middleware/errorHandler.middleware";
 import helmet from "helmet";
 import swagger from "swagger-ui-express";
 import defineClientId from "./util/client-id-generator";
+import logger from "./config/logger";
+import morgan from "morgan"
+import { ExtendedRequest } from "./types/types";
 
 dotenv.config();
 connectDB();
@@ -42,12 +40,35 @@ app.use(passport.initialize());
 
 app.use(defineClientId);
 
-app.use("/api/auth", authRouter);
-app.use("/api/product", productRouter);
-app.use("/api/payment", paymentRouter);
-app.use("/api/order", orderRouter);
-app.use("/api/admin", statsRouter);
-app.use("/api/user", userRouter);
+morgan.token("user-info", (req: ExtendedRequest) => {
+  if (req.user) {
+    return `{\n- userId: ${req.user.userId || "-"}\n- Role: ${req.user.role || "-"}\n- Email: ${req.user.email || "-"}\n}`;
+  }
+  return "NULL";
+});
+
+const morganFormat = [
+  '--- REQUEST LOG START ---',
+  '-> IP: :remote-addr',
+  '-> URL: :url',
+  '-> Status: :status',
+  '-> Method: :method',
+  '-> Response-Length: :res[content-length]',
+  '-> Response-Time: :response-time ms',
+  '-> User: :user-info',
+  '--- REQUEST LOG END ---\n'
+].join('\n');
+
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => logger.info(message.trim()),
+    },
+  })
+);
+
+app.use("/api", mainRouter)
+
 if (process.env.NODE_ENV === "development") {
   const swaggerDocument = require("./swagger.json");
   app.use(
@@ -60,4 +81,4 @@ if (process.env.NODE_ENV === "development") {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => logger.info(`Server running on port ${PORT}`));

@@ -1,0 +1,20 @@
+@use "./sass/mixins" as m;
+@use "./sass/utils-mixins" as u;
+
+.error_boundary_wrapper {
+    @include u.flex-center;
+    height: 100vh;
+    .error_boundary_content{
+        @include u.col-center;
+    }
+    h6 {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+    
+    p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+

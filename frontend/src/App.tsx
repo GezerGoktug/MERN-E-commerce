@@ -19,6 +19,7 @@ import AdminAddProduct from "./pages/Admin/AddProduct/AdminAddProduct";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import AdminOrders from "./pages/Admin/Orders/AdminOrders";
 import Favourites from "./pages/Favourites";
+import ErrorBoundary from "./ErrorBoundary";
 
 const PrivateRoute = () => {
   return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
@@ -30,7 +31,7 @@ const AdminPrivateRoute = () => {
 
 function App() {
   return (
-    <>
+    <ErrorBoundary>
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -63,7 +64,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </>
+    </ErrorBoundary>
   );
 }
 

@@ -17,7 +17,7 @@ services:
     build: ./frontend
     container_name: react-ui
     ports:
-      - "3000:3000"
+      - "3000:80"
     stdin_open: true
     tty: true
     depends_on:

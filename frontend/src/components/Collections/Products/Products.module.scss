@@ -115,5 +115,48 @@
         }
       }
     }
+
+    .products_error {
+      grid-column: 1 / -1;
+      @include u.col-center;
+      padding: 50px 0;
+      text-align: center;
+
+      .products_error_icon {
+        width: 120px;
+        height: 120px;
+        background-color: darkred;
+        fill: white;
+        padding: 20px;
+        outline: 3px solid darkred;
+        outline-offset: 4px;
+
+        @include m.responsive(xls) {
+          width: 80px;
+          height: 80px;
+        }
+
+      }
+
+      .products_error_text {
+        h6 {
+          font-size: 40px;
+          margin-top: 30px;
+
+          @include m.responsive(xls) {
+            font-size: 30px;
+
+          }
+        }
+
+        p {
+          margin: 10px 0;
+        }
+
+        .products_error_btn {
+          margin: 0 auto;
+        }
+      }
+    }
   }
 }

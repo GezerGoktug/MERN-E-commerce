@@ -1,22 +1,33 @@
 import { create } from "zustand";
 
+export interface ProductPagination {
+  pageCount: number | null;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
 type Store = {
-  pageCount: number;
+  pagination: ProductPagination,
   maxPrice: number;
-  __setPageCount: (pageCount: number) => void;
+  __setPagination: (pagination: ProductPagination & { pageCount: number }) => void;
   __setMaxPrice: (price: number) => void;
 };
 
 const productStore = create<Store>()((set) => ({
-  pageCount: 1,
+  pagination: {
+    pageCount: null,
+    hasNext: false,
+    hasPrev: false
+  },
   maxPrice: 2000,
-  __setPageCount: (pageCount) =>
+  __setPagination: (pagination) =>
     set((state) => {
       return {
         ...state,
-        pageCount: pageCount,
+        pagination: pagination,
       };
     }),
+
   __setMaxPrice: (price) =>
     set((state) => {
       return {

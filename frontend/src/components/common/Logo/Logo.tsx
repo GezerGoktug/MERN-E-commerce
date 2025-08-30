@@ -5,7 +5,7 @@ const Logo = () => {
   const theme = useTheme();
   return (
     <div className={styles.logo}>
-      <img src={theme === "dark" ? "./logo_dark.png" : "./logo.png"} alt="" />
+      <img src={theme === "dark" ? "/logo_dark.png" : "/logo.png"} alt="" />
     </div>
   );
 };

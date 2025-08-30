@@ -1,6 +1,6 @@
-import productStore from "./productStore";
+import productStore, { ProductPagination } from "./productStore";
 
-export const setPageCount = (pageCount: number) =>
-  productStore.getState().__setPageCount(pageCount);
+export const setPagination = (pagination: ProductPagination & { pageCount: number }) =>
+  productStore.getState().__setPagination(pagination);
 export const setMaxPrice = (price: number) =>
   productStore.getState().__setMaxPrice(price);

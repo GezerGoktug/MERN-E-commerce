@@ -12,6 +12,7 @@ import Modal from "../../ui/Modal/Modal";
 import DeleteProductModal from "./DeleteProductModal/DeleteProductModal";
 import EditProductModal from "./EditProductModal/EditProductModal";
 import { IPaginationResult } from "../../../types/types";
+import buildQuery from "../../../utils/queryStringfy";
 
 interface IComment {
   content: string;
@@ -60,11 +61,9 @@ const Products = () => {
     EditProductDTO | DeleteProductDTO
   > | null>(null);
 
-  const { data } = useQuery<{ data: IPaginationResult<IProduct,null> }>({
+  const { data } = useQuery<{ data: IPaginationResult<IProduct, null> }>({
     queryKey: ["admin-products", page],
-    queryFn: () => {
-      return api.get(`/product/admin/list?page=${page}&pageSize=15`);
-    },
+    queryFn: () => api.get(`/product/admin/list?${buildQuery({ page, pageSize: 15 })}`),
   });
 
   return (

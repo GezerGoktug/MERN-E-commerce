@@ -20,6 +20,7 @@ import AdminProducts from "./pages/Admin/Products/AdminProducts";
 import AdminOrders from "./pages/Admin/Orders/AdminOrders";
 import Favourites from "./pages/Favourites";
 import ErrorBoundary from "./ErrorBoundary";
+import AuthGuard from "./guards/AuthGuard";
 
 const PrivateRoute = () => {
   return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
@@ -33,37 +34,39 @@ function App() {
   return (
     <ErrorBoundary>
       <Toaster position="top-right" reverseOrder={false} />
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/collection" element={<Collections />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/place-order" element={<PlaceOrder />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/favourite" element={<Favourites />} />
+      <AuthGuard>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/collection" element={<Collections />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/favourite" element={<Favourites />} />
+            </Route>
+            <Route element={<PrivateRoute />}>
+              <Route path="/payment/result" element={<PaymentResult />} />
+            </Route>
+            <Route element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/*" element={<Error />} />
           </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="/payment/result" element={<PaymentResult />} />
+          <Route element={<AdminPrivateRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="stats" element={<AdminStats />} />
+              <Route path="add-product" element={<AdminAddProduct />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="*" element={<Error isAdmin />} />
+            </Route>
           </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route path="/*" element={<Error />} />
-        </Route>
-        <Route element={<AdminPrivateRoute />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="stats" element={<AdminStats />} />
-            <Route path="add-product" element={<AdminAddProduct />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="*" element={<Error isAdmin />} />
-          </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </AuthGuard>
     </ErrorBoundary>
   );
 }

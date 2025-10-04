@@ -8,7 +8,7 @@ const Profile = () => {
   return (
     <div>
       <Helmet>
-        <title>{user?.name}'s Profile - Forever</title>
+        <title>{user ? `${user?.name}'s Profile - Forever` : "Profile - Forever"}</title>
         <meta
           name="description"
           content={`Welcome, ${user?.name} Manage your Forever profile, track your orders, and update your details easily.`}

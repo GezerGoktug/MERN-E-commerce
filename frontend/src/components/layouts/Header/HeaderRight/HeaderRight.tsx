@@ -12,6 +12,7 @@ import Tooltip from "../../../ui/Tooltip/Tooltip";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../../utils/api";
 import { isAccess } from "../../../../store/auth/hooks";
+import clsx from "clsx";
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
@@ -43,9 +44,7 @@ const HeaderRight = () => {
       message: "Favourite",
       badge_data: data?.data.count || 0,
       is_count_badge: true,
-      badge_style: {
-        backgroundColor: 'darkred'
-      }
+      is_fav_badge: true,
     },
     {
       icon: HiOutlineShoppingBag,
@@ -72,7 +71,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, badge_style, message, preserveSearch }, i) => (
+        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, is_fav_badge, message, preserveSearch }, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -94,7 +93,7 @@ const HeaderRight = () => {
                   >
                     <Icon size={25} />
                     {is_count_badge && (
-                      <span style={badge_style} className={styles.header_right_badge}>
+                      <span className={clsx(styles.header_right_badge, { [styles.is_fav_badge]: is_fav_badge })}>
                         {badge_data}
                       </span>
                     )}

@@ -7,7 +7,6 @@ import Button from "../../ui/Button/Button";
 import { useMaxPrice } from "../../../store/product/hooks";
 import { useQueryParams } from "../../../hooks/use-query-params";
 import { ProductSearchQueryType } from "../../../types/types";
-import useFirstRenderEffect from "../../../hooks/use-first-render-effect";
 
 
 const Filter = () => {
@@ -20,7 +19,7 @@ const Filter = () => {
     categories: [],
     subCategories: [],
     minPrice: 0
-  });  
+  });
 
   const { setCategories, setMinPrice, setSubCategories } = querySetters;
   const { categories, minPrice, subCategories } = queryState;
@@ -46,9 +45,9 @@ const Filter = () => {
 
   const handleMinPriceChance = () => setMinPrice(lowerPrice);
 
-  useFirstRenderEffect(() => {
-    setLowerPrice(minPrice)
-  })
+  useEffect(() => {
+    setLowerPrice(minPrice);
+  }, [])
 
   useEffect(() => {
     if (minPrice === 0) {

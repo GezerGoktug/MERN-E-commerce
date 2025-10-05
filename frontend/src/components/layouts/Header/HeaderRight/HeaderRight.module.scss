@@ -22,10 +22,16 @@
     border-radius: 50%;
     width: 15px;
     height: 15px;
+
+    &.is_fav_badge {
+      background-color: darkred;
+      color: white;
+    }
   }
 
   li:nth-last-child(1) {
     display: none;
+
     @include m.responsive(md) {
       display: inline;
     }

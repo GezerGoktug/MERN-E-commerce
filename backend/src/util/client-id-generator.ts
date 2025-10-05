@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import generateUUIDv4 from "./uuid";
 import { ExtendedRequest } from "../types/types";
 import { setCookie } from "./cookie";

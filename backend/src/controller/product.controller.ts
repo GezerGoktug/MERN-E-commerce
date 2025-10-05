@@ -351,10 +351,9 @@ export const getProductsByQueries = async (
 export const getProductDetail = async (req: ExtendedRequest, res: Response) => {
   const productId = req.params.id;
 
-  const product = await Product.findById(productId).populate({
-    path: "comments",
-    options: { sort: { createdAt: -1 } },
-  }).populate(
+  const product = await Product.findById(productId).populate(
+    "comments"
+  ).populate(
     "comments.user",
     "name email image",
   );

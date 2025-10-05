@@ -15,6 +15,8 @@ export interface IError<T> {
 
 export type SizeType = "SMALL" | "MEDIUM" | "LARGE" | "XLARGE" | "XXLARGE";
 
+export type Role = "ADMIN" | "USER";
+
 export interface CartProductType {
   _id: string;
   size: SizeType;

@@ -522,11 +522,18 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
         0
       ) / updatedProduct?.comments.length;
 
+  const updatedProductsObject = updatedProduct?.toObject();    
+  updatedProductsObject.comments.sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    return dateB - dateA;
+  });
+
   await updateCache(
     req,
     createCacheKeyWithBrowserId(req, "product-detail"),
     {
-      ...updatedProduct?.toObject(),
+      ...updatedProductsObject,
       totalRating,
     },
     createDynamicVariables([], [], [["productId", "id"]])
@@ -569,13 +576,20 @@ export const getBestSellerProducts = async (req: Request, res: Response) => {
 
 export const getFavProductLength = async (req: ExtendedRequest, res: Response) => {
   const currentUser = req?.user as JwtPayload;
+  const userId = new mongoose.Types.ObjectId(currentUser.userId);
+
+  await UserFavouriteProducts.findOneAndUpdate(
+    { user: userId },
+    { $setOnInsert: { user: userId, products: [] } },
+    { upsert: true, new: true }
+  );
 
   const favProductLength = await UserFavouriteProducts.aggregate([
-    { $match: { user: new mongoose.Types.ObjectId(currentUser.userId) } },
-    { $project: { count: { $size: "$products" } } }
+    { $match: { user: userId } },
+    { $project: { count: { $size: "$products" } } },
   ]);
 
-  ResponseHandler.success(res, 200, { count: favProductLength[0].count });
+  ResponseHandler.success(res, 200, { count: favProductLength[0]?.count || 0 });
 
 }
 

@@ -8,7 +8,7 @@ import {
   returnSession,
 } from "../controller/auth.controller";
 import asyncHandler from "express-async-handler";
-import { protect } from "../middleware/auth.middleware";
+import { checkRole, protect } from "../middleware/auth.middleware";
 import passport from "passport";
 
 const router = express.Router();
@@ -21,7 +21,7 @@ router.get("/refresh", asyncHandler(refreshToken));
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"], prompt:"select_account" })
+  passport.authenticate("google", { scope: ["profile", "email"], prompt: "select_account" })
 );
 router.get(
   "/google/callback",
@@ -32,5 +32,5 @@ router.get(
   asyncHandler(loginWithGoogle)
 );
 
-router.get("/session", asyncHandler(protect), asyncHandler(returnSession));
+router.get("/session", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(returnSession));
 export default router;

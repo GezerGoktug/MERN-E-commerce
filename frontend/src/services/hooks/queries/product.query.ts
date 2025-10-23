@@ -85,9 +85,10 @@ const useGetFavProductsQuery = (
 }
 
 const useGetFavProductsCountQuery = (
+    extraKeys: string[] = [],
     queryOptions?: Omit<UseQueryOptions<IResponse<IFavProductCountResponse>, IError>, "queryKey">
 ) => useQuery({
-    queryKey: ['favProductCount'],
+    queryKey: ['favProductCount', ...extraKeys],
     queryFn: () => ProductService.getFavProductsCount(),
     ...queryOptions
 })

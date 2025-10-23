@@ -18,8 +18,8 @@ const HeaderRight = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data } = useGetFavProductsCountQuery({
-    enabled: isAccess()
+  const { data } = useGetFavProductsCountQuery([isAccess() ? "favProductEnabled" : "favProductDisabled"], {
+    enabled: isAccess(),
   });
 
   const links = [

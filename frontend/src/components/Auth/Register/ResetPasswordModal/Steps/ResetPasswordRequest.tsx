@@ -1,9 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
 import Button from "../../../../ui/Button/Button"
 import Input from "../../../../ui/Input/Input"
-import api from "../../../../../utils/api";
 import toast from "react-hot-toast";
-
+import { useResetPasswordRequestMutation } from "../../../../../services/hooks/mutations/user.mutations";
 
 const ResetPasswordRequest = ({
   next,
@@ -14,11 +12,8 @@ const ResetPasswordRequest = ({
   setResetPasswordEmail: React.Dispatch<string>,
   resetPasswordEmail: string
 }) => {
-  
-  const mutation = useMutation({
-    mutationFn: () => {
-      return api.get(`/user/reset-password-req?resetPasswordEmail=${resetPasswordEmail}`);
-    },
+
+  const { mutate, isPending } = useResetPasswordRequestMutation({
     onSuccess: (data) => {
       toast.success(data.data.message);
       next()
@@ -29,9 +24,7 @@ const ResetPasswordRequest = ({
     }
   });
 
-  const handleResetPasswordRequest = () => {
-    mutation.mutate();
-  }
+  const handleResetPasswordRequest = () => mutate(resetPasswordEmail)
 
   return (
     <>
@@ -42,11 +35,11 @@ const ResetPasswordRequest = ({
         size="lg"
         type="email"
         onChange={(e) => {
-            setResetPasswordEmail(e.target.value)          
+          setResetPasswordEmail(e.target.value)
         }}
       />
       <Button
-        loading={mutation.isPending}
+        loading={isPending}
         onClick={() => handleResetPasswordRequest()}>
         SEND REQUEST
       </Button>

@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { IPaginationResult, ProductSearchQueryType, ProductType } from "../../../types/types";
+import { ProductSearchQueryType } from "../../../types/product.type";
 import styles from "./Products.module.scss";
-import api from "../../../utils/api";
 import { useEffect } from "react";
 import { setMaxPrice, setPagination } from "../../../store/product/actions";
 import ProductCard from "../../common/ProductItem/ProductItem";
@@ -11,10 +9,10 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import Button from "../../ui/Button/Button";
 import { GrPowerReset } from "react-icons/gr";
 import { isAccess } from "../../../store/auth/hooks";
-import { generateSortingType, SortType } from "../../../helper/generateSortingType";
-import buildQuery from "../../../utils/queryStringfy";
+import { SortType } from "../../../helper/generateSortingType";
 import DataStateHandler from "../../common/DataStateHandler/DataStateHandler";
 import { FaCircleXmark } from "react-icons/fa6";
+import { useGetProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const Products = () => {
   const { queryState, clearQuery, querySetters: { setSorting } } = useQueryParams<Pick<ProductSearchQueryType, 'page' | 'categories' | 'minPrice' | 'searchQuery' | 'subCategories' | 'sorting'>>({
@@ -28,43 +26,23 @@ const Products = () => {
 
   const { searchQuery, minPrice, page, categories, subCategories, sorting } = queryState;
 
-  const { data, isPending, isError, refetch } = useQuery<{
-    data: IPaginationResult<ProductType, { maxPrice: number }>;
-  }>({
-    queryKey: [
-      "products",
-      sorting,
-      page,
-      categories,
-      subCategories,
-      searchQuery,
-      minPrice,
-    ],
-    queryFn: async () => {
-      const sortProps = generateSortingType(sorting);
+  const { data, isPending, isError, refetch } = useGetProductsQuery({
+    page,
+    sorting,
+    subCategories,
+    categories,
+    minPrice,
+    searchQuery
+  })
 
-      return api.get(
-        `/product/list?${buildQuery({
-          categories,
-          subCategory: subCategories,
-          ...(searchQuery.trim().length > 2 && { searchQuery }),
-          ...(sortProps.field && { sortField: sortProps.field }),
-          sortType: sortProps.type,
-          page,
-          pageSize: 15,
-          minPrice
-        })}`
-      );
-    },
-  });
+  const { data: favProductInfo } = useIsProductsInFavQuery(
+    data?.data.content.map(p => p._id) || [],
+    ["isProductInFavProduct"],
+    {
+      enabled: (!!data?.data?.content?.length && isAccess())
 
-  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
-    queryKey: ['isProductInFavProduct', data?.data?.content?.map(p => p._id).toString()],
-    queryFn: () => api.post("/product/favourites/isProductInFav", {
-      productIds: data!.data.content.map(item => item._id)
-    }),
-    enabled: (!!data?.data?.content?.length && isAccess())
-  });
+    }
+  )
 
   useEffect(() => {
     if (data?.data?.otherData) {

@@ -71,12 +71,17 @@
   }
   &:disabled {
     background-color: rgb(165, 1, 1);
-    color: v.$primary-color;
     .loaderIcon {
       fill: v.$primary-color;
+      @include u.dark-mode{
+        fill: v.$text-color;
+      }
     }
     .loaderText {
       color: v.$primary-color;
+      @include u.dark-mode{
+        color: v.$text-color;
+      }
     }
   }
 }

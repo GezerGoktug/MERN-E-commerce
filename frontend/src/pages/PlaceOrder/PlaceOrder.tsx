@@ -7,12 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { isAccess } from "../../store/auth/hooks";
 import toast from "react-hot-toast";
 import { useCart } from "../../store/cart/hooks";
-import api from "../../utils/api";
-import { loadStripe } from "@stripe/stripe-js";
 import { AxiosError } from "axios";
 import { clearCart } from "../../store/cart/actions";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "../../services/hooks/mutations/order.mutations";
 
 const schema = z.object({
   firstName: z.string().min(3, "First name must be at least 3 characters long"),
@@ -55,6 +54,21 @@ const PlaceOrder = () => {
       paymentMethod: "CASH_ON_DELIVERY",
     },
   });
+
+  const { mutateAsync: createOrderWithCashOnDeliveryMutation } = useCreateOrderWithCashOnDeliveryPaymentMethodMutation({
+    onSuccess(data) {
+      toast.success(data.data.message);
+
+      form.reset();
+
+      clearCart();
+
+      navigate("/profile");
+    },
+  });
+
+  const { mutateAsync: createOrderWithStripeMutation } = useCreateOrderWithStripePaymentMethodMutation()
+
   const onSubmit = async (data: z.infer<typeof schema>) => {
     if (!isAccess()) {
       toast.error("You must log in to make payment.");
@@ -75,38 +89,26 @@ const PlaceOrder = () => {
 
     try {
       if (data.paymentMethod === "CASH_ON_DELIVERY") {
-        const res = await api.post("/order/add", body);
-
-        toast.success(res.data.message);
-
-        form.reset();
-
-        clearCart();
-
-        navigate("/profile");
-
-        return;
+        await createOrderWithCashOnDeliveryMutation(body);
       }
-      const stripe = await loadStripe(
-        import.meta.env.VITE_REACT_STRIPE_PUBLISHABLE_KEY
-      );
-
-      const res = await api.post("/payment", body);
-
-      const result = await stripe?.redirectToCheckout({
-        sessionId: res?.data.sessionId,
-      });
-
-      if (result?.error) {
-        toast.error(result.error.message as string);
+      else {
+        await createOrderWithStripeMutation(body);
       }
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof AxiosError) {
-        toast.error(
-          error.response?.data?.error.errorMessage || "Something went wrong."
-        );
-      } else {
-        toast.error("An unexpected error occurred.");
+        const apiError = error?.response?.data?.error.errorMessage;
+        if (typeof apiError === "string") toast.error(apiError);
+        if (apiError && typeof apiError === "object") {
+          Object.entries(apiError).forEach(([key, value]) => {
+            (value as string[]).forEach((val) => {
+              toast.error(`${key} : ${val}`);
+            });
+          });
+        }
+
+      }
+      else if (error instanceof Error) {
+        toast.error(error.message);
       }
     }
   };

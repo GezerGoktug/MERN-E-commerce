@@ -1,17 +1,10 @@
 import { BsBorderWidth } from "react-icons/bs";
 import styles from "./Orders.module.scss";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../utils/api";
 import OrderItem from "../../common/OrderItem/OrderItem";
-import { IOrder } from "../../../types/types";
+import { useMyOrdersQuery } from "../../../services/hooks/queries/order.query";
 
 const Orders = () => {
-  const { data } = useQuery({
-    queryKey: ["my-orders"],
-    queryFn: () => {
-      return api.get("/order/my-order");
-    },
-  });
+  const { data } = useMyOrdersQuery();
 
   return (
     <div className={styles.orders_wrapper}>
@@ -21,7 +14,7 @@ const Orders = () => {
       </div>
       <hr />
       <div className={styles.orders}>
-        {data?.data.map((order: IOrder) => (
+        {data?.data.map((order) => (
           <OrderItem key={order._id} order={order} />
         ))}
       </div>

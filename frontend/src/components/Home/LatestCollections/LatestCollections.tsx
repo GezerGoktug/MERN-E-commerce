@@ -1,26 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { ProductType } from "../../../types/types";
+import { ProductType } from "../../../types/product.type";
 import styles from "./LatestCollections.module.scss";
-import api from "../../../utils/api";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import ProductCard from "../../common/ProductItem/ProductItem";
 import { isAccess } from "../../../store/auth/hooks";
+import { useGetLatestProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const LatestCollections = () => {
-  const { data, isPending } = useQuery<{ data: ProductType[] }>({
-    queryKey: ["latest_collections"],
-    queryFn: () => {
-      return api.get("/product/latest-products/list");
-    },
-  });
+  const { data, isPending } = useGetLatestProductsQuery();
 
-  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
-    queryKey: ['isLatestProductInFavProduct', data?.data?.map(p => p._id).toString()],
-    queryFn: () => api.post("/product/favourites/isProductInFav", {
-      productIds: data!.data.map(item => item._id)
-    }),
-    enabled: (!!data?.data?.length && isAccess())
-  });
+  const { data: favProductInfo } = useIsProductsInFavQuery(
+    data?.data?.map(p => p._id) || [],
+    ["isLatestProductInFavProduct"],
+    {
+      enabled: (!!data?.data?.length && isAccess())
+    }
+  )
 
   const isFavProduct = (_id: string) => favProductInfo?.data.find(dt => dt._id === _id)?.isFav || false
 

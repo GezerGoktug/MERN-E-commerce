@@ -1,11 +1,10 @@
 import { IoMdTrash } from "react-icons/io";
 import Button from "../../../ui/Button/Button";
 import styles from "./DeleteReview.module.scss";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import toast from "react-hot-toast";
 import { DeleteReviewModalDTO } from "../Reviews/Reviews";
 import { useParams } from "react-router-dom";
+import { useDeleteCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
 
 interface DeleteReviewModalProps {
   data: DeleteReviewModalDTO;
@@ -13,26 +12,22 @@ interface DeleteReviewModalProps {
 }
 
 const DeleteReviewModal = ({ data, closeModal }: DeleteReviewModalProps) => {
-  const queryClient = useQueryClient();
   const params = useParams();
-  const mutation = useMutation({
-    mutationKey: ["delete_comment"],
-    mutationFn: () => {
-      return api.delete(`/product/${params.id}/comment/${data._id}`);
-    },
-    onSuccess: async (data) => {
+
+  const { mutate, isPending } = useDeleteCommentMutation({
+    onSuccess: (data) => {
       toast.success(data.data.message);
-      await queryClient.invalidateQueries({ queryKey: ["product_detail"] });
       closeModal();
     },
     onError(error) {
       const apiError = error?.response?.data?.error.errorMessage;
       if (typeof apiError === "string") toast.error(apiError);
     },
-  });
+  })
 
   const handleDeleteComment = () => {
-    mutation.mutate();
+    if (params.id)
+      mutate({ productId: params.id, commentId: data._id });
   };
 
   return (
@@ -47,7 +42,7 @@ const DeleteReviewModal = ({ data, closeModal }: DeleteReviewModalProps) => {
           CANCEL
         </Button>
         <Button
-          loading={mutation.isPending}
+          loading={isPending}
           onClick={() => handleDeleteComment()}
           leftIcon={IoMdTrash}
           size="sm"

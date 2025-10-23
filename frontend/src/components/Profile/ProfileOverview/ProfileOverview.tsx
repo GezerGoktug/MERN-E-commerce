@@ -6,28 +6,24 @@ import { CiLogout } from "react-icons/ci";
 import { useAccount } from "../../../store/auth/hooks";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useMutation } from "@tanstack/react-query";
-import api from "../../../utils/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../../../store/auth/actions";
+import { useLogoutMutation } from "../../../services/hooks/mutations/auth.mutations";
 
 const ProfileOverview = () => {
   dayjs.extend(relativeTime);
   const user = useAccount();
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: () => {
-      return api.get("/auth/logout");
-    },
+  const { mutate } = useLogoutMutation({
     onSuccess: () => {
       clearUser();
       navigate("/");
       localStorage.removeItem("accessToken");
       toast.success("Logout succesfully");
     },
-  });
+  })
 
   return (
     <div className={styles.profile_overview_wrapper}>
@@ -49,7 +45,7 @@ const ProfileOverview = () => {
           <p>Last logged in : {dayjs(user?.lastLoggedIn).fromNow()}</p>
         </div>
         <Button
-          onClick={() => mutation.mutate()}
+          onClick={() => mutate()}
           className={styles.log_out_btn}
           size="sm"
           rightIcon={CiLogout}

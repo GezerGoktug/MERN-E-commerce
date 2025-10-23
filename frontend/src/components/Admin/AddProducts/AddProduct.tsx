@@ -6,12 +6,11 @@ import Button from "../../ui/Button/Button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useState } from "react";
-import { SizeType } from "../../../types/types";
+import { SizeType } from "../../../types/product.type";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
-import api from "../../../utils/api";
 import { productSchema } from "../../../schemas/schema";
+import { useAddProductMutation } from "../../../services/hooks/mutations/product.mutations";
 
 type ImagesType = {
   mainImage: string | null;
@@ -69,11 +68,7 @@ const AddProduct = () => {
     }
   };
 
-  const mutation = useMutation({
-    mutationKey: [""],
-    mutationFn: (data: FormData) => {
-      return api.post("/product/add", data);
-    },
+  const { mutate, isPending } = useAddProductMutation({
     onSuccess: (data) => {
       toast.success(data.data.message);
       form.reset();
@@ -119,7 +114,7 @@ const AddProduct = () => {
     formData.append("price", data.price);
     formData.append("sizes", JSON.stringify(data.sizes));
 
-    mutation.mutate(formData);
+    mutate(formData);
   };
 
   return (
@@ -296,7 +291,7 @@ const AddProduct = () => {
             </div>
           ))}
         </div>
-        <Button loading={mutation.isPending} type="submit">
+        <Button loading={isPending} type="submit">
           ADD
         </Button>
       </form>

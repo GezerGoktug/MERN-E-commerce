@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import { IOrder } from "../../../types/types";
+import { IOrder } from "../../../types/order.type";
 import getSize from "../../../helper/getSize";
 import Button from "../../ui/Button/Button";
 import { Link } from "react-router-dom";

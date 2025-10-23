@@ -31,8 +31,11 @@
 
   .product_card_img {
     overflow: hidden;
-
     img {
+      object-fit: contain;
+      object-position: top;      
+      background-color: lightgray;
+      min-height: 270px;
       width: 100%;
       transition: transform linear 0.1s;
 

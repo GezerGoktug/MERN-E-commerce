@@ -2,9 +2,8 @@ import { IoMdTrash } from "react-icons/io";
 import Button from "../../../ui/Button/Button";
 import styles from "./DeleteProductModal.module.scss";
 import { DeleteProductDTO } from "../Products";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import toast from "react-hot-toast";
+import { useDeleteProductMutation } from "../../../../services/hooks/mutations/product.mutations";
 
 interface DeleteProductModalProps {
   data: DeleteProductDTO;
@@ -12,14 +11,8 @@ interface DeleteProductModalProps {
 }
 
 const DeleteProductModal = ({ closeModal, data }: DeleteProductModalProps) => {
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationKey: ["admin_delete_product"],
-    mutationFn: () => {
-      return api.delete(`/product/${data._id}`);
-    },
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+  const { mutate, isPending } = useDeleteProductMutation({
+    onSuccess: (data) => {
       toast.success(data.data.message);
       closeModal();
     },
@@ -29,9 +22,7 @@ const DeleteProductModal = ({ closeModal, data }: DeleteProductModalProps) => {
     },
   });
 
-  const handleDeleteProduct = () => {
-    mutation.mutate();
-  };
+  const handleDeleteProduct = () => mutate(data._id);
 
   return (
     <div className={styles.delete_product_modal_wrapper}>
@@ -42,7 +33,7 @@ const DeleteProductModal = ({ closeModal, data }: DeleteProductModalProps) => {
           CANCEL
         </Button>
         <Button
-          loading={mutation.isPending}
+          loading={isPending}
           onClick={() => handleDeleteProduct()}
           leftIcon={IoMdTrash}
           size="sm"

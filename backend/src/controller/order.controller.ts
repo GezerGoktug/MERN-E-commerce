@@ -6,38 +6,56 @@ import ResponseHandler from "../util/response";
 import { JwtPayload } from "jsonwebtoken";
 import { ErrorHandler } from "../error/errorHandler";
 import { sendOrderMail } from "./mail.controller";
+import { stripe } from "../config/stripe";
 
-export const updateOrder = async (req: ExtendedRequest, res: Response) => {
-  const { payment } = req.body;
+export const confirmOrderPayment = async (req: ExtendedRequest, res: Response) => {
+  const { payment, sessionId } = req.body;
   const orderId = req.params.id;
 
-  const order = await Order.findByIdAndUpdate(
-    orderId,
-    {
-      payment: payment,
-    },
-    {
-      new: true,
+  if (!sessionId) {
+    throw new ErrorHandler(400, "Session id not found");
+  }
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (session.payment_status === "paid") {
+    const isOrderPayment = await Order.findById(orderId).populate("payment");
+
+    if (!isOrderPayment?.payment) {
+      const order = await Order.findByIdAndUpdate(
+        orderId,
+        {
+          payment: payment,
+        },
+        {
+          new: true,
+        }
+      );
+
+      await sendOrderMail(
+        {
+          products: order?.products,
+          delivery_info: {
+            phoneNumber: order?.phoneNumber,
+            emailAdress: order?.emailAddress,
+            firstName: order?.firstName,
+            lastName: order?.lastName,
+            ...order?.locationInfo,
+          },
+          totalPrice: order?.totalPrice,
+        },
+        order?.emailAddress as string,
+        true
+      );
+      ResponseHandler.success(res, 200, { message: "Order update success" });
     }
-  );
-
-  await sendOrderMail(
-    {
-      products: order?.products,
-      delivery_info: {
-        phoneNumber: order?.phoneNumber,
-        emailAdress: order?.emailAddress,
-        firstName: order?.firstName,
-        lastName: order?.lastName,
-        ...order?.locationInfo,
-      },
-      totalPrice: order?.totalPrice,
-    },
-    order?.emailAddress as string,
-    true
-  );
-
-  ResponseHandler.success(res, 200, { message: "Order update success" });
+    else {
+      throw new ErrorHandler(400, "This order has already been paid for")
+    }
+  }
+  else {
+    throw new ErrorHandler(400, "This order has not been paid for.")
+  }
 };
 
 export const createOrder = async (body: any) => {
@@ -82,27 +100,29 @@ export const createOrder = async (body: any) => {
     });
 
     await newOrder.save();
-    
-    await sendOrderMail(
-      {
-        products: products,
-        delivery_info: {
-          phoneNumber: delivery_info?.phoneNumber,
-          emailAddress: delivery_info?.email,
-          firstName: delivery_info.firstName,
-          lastName: delivery_info.lastName,
-          street: delivery_info.street,
-          city: delivery_info.city,
-          state: delivery_info.state,
-          zipCode: delivery_info.zipCode,
-          country: delivery_info.country,
+
+    if (delivery_info.paymentMethod === "CASH_ON_DELIVERY") {
+      await sendOrderMail(
+        {
+          products: products,
+          delivery_info: {
+            phoneNumber: delivery_info?.phoneNumber,
+            emailAddress: delivery_info?.email,
+            firstName: delivery_info.firstName,
+            lastName: delivery_info.lastName,
+            street: delivery_info.street,
+            city: delivery_info.city,
+            state: delivery_info.state,
+            zipCode: delivery_info.zipCode,
+            country: delivery_info.country,
+          },
+          totalPrice: totalPrice,
         },
-        totalPrice: totalPrice,
-      },
-      delivery_info.email,
-      false
-    );
-    
+        delivery_info.email,
+        false
+      );
+    }
+
     return {
       message: "Create order success",
       orderId: newOrder._id,
@@ -142,7 +162,8 @@ export const getMyOrder = async (req: ExtendedRequest, res: Response) => {
 
   const myOrders = await Order.find({
     user: userId,
-  });
+  })
+    .sort({ createdAt: -1 });
 
   ResponseHandler.success(res, 200, myOrders);
 };

@@ -1,9 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
 import Button from "../../../../ui/Button/Button"
 import toast from "react-hot-toast";
-import api from "../../../../../utils/api";
 import { useState } from "react";
 import PinInput from "../../../../ui/PinInput/PinInput";
+import { useVerifyResetPasswordCodeMutation } from "../../../../../services/hooks/mutations/user.mutations";
 
 const VerifyResetPasswordCode = ({
   next,
@@ -16,14 +15,7 @@ const VerifyResetPasswordCode = ({
 }) => {
   const [resetPasswordCode, setResetPasswordCode] = useState('');
 
-  const mutation = useMutation({
-    mutationFn: () => {
-      const searchParams = new URLSearchParams({
-        resetPasswordEmail,
-        resetPasswordCode
-      })
-      return api.get(`/user/eval-reset-password-code?${searchParams.toString()}`);
-    },
+  const { mutate, isPending } = useVerifyResetPasswordCodeMutation({
     onSuccess: (data) => {
       setResetPasswordToken(data.data.token);
       toast.success(data.data.message);
@@ -35,9 +27,7 @@ const VerifyResetPasswordCode = ({
     }
   });
 
-  const handleVerifyResetPasswordCode = () => {
-    mutation.mutate();
-  }
+  const handleVerifyResetPasswordCode = () => mutate({ resetPasswordCode, resetPasswordEmail })
 
   return (
     <>
@@ -48,7 +38,7 @@ const VerifyResetPasswordCode = ({
         onInputChange={(val) => setResetPasswordCode(val)}
       />
       <Button
-        loading={mutation.isPending}
+        loading={isPending}
         onClick={() => handleVerifyResetPasswordCode()}>
         VERIFY
       </Button>

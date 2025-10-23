@@ -9,21 +9,18 @@ import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "../../../../store/cart/hooks";
 import Tooltip from "../../../ui/Tooltip/Tooltip";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import { isAccess } from "../../../../store/auth/hooks";
 import clsx from "clsx";
+import { useGetFavProductsCountQuery } from "../../../../services/hooks/queries/product.query";
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data } = useQuery({
-    queryKey: ['favProductCount', isAccess()],
-    queryFn: () => api.get(`/product/favourites/count`),
+  const { data } = useGetFavProductsCountQuery({
     enabled: isAccess()
-  })
+  });
 
   const links = [
     {

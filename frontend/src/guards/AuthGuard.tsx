@@ -1,13 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
-import api from "../utils/api";
 import { clearUser, setUser } from "../store/auth/actions";
 import { isAccess } from "../store/auth/hooks";
+import { useCheckAuthSessionQuery } from "../services/hooks/queries/auth.query";
 
 const AuthGuard = ({ children }: { children: ReactNode }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["check-auth-session"],
-    queryFn: () => api.get("/auth/session"),
+  const { data, isLoading, isError } = useCheckAuthSessionQuery({
     refetchInterval: 1000 * 60 * 60 * 3,
     refetchOnWindowFocus: false,
     retry: false,
@@ -15,9 +12,9 @@ const AuthGuard = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    if (data) 
+    if (data)
       setUser(data.data.user);
-    
+
     if (isError)
       clearUser();
 

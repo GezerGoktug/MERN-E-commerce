@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import Button from "../../ui/Button/Button";
 import { useMaxPrice } from "../../../store/product/hooks";
 import { useQueryParams } from "../../../hooks/use-query-params";
-import { ProductSearchQueryType } from "../../../types/types";
+import { ProductSearchQueryType } from "../../../types/product.type";
 
 
 const Filter = () => {

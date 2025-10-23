@@ -4,44 +4,31 @@ import Button from "../../../ui/Button/Button";
 import styles from "./EditReviewModal.module.scss";
 import { FaPencil } from "react-icons/fa6";
 import { EditReviewModalDTO } from "../Reviews/Reviews";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useUpdateCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
 
 interface EditReviewModalProps {
   data: EditReviewModalDTO;
   closeModal: () => void;
 }
 
-interface CommentType {
-  rating: number;
-  content: string;
-  productId: string;
-}
-
 const EditReviewModal = ({ data, closeModal }: EditReviewModalProps) => {
-  const queryClient = useQueryClient();
   const params = useParams();
 
   const [rating, setRating] = useState<number>(data.rating || 0);
   const [content, setContent] = useState<string>(data.content || "");
 
-  const mutation = useMutation({
-    mutationKey: ["update_comment"],
-    mutationFn: (body: CommentType) => {
-      return api.put(`/product/comment/${data._id}`, body);
-    },
-    onSuccess: async (data) => {
-      toast.success(data.data.message);
-      await queryClient.invalidateQueries({ queryKey: ["product_detail"] });
+  const { mutate, isPending } = useUpdateCommentMutation({
+    onSuccess: (data) => {
+      toast.success(data.data?.message);
       closeModal();
     },
     onError: (error) => {
       const apiError = error?.response?.data?.error.errorMessage;
       if (typeof apiError === "string") toast.error(apiError);
-    },
-  });
+    }
+  })
 
   const updateComment = () => {
     if (params.id) {
@@ -50,7 +37,7 @@ const EditReviewModal = ({ data, closeModal }: EditReviewModalProps) => {
         content,
         productId: params.id,
       };
-      mutation.mutate(body);
+      mutate({ commentId: data._id, body });
     }
   };
 
@@ -78,7 +65,7 @@ const EditReviewModal = ({ data, closeModal }: EditReviewModalProps) => {
           size="sm"
           rightIcon={FaPencil}
           rightIconSize={15}
-          loading={mutation.isPending}
+          loading={isPending}
           onClick={() => updateComment()}
         >
           UPDATE

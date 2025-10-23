@@ -2,38 +2,57 @@ import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import styles from "./PaymentResult.module.scss";
 import Button from "../../components/ui/Button/Button";
 import { FaCircleUser } from "react-icons/fa6";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import api from "../../utils/api";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
 import { clearCart } from "../../store/cart/actions";
 import { Helmet } from "react-helmet";
-
-const confirmOrder = async (orderId: string, payment: boolean) => {
-  const data = await api.put(`/order/${orderId}`, { payment });
-  toast.success(data.data.message);
-};
-
-const deleteOrder = async (orderId: string) => {
-  await api.delete(`/order/${orderId}`);
-};
+import { useConfirmOrderPaymentMutation, useDeleteOrderMutation } from "../../services/hooks/mutations/order.mutations";
 
 const PaymentResult = () => {
-  const searchParams = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const isSuccess =
-    searchParams[0]?.get("isSuccess") &&
-    searchParams[0]?.get("isSuccess") === "true";
+  const { mutate: confirmOrderMutation } = useConfirmOrderPaymentMutation({
+    onSuccess: (data) => {
+      clearCart();
+      toast.success(data.data.message);
+      const params = new URLSearchParams(searchParams);
+      params.delete("orderId");
+      params.delete("sessionId");
+      setSearchParams(params);
+    },
+    onError(error) {
+      const apiError = error.response?.data.error.errorMessage;
+      if (typeof apiError === "string") {
+        toast.error(apiError);
+      }
+    },
+  });
+  const { mutate: deleteOrderMutation } = useDeleteOrderMutation();
+
+  const isSuccess = searchParams.get("isSuccess") && Number(searchParams.get("isSuccess"));
 
   useEffect(() => {
-    if (searchParams[0].get("orderId") && isSuccess) {
-      confirmOrder(searchParams[0].get("orderId") as string, true);
-      clearCart();
-    } else {
-      deleteOrder(searchParams[0].get("orderId") as string);
+    if (searchParams.get("sessionId") && searchParams.get("orderId")) {
+      if (isSuccess) {
+        confirmOrderMutation({ orderId: searchParams.get("orderId") as string, isPayment: true, sessionId: searchParams.get("sessionId") as string });
+      } else if (!isSuccess) {
+        deleteOrderMutation(searchParams.get("orderId") as string);
+      }
     }
   }, [searchParams, isSuccess]);
+
+  useEffect(() => {
+    if (!searchParams.get("sessionId"))
+      navigate("/");
+    
+  }, [searchParams, navigate])
+
+
+  if(!searchParams.get("sessionId"))
+    return null;
 
   return (
     <div className={styles.payment_result_wrapper}>

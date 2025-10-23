@@ -1,17 +1,10 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
-export interface UserType {
-  email: string;
-  name: string;
-  lastLoggedIn: Date;
-  role: "ADMIN" | "USER";
-  image: string;
-}
+import { ExtendedUserType } from "../../types/user.type";
 
 type Store = {
-  user: UserType | null;
-  __setUser: (user: UserType) => void;
+  user: ExtendedUserType | null;
+  __setUser: (user: ExtendedUserType) => void;
   __clearUser: () => void;
 };
 

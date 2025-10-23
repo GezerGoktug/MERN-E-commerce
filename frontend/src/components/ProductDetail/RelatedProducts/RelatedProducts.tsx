@@ -1,11 +1,10 @@
 
 import styles from "./RelatedProducts.module.scss";
-import { ProductType } from "../../../types/types";
+import { ProductType } from "../../../types/product.type";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import ProductCard from "../../common/ProductItem/ProductItem";
-import { useQuery } from "@tanstack/react-query";
 import { isAccess } from "../../../store/auth/hooks";
-import api from "../../../utils/api";
+import { useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const RelatedProducts = ({
   products = [],
@@ -14,16 +13,16 @@ const RelatedProducts = ({
   products: ProductType[];
   isPending: boolean;
 }) => {
-
-  const { data: favProductInfo } = useQuery<{ data: { _id: string, isFav: boolean }[] }>({
-    queryKey: ['isRelatedProductInFavProduct', products.map(p => p._id).toString()],
-    queryFn: () => api.post("/product/favourites/isProductInFav", {
-      productIds: products.map(item => item._id)
-    }),
-    enabled: (!!products.length && isAccess())
-  });
+  const { data: favProductInfo } = useIsProductsInFavQuery(
+    products.map(item => item._id),
+    ["isRelatedProductInFavProduct"],
+    {
+      enabled: (!!products.length && isAccess())
+    }
+  )
 
   const isFavProduct = (_id: string) => favProductInfo?.data.find(dt => dt._id === _id)?.isFav || false
+  
   return (
     <div className={styles.related_products}>
       <div className={styles.related_products_top}>

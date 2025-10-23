@@ -1,8 +1,6 @@
 import toast from "react-hot-toast";
 import Button from "../../../../ui/Button/Button";
 import Input from "../../../../ui/Input/Input";
-import { useMutation } from "@tanstack/react-query";
-import api from "../../../../../utils/api";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +8,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import styles from "./ChangePassword.module.scss";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useResetPasswordMutation } from "../../../../../services/hooks/mutations/user.mutations";
 
 const schema = z
   .object({
@@ -45,17 +44,7 @@ const ChangePassword = ({
     }
   })
 
-  const mutation = useMutation({
-    mutationFn: (data: z.infer<typeof schema>) => {
-      return api.post(`/user/reset-password`, {
-        newPassword: data.newPassword,
-        resetPasswordEmail
-      }, {
-        headers: {
-          Authorization: `Bearer ${resetPasswordToken}`
-        }
-      });
-    },
+  const { mutate } = useResetPasswordMutation({
     onSuccess: (data) => {
       toast.success(data.data.message);
       closeModal();
@@ -66,10 +55,7 @@ const ChangePassword = ({
     }
   });
 
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    mutation.mutate(data);
-  }
-
+  const onSubmit = (data: z.infer<typeof schema>) => mutate({ newPassword: data.newPassword, resetPasswordEmail, resetPasswordToken })
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const ShowPasswordIcon = showPassword ? FaEye : FaEyeSlash;

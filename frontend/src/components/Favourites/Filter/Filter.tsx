@@ -4,7 +4,7 @@ import styles from './Filter.module.scss';
 import Input from '../../ui/Input/Input';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useQueryParams } from '../../../hooks/use-query-params';
-import { ProductSearchQueryType } from '../../../types/types';
+import { ProductSearchQueryType } from '../../../types/product.type';
 import useDebounce from '../../../hooks/use-debounce';
 import Modal from '../../ui/Modal/Modal';
 import FilterModal from './FilterModal/FilterModal';

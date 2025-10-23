@@ -1,4 +1,4 @@
-import { CartProductType, SizeType } from "../../types/types";
+import { CartProductType, SizeType } from "../../types/product.type";
 import cartStore from "./cartStore";
 
 export const addProductOfCart = (product: Omit<CartProductType, "quantity">) =>

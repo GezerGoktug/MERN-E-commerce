@@ -2,8 +2,9 @@
 @use "../../../sass/utils-mixins" as u;
 @use "../../../sass/variables" as v;
 
-.reset_password_request_modal{
-  margin-bottom: 200px;
+.reset_password_request_modal_wrapper {
+  align-items: flex-start;
+  padding-block: 90px;
 }
 
 .register_wrapper {

@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import styles from "./Products.module.scss";
-import api from "../../../utils/api";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import clsx from "clsx";
 import { useState } from "react";
@@ -11,29 +9,9 @@ import {
 import Modal from "../../ui/Modal/Modal";
 import DeleteProductModal from "./DeleteProductModal/DeleteProductModal";
 import EditProductModal from "./EditProductModal/EditProductModal";
-import { IPaginationResult } from "../../../types/types";
-import buildQuery from "../../../utils/queryStringfy";
-
-interface IComment {
-  content: string;
-  rating: number;
-  createdAt: Date;
-  user: string;
-}
-
-interface IProduct {
-  _id: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-  subImages: string[];
-  sizes: Array<"SMALL" | "MEDIUM" | "LARGE" | "XLARGE" | "XXLARGE">;
-  category: "Kids" | "Men" | "Women";
-  subCategory: "Topwear" | "Bottomwear" | "Winterwear";
-  isBestseller: boolean;
-  comments: IComment[];
-}
+import { ExtendedProductType } from "../../../types/product.type";
+import { useGetProductsForAdminQuery } from "../../../services/hooks/queries/product.query";
+import { isAdmin } from "../../../store/auth/hooks";
 
 interface ModalState<T> {
   modal_type: "DELETE" | "EDIT";
@@ -41,7 +19,7 @@ interface ModalState<T> {
 }
 
 export type EditProductDTO = Pick<
-  IProduct,
+  ExtendedProductType,
   | "_id"
   | "name"
   | "description"
@@ -52,7 +30,7 @@ export type EditProductDTO = Pick<
   | "category"
   | "subCategory"
 >;
-export type DeleteProductDTO = Pick<IProduct, "_id">;
+export type DeleteProductDTO = Pick<ExtendedProductType, "_id">;
 
 const Products = () => {
   const [page, setPage] = useState(0);
@@ -61,9 +39,8 @@ const Products = () => {
     EditProductDTO | DeleteProductDTO
   > | null>(null);
 
-  const { data } = useQuery<{ data: IPaginationResult<IProduct, null> }>({
-    queryKey: ["admin-products", page],
-    queryFn: () => api.get(`/product/admin/list?${buildQuery({ page, pageSize: 15 })}`),
+  const { data } = useGetProductsForAdminQuery({ page }, {
+    enabled: isAdmin()
   });
 
   return (
@@ -98,7 +75,7 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.data.content.map((product: IProduct) => (
+          {data?.data.content.map((product) => (
             <tr key={product._id}>
               <td>
                 <img src={product.image} alt="" />

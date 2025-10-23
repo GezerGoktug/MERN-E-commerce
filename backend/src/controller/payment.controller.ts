@@ -1,15 +1,13 @@
 import { Response } from "express";
 import { CartProductType, ExtendedRequest } from "../types/types";
-import Stripe from "stripe";
 import dotenv from "dotenv";
 import { createOrder } from "./order.controller";
 import { JwtPayload } from "jsonwebtoken";
 import ResponseHandler from "../util/response";
 import { ErrorHandler } from "../error/errorHandler";
+import { stripe } from "../config/stripe";
 
 dotenv.config();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export const createPayment = async (req: ExtendedRequest, res: Response) => {
   const { products, cargoFee, delivery_info } = req.body;
@@ -62,8 +60,8 @@ export const createPayment = async (req: ExtendedRequest, res: Response) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=true&orderId=${response.orderId}`,
-    cancel_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=false&orderId=${response.orderId}`,
+    success_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=1&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
+    cancel_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=0&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
   });
 
   ResponseHandler.success(res, 200, { sessionId: session.id });

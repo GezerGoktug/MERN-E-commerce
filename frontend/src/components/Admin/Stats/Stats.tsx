@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import styles from "./Stats.module.scss";
-import api from "../../../utils/api";
 import { RiShoppingBagLine } from "react-icons/ri";
 import millify from "millify";
 import { FaMoneyBillTrendUp, FaRegCircleUser } from "react-icons/fa6";
@@ -31,8 +30,9 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
-import { useQuery } from "@tanstack/react-query";
 import { useTheme } from "../../../store/theme/hooks";
+import { useGetAdminStatisticsQuery } from "../../../services/hooks/queries/admin.query";
+import { isAdmin } from "../../../store/auth/hooks";
 
 const statsCardDefaultData = [
   {
@@ -89,11 +89,6 @@ interface StatCardType {
   dt: number | null;
   isMoneyUnit?: boolean;
 }
-
-type DataType = {
-  key: string;
-  dt: number;
-};
 
 interface CategoryDistribution {
   _id: {
@@ -152,21 +147,16 @@ const Stats = () => {
 
   const theme = useTheme();
 
-  const { data } = useQuery({
-    queryKey: ["admin-stats"],
-    queryFn: () => {
-      return api.get("/admin/stats");
-    },
-    refetchInterval: 1000 * 60 * 10,
-  });
+  const { data } = useGetAdminStatisticsQuery({ enabled: isAdmin() });
+
 
   useEffect(() => {
     setStatsCard(
       statsCard.map((item) => ({
         ...item,
         dt: data?.data.stats_card.find(
-          (stat: DataType) => stat.key === item.key
-        ).dt,
+          (stat) => stat.key === item.key
+        )?.dt || null,
       }))
     );
   }, [data]);

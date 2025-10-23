@@ -3,19 +3,12 @@ import Button from "../../ui/Button/Button";
 import styles from "./DetailContent.module.scss";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { ProductDetailContentType, SizeType } from "../../../types/types";
+import { ProductDetailContentType, SizeType } from "../../../types/product.type";
 import { createRatingArray } from "../../../helper/createRatingArray";
 import { addProductOfCart } from "../../../store/cart/actions";
 import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../utils/api";
 import { isAccess } from "../../../store/auth/hooks";
-
-const addFav = (_id: string) => api.post('/product/favourites/add', {
-  productId: _id
-})
-
-const removeFav = (_id: string) => api.delete(`/product/favourites/${_id}`);
+import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
 
 const getSize = (size: string) => {
   switch (size) {
@@ -37,11 +30,10 @@ const getSize = (size: string) => {
 const DetailContent = ({
   productDetail,
 }: {
-  productDetail: ProductDetailContentType;
+  productDetail: ProductDetailContentType & { isFav: boolean };
 }) => {
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
   const [isFav, setIsFav] = useState(false);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     setIsFav(productDetail.isFav);
@@ -54,13 +46,10 @@ const DetailContent = ({
   }, [isAccess()])
 
 
-  const mutation = useMutation({
-    mutationFn: () => isFav ? removeFav(productDetail._id) : addFav(productDetail._id),
-    onSuccess: async (data) => {
+  const { mutate } = useHandleFavouriteMutation({
+    onSuccess: (data) => {
       toast.success(data.data.message);
       setIsFav(!isFav);
-      await queryClient.invalidateQueries({ queryKey: ['favProductCount'] })
-      await queryClient.invalidateQueries({ queryKey: ['favProducts'] })
     },
     onError: (error) => {
       setIsFav(!isFav)
@@ -68,7 +57,8 @@ const DetailContent = ({
       if (typeof apiError === "string") toast.error(apiError);
     }
   })
-  const toggleFavourite = () => isAccess() ? mutation.mutate() : toast.error('Please you login for add product to your favourites');
+
+  const toggleFavourite = () => isAccess() ? mutate({ productId: productDetail._id, isFav }) : toast.error('Please you login for add product to your favourites');
 
   const handleAddCart = () => {
     if (selectedSize === null) {

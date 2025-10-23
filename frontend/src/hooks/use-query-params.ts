@@ -61,7 +61,7 @@ export function useQueryParams<T extends Record<string, ValueTypes>>(defaults: T
         }
         newParams.sort();
 
-        setSearchParams(newParams);
+        setSearchParams(newParams, { replace: true });
       };
     });
 
@@ -93,7 +93,7 @@ export function useQueryParams<T extends Record<string, ValueTypes>>(defaults: T
       });
 
       newParams.sort();
-      setSearchParams(newParams);
+      setSearchParams(newParams, { replace: true });
     };
   }, [searchParams, setSearchParams, defaults]);
 

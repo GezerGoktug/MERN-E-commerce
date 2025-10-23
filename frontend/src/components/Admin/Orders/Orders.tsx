@@ -1,19 +1,12 @@
 import styles from "./Orders.module.scss";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../utils/api";
-import { IOrder } from "../../../types/types";
 import OrderItem from "../../common/OrderItem/OrderItem";
+import { useAdminOrdersQuery } from "../../../services/hooks/queries/order.query";
 
 const Orders = () => {
-  const { data } = useQuery({
-    queryKey: ["my-orders"],
-    queryFn: () => {
-      return api.get("/order/admin/list");
-    },
-  });
+  const { data } = useAdminOrdersQuery();
   return (
     <div className={styles.orders}>
-      {data?.data.map((order: IOrder) => (
+      {data?.data.map((order) => (
         <OrderItem isAdminOrder key={order._id} order={order} />
       ))}
     </div>

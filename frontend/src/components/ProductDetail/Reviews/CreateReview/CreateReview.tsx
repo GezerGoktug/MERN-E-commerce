@@ -4,43 +4,31 @@ import Rating from "./Rating/Rating";
 import { useState } from "react";
 import { isAccess, useAccount } from "../../../../store/auth/hooks";
 import { Link, useParams } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import toast from "react-hot-toast";
-
-interface CommentType {
-  rating: number;
-  content: string;
-  productId: string;
-}
+import { useCreateCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
 
 const CreateReview = () => {
   const currentUser = useAccount();
-  const queryClient = useQueryClient();
   const params = useParams();
   const [rating, setRating] = useState<number>(0);
   const [content, setContent] = useState<string>("");
   const [clearRating, setClearRating] = useState(false);
 
-  const mutation = useMutation({
-    mutationFn: (data: CommentType) => {
-      return api.post("/product/comment/add", data);
-    },
-    onSuccess: async (data) => {
+  const { mutate, isPending } = useCreateCommentMutation({
+    onSuccess: (data) => {
       toast.success(data.data.message);
       setClearRating(false);
-      await queryClient.invalidateQueries({ queryKey: ["product_detail"] });
     },
-    onError: (error) => {
+    onError(error) {
       const apiError = error?.response?.data?.error.errorMessage;
       if (typeof apiError === "string") toast.error(apiError);
       setClearRating(false);
     },
-  });
+  })
 
   const handleComment = () => {
     if (params.id) {
-      mutation.mutate({
+      mutate({
         rating,
         productId: params?.id,
         content,
@@ -71,7 +59,7 @@ const CreateReview = () => {
                 id=""
               ></textarea>
               <Button
-                loading={mutation.isPending}
+                loading={isPending}
                 onClick={() => handleComment()}
                 className={styles.create_review_btn}
               >

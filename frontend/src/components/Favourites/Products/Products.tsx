@@ -4,16 +4,13 @@ import { RiMenuSearchLine } from 'react-icons/ri'
 import Button from '../../ui/Button/Button'
 import { GrPowerReset } from 'react-icons/gr'
 import ProductCard from '../../common/ProductItem/ProductItem'
-import { useQuery } from '@tanstack/react-query'
-import api from '../../../utils/api'
-import { IPaginationResult, ProductSearchQueryType, ProductType } from '../../../types/types'
+import { ProductSearchQueryType } from '../../../types/product.type'
 import { useQueryParams } from '../../../hooks/use-query-params'
-import { generateSortingType } from '../../../helper/generateSortingType'
 import { useEffect } from 'react'
 import { setPagination } from '../../../store/product/actions'
-import buildQuery from '../../../utils/queryStringfy'
 import DataStateHandler from '../../common/DataStateHandler/DataStateHandler'
 import { FaCircleXmark } from 'react-icons/fa6'
+import { useGetFavProductsQuery } from '../../../services/hooks/queries/product.query'
 
 const Products = () => {
     const { queryState, clearQuery } = useQueryParams<Pick<ProductSearchQueryType, 'page' | 'categories' | 'searchQuery' | 'subCategories' | 'sorting'>>({
@@ -26,30 +23,12 @@ const Products = () => {
 
     const { searchQuery, page, categories, subCategories, sorting } = queryState;
 
-    const { data, isPending, isError, refetch } = useQuery<{
-        data: IPaginationResult<ProductType, object>;
-    }>({
-        queryKey: [
-            'favProducts',
-            sorting,
-            page,
-            categories,
-            subCategories,
-            searchQuery,
-        ],
-        queryFn: () => {
-            const sortProps = generateSortingType(sorting);
-
-            return api.get(`/product/favourites/list?${buildQuery({
-                categories,
-                subCategory: subCategories,
-                ...(searchQuery.trim().length > 2 && { searchQuery }),
-                ...(sortProps.field && { sortField: sortProps.field }),
-                sortType: sortProps.type,
-                page,
-                pageSize: 10
-            })}`)
-        }
+    const { data, isPending, isError, refetch } = useGetFavProductsQuery({
+        sorting,
+        page,
+        categories,
+        subCategories,
+        searchQuery,
     })
 
     useEffect(() => {

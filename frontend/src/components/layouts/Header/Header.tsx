@@ -4,15 +4,11 @@ import HeaderCenter from "./HeaderCenter/HeaderCenter";
 import HeaderRight from "./HeaderRight/HeaderRight";
 
 const Header = () => {
-
-  
-
   return (
     <header className={styles.header}>
         <HeaderLeft/>
         <HeaderCenter/>
         <HeaderRight/>
-
     </header>
   );
 };

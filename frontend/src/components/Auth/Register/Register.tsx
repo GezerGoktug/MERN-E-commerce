@@ -8,13 +8,13 @@ import { ErrorMessage } from "@hookform/error-message";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
-import { useMutation } from "@tanstack/react-query";
-import api from "../../../utils/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setUser } from "../../../store/auth/actions";
 import Modal from "../../ui/Modal/Modal";
 import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
+import { useRegisterMutation } from "../../../services/hooks/mutations/auth.mutations";
+import AuthService from "../../../services/actions/auth.service";
 
 type RegisterProps = {
   chanceForm: () => void;
@@ -61,7 +61,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
         );
       } else return;
 
-      const res = await api.get("/auth/session");
+      const res = await AuthService.getSession();
       setUser(res.data.user);
 
       setTimeout(() => {
@@ -77,11 +77,8 @@ const Register = ({ chanceForm }: RegisterProps) => {
     }
   }, [searchParams]);
 
-  const mutation = useMutation({
-    mutationFn: (data: z.infer<typeof schema>) => {
-      return api.post("/auth/register", data);
-    },
-    onSuccess: (data) => {
+  const { mutate, isPending } = useRegisterMutation({
+    onSuccess(data) {
       setUser(data.data.user);
       localStorage.setItem("accessToken", data.data.accessToken);
       toast.success(data.data.message);
@@ -100,9 +97,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    mutation.mutate(data);
-  };
+  const onSubmit = (data: z.infer<typeof schema>) => mutate(data);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
@@ -115,7 +110,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
 
   return (
     <div className={styles.register_wrapper}>
-      <Modal className={styles.reset_password_request_modal} open={modal} closeModal={() => setModal(false)}>
+      <Modal wrapperClassName={styles.reset_password_request_modal_wrapper} open={modal} closeModal={() => setModal(false)}>
         <ResetPasswordModal closeModal={() => setModal(false)} />
       </Modal>
       <h5>Sign Up</h5>
@@ -210,7 +205,7 @@ const Register = ({ chanceForm }: RegisterProps) => {
           <span onClick={() => setModal(true)}>Forgot your password?</span>
           <span onClick={() => chanceForm()}>Login here</span>
         </div>
-        <Button className={styles.register_btn} type="submit">
+        <Button className={styles.register_btn} type="submit" loading={isPending} >
           Sign Up
         </Button>
       </form>

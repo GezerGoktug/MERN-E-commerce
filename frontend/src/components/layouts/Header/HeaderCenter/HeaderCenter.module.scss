@@ -1,5 +1,6 @@
 @use "../../../../sass/utils-mixins" as u;
 @use "../../../../sass/mixins" as m;
+@use "../../../../sass/variables" as v;
 
 .header_center_links {
   @include u.row-center;
@@ -16,12 +17,11 @@
       content: "";
       width: 50%;
       height: 2px;
-      background-color: black;
+      background-color: v.$text-color;
       position: absolute;
       bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: sas;
     }
   }
 }

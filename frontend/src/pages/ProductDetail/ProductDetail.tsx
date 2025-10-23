@@ -7,30 +7,21 @@ import CreateReview from "../../components/ProductDetail/Reviews/CreateReview/Cr
 import Reviews from "../../components/ProductDetail/Reviews/Reviews/Reviews";
 import styles from "./ProductDetail.module.scss";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import api from "../../utils/api";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import { isAccess } from "../../store/auth/hooks";
+import { useGetProductDetailQuery, useIsFavouriteProductById } from "../../services/hooks/queries/product.query";
+import { ProductDetailType } from "../../types/product.type";
 
 const ProductDetail = () => {
   const [tabChange, setTabChange] = useState(true);
 
   const params = useParams();
 
-  const { data, error, isPending } = useQuery({
-    queryKey: ["product_detail", params.id],
-    queryFn: () => {
-      return api.get(`/product/${params.id}`);
-    },
-  });
+  const { data, error, isPending } = useGetProductDetailQuery(params.id as string);
 
-  const { data:productFavData } = useQuery({
-    queryKey: ['productDetailFav', params.id],
-    queryFn: () => api.get(`/product/favourites/${params.id}`),
-    enabled: isAccess()
-  })
+  const { data: productFavData } = useIsFavouriteProductById(params.id as string, { enabled: isAccess() })
 
   if (error)
     return (
@@ -48,9 +39,9 @@ const ProductDetail = () => {
       </div>
     );
 
-  const { comments, relatedProducts, ...otherProductProperties } =
-    data?.data || {};
-  const { image, subImages, ...productDetail } = otherProductProperties;
+  const { comments = [], relatedProducts = [], ...otherProductProperties } =
+    (data?.data as Omit<ProductDetailType, "isFav">) || {};
+  const { image, subImages, ...productDetail } = otherProductProperties || {};
 
   return (
     <div className={styles.product_detail_wrapper}>
@@ -105,7 +96,7 @@ const ProductDetail = () => {
         ) : (
           <>
             <DetailPictures images={{ image, subImages }} />
-            <DetailContent productDetail={{ image, isFav: productFavData?.data.isFav, ...productDetail }} />
+            <DetailContent productDetail={{ image, isFav: productFavData?.data.isFav as boolean, ...productDetail }} />
           </>
         )}
       </div>

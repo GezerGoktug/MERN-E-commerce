@@ -6,12 +6,12 @@ import {
   deleteOrder,
   getAllOrders,
   getMyOrder,
-  updateOrder,
+  confirmOrderPayment,
 } from "../controller/order.controller";
 
 const router = express.Router();
 
-router.put("/:id", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(updateOrder));
+router.put("/confirm-order-payment/:id", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(confirmOrderPayment));
 router.delete("/:id", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(deleteOrder));
 router.post("/add", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(createOrderRoute));
 router.get("/my-order", asyncHandler(protect), asyncHandler(checkRole(["USER", "ADMIN"])), asyncHandler(getMyOrder));

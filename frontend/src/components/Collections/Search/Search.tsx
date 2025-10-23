@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import useDebounce from "../../../hooks/use-debounce";
 import { useEffect, useState } from "react";
 import { useQueryParams } from "../../../hooks/use-query-params";
-import { ProductSearchQueryType } from "../../../types/types";
+import { ProductSearchQueryType } from "../../../types/product.type";
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation } from "react-router-dom";
 

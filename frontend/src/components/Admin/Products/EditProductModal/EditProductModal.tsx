@@ -6,13 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useState } from "react";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../../../../utils/api";
 import Input from "../../../ui/Input/Input";
 import Button from "../../../ui/Button/Button";
-import { SizeType } from "../../../../types/types";
+import { SizeType } from "../../../../types/product.type";
 import { EditProductDTO } from "../Products";
 import { productSchema } from "../../../../schemas/schema";
+import { useUpdateProductMutation } from "../../../../services/hooks/mutations/product.mutations";
 
 interface EditProductModalProps {
   data: EditProductDTO;
@@ -27,7 +26,6 @@ type ImagesType = {
 };
 
 const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
-  const queryClient = useQueryClient();
   const [images, setImages] = useState<ImagesType>({
     mainImage: data.image,
     subImage1: data.subImages[1],
@@ -46,8 +44,8 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
       description: data.description,
       price: data.price.toString(),
       sizes: data.sizes,
-      category:data.category,
-      subCategory:data.subCategory
+      category: data.category,
+      subCategory: data.subCategory
     },
   });
 
@@ -78,13 +76,8 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
     }
   };
 
-  const mutation = useMutation({
-    mutationKey: [""],
-    mutationFn: (updatedData: FormData) => {
-      return api.put(`/product/${data._id}`, updatedData);
-    },
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+  const { mutate, isPending } = useUpdateProductMutation({
+    onSuccess: (data) => {
       toast.success(data.data.message);
       form.reset();
       closeModal();
@@ -104,27 +97,27 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof productSchema>) => {
+  const onSubmit = (dt: z.infer<typeof productSchema>) => {
     const formData = new FormData();
 
-    if (!data.mainImage) {
+    if (!dt.mainImage) {
       toast.error("The product must have one main image.");
       return;
     }
 
-    formData.append("mainImage", data.mainImage);
-    formData.append("subImage1", data.subImage1);
-    formData.append("subImage2", data.subImage2);
-    formData.append("subImage3", data.subImage3);
+    formData.append("mainImage", dt.mainImage);
+    formData.append("subImage1", dt.subImage1);
+    formData.append("subImage2", dt.subImage2);
+    formData.append("subImage3", dt.subImage3);
 
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("category", data.category);
-    formData.append("subCategory", data.subCategory);
-    formData.append("price", data.price);
-    formData.append("sizes", JSON.stringify(data.sizes));
+    formData.append("name", dt.name);
+    formData.append("description", dt.description);
+    formData.append("category", dt.category);
+    formData.append("subCategory", dt.subCategory);
+    formData.append("price", dt.price);
+    formData.append("sizes", JSON.stringify(dt.sizes));
 
-    mutation.mutate(formData);
+    mutate({ id: data._id, updatedProduct: formData });
   };
   return (
     <div className={styles.edit_product_modal_wrapper}>
@@ -300,7 +293,7 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
             </div>
           ))}
         </div>
-        <Button loading={mutation.isPending} type="submit">
+        <Button loading={isPending} type="submit">
           EDIT
         </Button>
       </form>

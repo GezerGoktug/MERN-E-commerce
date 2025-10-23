@@ -1,6 +1,6 @@
 import { SortType } from '../../../helper/generateSortingType';
 import { useQueryParams } from '../../../hooks/use-query-params';
-import { ProductSearchQueryType } from '../../../types/types';
+import { ProductSearchQueryType } from '../../../types/product.type';
 import styles from './TopSection.module.scss';
 import { motion } from 'framer-motion'
 

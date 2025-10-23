@@ -4,20 +4,22 @@ import styles from './Filter.module.scss';
 import Input from '../../ui/Input/Input';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useQueryParams } from '../../../hooks/use-query-params';
-import { ProductSearchQueryType } from '../../../types/product.type';
+import { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '../../../types/product.type';
 import useDebounce from '../../../hooks/use-debounce';
 import Modal from '../../ui/Modal/Modal';
 import FilterModal from './FilterModal/FilterModal';
 import { AiFillFilter } from 'react-icons/ai';
 import { SortType } from '../../../helper/generateSortingType';
 
-const categoriesOptions = [
+export type OptionsType<T> = { value: T, label: T }[]
+
+const categoriesOptions: OptionsType<CategoriesType> = [
     { value: 'Men', label: 'Men' },
     { value: 'Women', label: 'Women' },
     { value: 'Kids', label: 'Kids' }
 ]
 
-const subCategoriesOptions = [
+const subCategoriesOptions: OptionsType<SubCategoriesType> = [
     { value: 'Topwear', label: 'Topwear' },
     { value: 'Bottomwear', label: 'Bottomwear' },
     { value: 'Winterwear', label: 'Winterwear' }

@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import Button from "../../ui/Button/Button";
 import { useMaxPrice } from "../../../store/product/hooks";
 import { useQueryParams } from "../../../hooks/use-query-params";
-import { ProductSearchQueryType } from "../../../types/product.type";
+import { CategoriesType, ProductSearchQueryType, SubCategoriesType } from "../../../types/product.type";
 
 
 const Filter = () => {
@@ -29,7 +29,7 @@ const Filter = () => {
 
   const handleCategoryChance = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setCategories([...categories, e.target.value])
+      setCategories([...categories, e.target.value as CategoriesType])
     } else {
       setCategories(categories.filter(item => item !== e.target.value));
     }
@@ -37,7 +37,7 @@ const Filter = () => {
 
   const handleSubCategoryChance = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setSubCategories([...subCategories, e.target.value])
+      setSubCategories([...subCategories, e.target.value as SubCategoriesType])
     } else {
       setSubCategories(subCategories.filter(item => item !== e.target.value));
     }

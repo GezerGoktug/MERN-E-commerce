@@ -4,7 +4,7 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { createRatingArray } from "../../../../helper/createRatingArray";
-import { ReviewType } from "../../../../types/types";
+import { ReviewType } from "../../../../types/product.type";
 import Dropdown from "../../../ui/Dropdown/Dropdown";
 import { HiDotsVertical } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";

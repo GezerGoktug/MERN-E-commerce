@@ -4,20 +4,18 @@ import styles from './FilterModal.module.scss';
 
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useQueryParams } from '../../../../hooks/use-query-params';
-import { ProductSearchQueryType } from '../../../../types/product.type';
+import { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '../../../../types/product.type';
 import Input from '../../../ui/Input/Input';
 import Button from '../../../ui/Button/Button';
+import { OptionsType } from '../Filter';
 
-
-
-
-const categoriesOptions = [
+const categoriesOptions: OptionsType<CategoriesType> = [
     { value: 'Men', label: 'Men' },
     { value: 'Women', label: 'Women' },
     { value: 'Kids', label: 'Kids' }
 ]
 
-const subCategoriesOptions = [
+const subCategoriesOptions: OptionsType<SubCategoriesType> = [
     { value: 'Topwear', label: 'Topwear' },
     { value: 'Bottomwear', label: 'Bottomwear' },
     { value: 'Winterwear', label: 'Winterwear' }
@@ -34,8 +32,8 @@ const FilterModal = ({ closeModal }: { closeModal: () => void }) => {
 
     const [filterData, setFilterData] = useState<{
         text: string,
-        categories: string[],
-        subCategories: string[]
+        categories: CategoriesType[],
+        subCategories: SubCategoriesType[]
     }>({
         text: '',
         categories: [],
@@ -90,7 +88,7 @@ const FilterModal = ({ closeModal }: { closeModal: () => void }) => {
                 options={subCategoriesOptions}
                 classNamePrefix="react-select"
             />
-            
+
 
             <Button onClick={() => applyFilter()} className={styles.filter_modal_btn}>
                 APPLY

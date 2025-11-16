@@ -8,11 +8,15 @@ import { ReviewType } from "../../../../types/product.type";
 import Dropdown from "../../../ui/Dropdown/Dropdown";
 import { HiDotsVertical } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";
-import { useState } from "react";
-import Modal from "../../../ui/Modal/Modal";
-import EditReviewModal from "../EditReviewModal/EditReviewModal";
-import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
+import { lazy, startTransition, Suspense, useState } from "react";
+// import Modal from "../../../ui/Modal/Modal";
+// import EditReviewModal from "../EditReviewModal/EditReviewModal";
+// import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import { useAccount } from "../../../../store/auth/hooks";
+
+const Modal = lazy(() => import("../../../ui/Modal/Modal"));
+const EditReviewModal = lazy(() => import("../EditReviewModal/EditReviewModal"));
+const DeleteReviewModal = lazy(() => import("../DeleteReviewModal/DeleteReviewModal"));
 
 interface ModalState<T> {
   modal_type: "DELETE" | "EDIT";
@@ -34,6 +38,7 @@ const Reviews = ({ reviews }: { reviews: ReviewType[] }) => {
 
   return (
     <div className={styles.reviews_wrapper}>
+      <Suspense fallback={<div></div>}>
       <Modal
         open={modal?.modal_type === "EDIT"}
         closeModal={() => setModal(null)}
@@ -48,10 +53,12 @@ const Reviews = ({ reviews }: { reviews: ReviewType[] }) => {
         closeModal={() => setModal(null)}
       >
         <DeleteReviewModal
-          closeModal={() => setModal(null)}
+          closeModal={() =>setModal(null)}
           data={modal?.data as DeleteReviewModalDTO}
         />
       </Modal>
+
+      </Suspense>
       <h5>{reviews.length} Reviews</h5>
       <div className={styles.reviews}>
         {reviews.map((item) => (

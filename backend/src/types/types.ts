@@ -25,3 +25,23 @@ export interface CartProductType {
   name: string;
   image: string;
 }
+
+
+interface IComment {
+  content: string;
+  rating: number;
+  createdAt: Date;
+}
+
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  subImages: string[];
+  sizes: SizeType[];
+  category: "Kids" | "Men" | "Women";
+  subCategory: "Topwear" | "Bottomwear" | "Winterwear";
+  comments: IComment[];
+}

@@ -6,26 +6,41 @@
   border: 1px solid v.$secondary-color;
   position: relative;
   width: 100%;
-  input {
+
+  input,textarea {
     border: 0px;
     outline: 0px;
     width: 100%;
     background-color: transparent;
   }
+
+  textarea {
+    resize: none;
+    overflow-y: auto;
+  }
+  &:has(textarea){
+    .input_right_icon{
+      top: 18px;
+    }
+  }
+
   .input_right_icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 10px;
     cursor: pointer;
+    
   }
 }
 
 .lg {
   padding: 12px 14px;
+
   &.isRightIcon {
     padding-right: 40px;
   }
+
   input {
     font-size: 16px;
   }
@@ -33,9 +48,11 @@
 
 .md {
   padding: 8px 14px;
+
   &.isRightIcon {
     padding-right: 40px;
   }
+
   input {
     font-size: 14px;
   }
@@ -43,9 +60,11 @@
 
 .sm {
   padding: 5px 14px;
+
   &.isRightIcon {
     padding-right: 40px;
   }
+
   input {
     font-size: 13px;
   }

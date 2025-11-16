@@ -11,21 +11,41 @@ interface InputProps<T extends FieldValues>
   rightIconSize?: number;
   rightIconOnClick?: () => void;
   fields?: ControllerRenderProps<T>;
-  customInput?:ElementType;
-  mask?:string;
+  customInput?: ElementType;
+  inputClassName?: string;
+  mask?: string;
+  isAutoSize?: boolean;
 }
 
 const Input = <T extends FieldValues>({
+  isAutoSize = false,
   size = "md",
   rightIcon: Icon,
   rightIconOnClick,
   rightIconSize = 20,
   className,
+  inputClassName,
   fields,
-  customInput:CustomInput,
+  customInput: CustomInput,
   ...props
 }: InputProps<T>) => {
-  const Component = CustomInput || "input";
+  const Component = CustomInput || (isAutoSize ? "textarea" : "input");
+
+  const resize = (el: HTMLInputElement | HTMLTextAreaElement) => {
+    if (!el.value) {
+      el.style.height = "16px";
+      return;
+    }
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+
+
+  const handleOnInput = (e: React.ChangeEvent<HTMLInputElement>) => {    
+    const el = e.target;
+    if (el) resize(el);
+  }
+
   return (
     <div
       className={clsx(
@@ -35,7 +55,15 @@ const Input = <T extends FieldValues>({
         className
       )}
     >
-      <Component type="text" {...props} {...fields} />
+      <Component
+        type="text"
+        onInput={handleOnInput}
+        className={clsx(inputClassName)}
+        {...(isAutoSize ? { rows: 1 } : null)}
+        {...props}
+        {...fields}
+
+      />
       {Icon && (
         <Icon
           onClick={rightIconOnClick}

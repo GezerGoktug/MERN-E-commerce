@@ -58,6 +58,14 @@ export const productSchema = new mongoose.Schema({
     enum: ["Topwear", "Bottomwear", "Winterwear"],
     required: true,
   },
+  embedding: {
+    type: [Number],
+    default: []
+  },
+  embedding_text: {
+    type: String,
+    default: ""
+  },
   comments: [CommentSchema],
 });
 

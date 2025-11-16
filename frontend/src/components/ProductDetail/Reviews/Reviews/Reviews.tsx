@@ -8,10 +8,7 @@ import { ReviewType } from "../../../../types/product.type";
 import Dropdown from "../../../ui/Dropdown/Dropdown";
 import { HiDotsVertical } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";
-import { lazy, startTransition, Suspense, useState } from "react";
-// import Modal from "../../../ui/Modal/Modal";
-// import EditReviewModal from "../EditReviewModal/EditReviewModal";
-// import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
+import { lazy, Suspense, useState } from "react";
 import { useAccount } from "../../../../store/auth/hooks";
 
 const Modal = lazy(() => import("../../../ui/Modal/Modal"));

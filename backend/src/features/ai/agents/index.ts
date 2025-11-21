@@ -39,7 +39,7 @@ async function retryInvoke<T>(
 
 class Workflow {
     private tools = [productLookupTool, companyBriefTool]
-    private model = callGoogleGenAIModel.bindTools(this.tools);
+    private model = callGoogleGenAIModel;
     private workflow: any = null;
     private GraphState: AnnotationRoot<{
         messages: BinaryOperatorAggregate<BaseMessage[], BaseMessage[]>;
@@ -102,7 +102,7 @@ class Workflow {
     }
 
     private initializeWorkflow() {
-        const toolNode = new ToolNode<typeof this.GraphState.State>(this.tools);;
+        const toolNode = new ToolNode<typeof this.GraphState.State>(this.tools);
         this.workflow = new StateGraph(this.GraphState)
             .addNode("agent", this.callModel.bind(this))
             .addNode("tools", toolNode)
@@ -219,8 +219,9 @@ class Workflow {
 
         const formattedPrompt = await prompt.formatMessages({ messages: state.messages });
 
+        const modelWithTools = this.model.bindTools(this.tools);
 
-        const result = await this.model.invoke(formattedPrompt);
+        const result = await modelWithTools.invoke(formattedPrompt);
         return { messages: [result] };
 
     }
@@ -229,8 +230,8 @@ class Workflow {
 }
 
 export class ChatBotAgent {
-    private static workflow = (new Workflow()).getWorkflow();
-    private static GraphState = (new Workflow()).getStateGraph();
+    private static workflow: any = null;
+    private static GraphState: any = null;
     private static memorySaver = new MemorySaver();
 
     public static async deleteThreadByThreadId(threadId: string) {
@@ -297,8 +298,16 @@ export class ChatBotAgent {
         return formattedMessages;
     }
 
+    private static initializeWorkflow() {
+        const workflow = new Workflow();
+        this.workflow = workflow.getWorkflow();
+        this.GraphState = workflow.getStateGraph();
+    }
 
     public static async callAgent(query: string, threadId: string = "default") {
+        if (!this.workflow && !this.GraphState) {
+            this.initializeWorkflow();
+        }
         const app = this.workflow.compile({ checkpointer: this.memorySaver });
 
 
@@ -336,7 +345,7 @@ export class ChatBotAgent {
             products: parsedData.products || [],
         };
 
-        const messages = finalState.messages.map(msg => ({
+        const messages = finalState.messages.map((msg: BaseMessage) => ({
             type: msg._getType(),
             content: msg.content,
         }));

@@ -67,7 +67,7 @@ app.use(
   })
 );
 
-app.use("/api", mainRouter)
+app.use("/api", mainRouter);
 
 if (process.env.NODE_ENV === "development") {
   const swaggerDocument = require("./swagger.json");

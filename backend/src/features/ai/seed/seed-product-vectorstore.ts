@@ -1,5 +1,4 @@
 import callGoogleGenAIEmbeddingsModel from "../models/embeddings";
-import { MongoDBAtlasVectorSearch } from "@langchain/mongodb"
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { MongoClient } from "mongodb";
 import { Product } from "../../../models/Product.schema";
@@ -41,8 +40,6 @@ export const createVectorIndex = async (client: MongoClient) => {
 export class ProductsVectorStore {
   private static readonly embeddingModel: GoogleGenerativeAIEmbeddings =
     callGoogleGenAIEmbeddingsModel;
-  private static vectorStore: MongoDBAtlasVectorSearch | null = null;
-  private static lastLoadDate: Date | null = null;
 
   /** Ürünleri seed et (ilk kurulum veya update) */
   public static async seedProductsVectorSctore() {

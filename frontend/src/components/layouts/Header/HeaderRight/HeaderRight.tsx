@@ -2,8 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./HeaderRight.module.scss";
 import { RiHeartLine, RiUser3Line } from "react-icons/ri";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { IoSearch } from "react-icons/io5";
-import { FaBars } from "react-icons/fa6";
+import { IoSearch, IoSunny } from "react-icons/io5";
+import { FaBars, FaMoon } from "react-icons/fa6";
 import { useState } from "react";
 import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
@@ -12,11 +12,14 @@ import Tooltip from "../../../ui/Tooltip/Tooltip";
 import { isAccess } from "../../../../store/auth/hooks";
 import clsx from "clsx";
 import { useGetFavProductsCountQuery } from "../../../../services/hooks/queries/product.query";
+import { useTheme } from "../../../../store/theme/hooks";
+import { setTheme } from "../../../../store/theme/actions";
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const theme = useTheme();
 
   const { data } = useGetFavProductsCountQuery([isAccess() ? "favProductEnabled" : "favProductDisabled"], {
     enabled: isAccess(),
@@ -29,6 +32,16 @@ const HeaderRight = () => {
       state: { searchBarOpen: true },
       message: "Search",
       preserveSearch: true
+    },
+    {
+      render: (
+        <Tooltip message="Change Theme" >
+          {
+            theme === "dark" ? <FaMoon className={styles.theme_icon} size={25} onClick={() => setTheme("light")} /> : <IoSunny className={styles.theme_icon} size={25} onClick={() => setTheme("dark")} />
+          }
+        </Tooltip>
+      ),
+      is_custom_item: true
     },
     {
       icon: RiUser3Line,
@@ -53,7 +66,7 @@ const HeaderRight = () => {
     {
       icon: FaBars,
       menu_icon: true,
-    },
+    }
   ];
 
   return (
@@ -68,7 +81,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, is_fav_badge, message, preserveSearch }, i) => (
+        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, is_fav_badge, message, preserveSearch, is_custom_item, render }, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -78,26 +91,27 @@ const HeaderRight = () => {
                   size={25}
                 />
               </>
-            ) : (
-              href && (
-                <Tooltip message={message}>
-                  <Link
-                    to={{
-                      pathname: href,
-                      search: preserveSearch ? location.search : '',
-                    }}
-                    state={state}
-                  >
-                    <Icon size={25} />
-                    {is_count_badge && (
-                      <span className={clsx(styles.header_right_badge, { [styles.is_fav_badge]: is_fav_badge })}>
-                        {badge_data}
-                      </span>
-                    )}
-                  </Link>
-                </Tooltip>
-              )
-            )}
+            ) :
+              is_custom_item ? render : (
+                href && (
+                  <Tooltip message={message}>
+                    <Link
+                      to={{
+                        pathname: href,
+                        search: preserveSearch ? location.search : '',
+                      }}
+                      state={state}
+                    >
+                      <Icon size={25} />
+                      {is_count_badge && (
+                        <span className={clsx(styles.header_right_badge, { [styles.is_fav_badge]: is_fav_badge })}>
+                          {badge_data}
+                        </span>
+                      )}
+                    </Link>
+                  </Tooltip>
+                )
+              )}
           </li>
         ))}
       </ul>

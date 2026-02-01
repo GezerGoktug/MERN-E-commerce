@@ -32,6 +32,7 @@
     border-radius: 5px;
     border: 1px solid v.$secondary-color;
     animation: tooltip_animate 0.2s linear;
+    text-align: center;
 
     .tooltip_arrow_icon {
       position: absolute;

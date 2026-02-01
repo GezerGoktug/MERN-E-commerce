@@ -7,12 +7,19 @@
   height: 100%;
   margin-left: auto;
   font-weight: 500;
-  .backButton {
-    @include u.row-center;
-    gap: 10px;
+  .sidebar_top{
+    @include u.flex-between;
     border-bottom: 1px solid rgba(128, 128, 128, 0.343);
     padding: 15px;
     width: 100%;
+    .backButton {
+      @include u.row-center;
+      gap: 10px;
+    }
+    .themeButton{
+      @include u.row-center;
+      gap: 4px;
+    }
   }
   .aside_link {
     display: block;

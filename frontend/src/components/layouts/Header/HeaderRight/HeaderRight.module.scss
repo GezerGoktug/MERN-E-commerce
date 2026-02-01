@@ -6,10 +6,6 @@
   @include u.row-center;
   gap: 16px;
 
-  li {
-    position: relative;
-  }
-
   .header_right_badge {
     position: absolute;
     background-color: v.$text-color;
@@ -29,11 +25,32 @@
     }
   }
 
-  li:nth-last-child(1) {
-    display: none;
 
-    @include m.responsive(md) {
-      display: inline;
+  li {
+    position: relative;
+
+    .theme_icon {
+      cursor: pointer;
+
+      @include m.responsive(md) {
+        display: none;
+      }
+    }
+
+    &:has(.theme_icon) {
+      @include m.responsive(md) {
+        display: none;
+      }
+
+    }
+
+    &:has(.toggle_menu_icon) {
+      display: none;
+
+      @include m.responsive(md) {
+        display: inline;
+      }
+
     }
   }
 }

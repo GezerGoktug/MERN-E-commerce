@@ -9,8 +9,9 @@ const useSpeechRecognition = (initialVal?: string) => {
     const silenceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
-        if (initialVal)
+        if (initialVal !== undefined) {
             setSpeechData(initialVal);
+        }
 
     }, [initialVal])
 

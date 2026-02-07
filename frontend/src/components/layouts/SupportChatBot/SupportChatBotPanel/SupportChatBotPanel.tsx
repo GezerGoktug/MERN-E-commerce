@@ -255,7 +255,7 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
     }, [error])
 
     useEffect(() => {
-        if (speechData && isListening) {
+        if (speechData !== undefined && isListening) {
             triggerAutoSizeTextArea()
         }
     }, [speechData, isListening]);

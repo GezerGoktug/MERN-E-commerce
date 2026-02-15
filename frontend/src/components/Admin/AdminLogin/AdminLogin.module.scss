@@ -1,0 +1,62 @@
+@use "../../../sass/mixins" as m;
+@use "../../../sass/utils-mixins" as u;
+@use "../../../sass/variables" as v;
+
+
+.admin_login_wrapper {
+    min-height: 100vh;
+    @include u.flex-center;
+
+    .admin_login {
+        .logo img{
+            height: 80px;
+        }
+        h5 {
+            font-size: 30px;
+            font-family: v.$secondary-font-family;
+            color: v.$text-color;
+            font-weight: 300;
+            @include u.row-center;
+
+            &::after {
+                width: 40px;
+                margin: 0 0 0 10px;
+                background-color: v.$text-color;
+                height: 2px;
+                content: "";
+            }
+        }
+
+        border: 1px solid v.$text-color;
+        padding: 20px 40px;
+        width: 450px;
+        gap: 20px;
+        @include u.col-center;
+
+        @include m.responsive(xls) {
+            width: 100%;
+            padding: 30px;
+        }
+
+        .admin_login_form {
+            width: 100%;
+
+            .admin_login_input {
+                margin-bottom: 20px;
+            }
+
+            .error_message {
+                color: rgb(231, 11, 11);
+                font-size: 14px;
+                margin-bottom: 10px;
+                margin-top: -10px;
+            }
+
+            .admin_login_btn {
+                margin: 0 auto;
+                font-size: 16px;
+                font-weight: 300;
+            }
+        }
+    }
+}

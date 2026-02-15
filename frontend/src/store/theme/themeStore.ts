@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export type ThemeType = "light" | "dark";
 
 type Store = {
-  theme: ThemeType | null;
+  theme: ThemeType;
   __setTheme: (theme: ThemeType) => void;
 };
 const systemTheme: ThemeType = window.matchMedia("(prefers-color-scheme:dark)")
@@ -23,7 +23,7 @@ const applyThemeToDOM = (theme: ThemeType) => {
 const themeStore = create<Store>()(
   persist(
     (set) => ({
-      theme: null,
+      theme: "light",
       __setTheme: (theme) => set(() => ({ theme })),
     }),
     {
@@ -39,7 +39,7 @@ const themeStore = create<Store>()(
 );
 
 themeStore.subscribe((state) =>
-  applyThemeToDOM(state.theme ? state.theme : "light")
+  applyThemeToDOM(state.theme)
 );
 
 export default themeStore;

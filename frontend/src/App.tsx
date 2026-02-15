@@ -21,6 +21,7 @@ import AdminOrders from "./pages/Admin/Orders/AdminOrders";
 import Favourites from "./pages/Favourites";
 import ErrorBoundary from "./ErrorBoundary";
 import AuthGuard from "./guards/AuthGuard";
+import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 
 const PrivateRoute = () => {
   return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
@@ -56,6 +57,7 @@ function App() {
             </Route>
             <Route path="/*" element={<Error />} />
           </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route element={<AdminPrivateRoute />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="stats" element={<AdminStats />} />

@@ -1,3 +1,4 @@
+/// <reference types="dom-speech-recognition" />
 import { useEffect, useRef, useState } from "react";
 
 const useSpeechRecognition = (initialVal?: string) => {

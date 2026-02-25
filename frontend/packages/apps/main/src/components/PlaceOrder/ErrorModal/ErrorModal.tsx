@@ -1,4 +1,4 @@
-import OutsideClickHandler from "react-outside-click-handler";
+import { OutsideClickHandler } from "@forever/common-utils";
 import styles from "./ErrorModal.module.scss";
 import { MdOutlineError } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
@@ -16,10 +16,7 @@ const ErrorModal = ({
   return (
     <Overlay>
       <Backdrop>
-        <OutsideClickHandler
-          display="contents"
-          onOutsideClick={() => closeModal()}
-        >
+        <OutsideClickHandler  onOutsideClick={() => closeModal()}>
           <div className={styles.error_modal_wrapper}>
             <motion.div
               exit={{ scale: 0.5, opacity: 0.2 }}

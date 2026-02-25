@@ -1,0 +1,29 @@
+{
+    "name": "@forever/ui-kit",
+    "main": "./index.ts",
+    "module": "index.ts",
+    "types": "index.ts",
+    "exports": {
+        ".": {
+            "import": "./index.ts",
+            "types": "./index.ts"
+        }
+    },
+    "peerDependencies": {
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "framer-motion": "11.15.0",
+        "clsx": "2.1.1",
+        "react-icons": "5.4.0",
+        "react-hook-form": "7.54.2"
+    },
+    "dependencies": {
+        "@forever/hook-kit": "workspace:*",
+        "@forever/sass-utils": "workspace:*",
+        "@forever/common-utils": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/react": "18.3.12",
+        "@types/react-dom": "18.3.1"
+    }
+}

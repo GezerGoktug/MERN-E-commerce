@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Node",
+    "baseUrl": ".",
+    "paths": {
+      "@forever/api": ["libs/api/src/index.ts"],
+      "@forever/api/*": ["libs/api/src/*"],
+      
+      "@forever/common-utils": ["libs/common-utils/src/index.ts"],
+      "@forever/common-utils/*": ["libs/common-utils/src/*"],
+      
+      "@forever/hook-kit": ["libs/hook-kit/src/index.ts"],
+      "@forever/hook-kit/*": ["libs/hook-kit/src/*"],
+      
+      "@forever/query-kit": ["libs/query-kit/src/index.ts"],
+      "@forever/query-kit/*": ["libs/query-kit/src/*"],
+      
+      "@forever/sass-utils": ["libs/sass-utils/src/index.ts"],
+      "@forever/sass-utils/*": ["libs/sass-utils/src/*"],
+      
+      "@forever/speech": ["libs/speech/src/index.ts"],
+      "@forever/speech/*": ["libs/speech/src/*"],
+      
+      "@forever/storage-kit": ["libs/storage-kit/src/index.ts"],
+      "@forever/storage-kit/*": ["libs/storage-kit/src/*"],
+      
+      "@forever/theme-kit": ["libs/theme-kit/src/index.ts"],
+      "@forever/theme-kit/*": ["libs/theme-kit/src/*"],
+      
+      "@forever/ui-kit": ["libs/ui-kit/src/index.ts"],
+      "@forever/ui-kit/*": ["libs/ui-kit/src/*"]
+    }
+  }
+}

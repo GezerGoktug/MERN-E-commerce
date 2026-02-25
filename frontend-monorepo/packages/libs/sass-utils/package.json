@@ -1,0 +1,17 @@
+{
+    "name": "@forever/sass-utils",
+    "version": "1.0.0",
+    "main": "index.scss",
+    "module": "index.scss",
+    "exports": {
+        "./utils-mixins": {
+            "import": "./utils-mixins.scss"
+        },
+        "./mixins": {
+            "import": "./mixins.scss"
+        },
+        "./variables": {
+            "import": "./variables.scss"
+        }
+    }
+}

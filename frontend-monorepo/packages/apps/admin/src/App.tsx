@@ -1,0 +1,40 @@
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import Error from "./pages/Error/Error";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import { Toaster } from "react-hot-toast";
+import { isAdmin } from "./store/auth/hooks";
+import AdminStats from "./pages/Admin/Stats/AdminStats";
+import AdminAddProduct from "./pages/Admin/AddProduct/AdminAddProduct";
+import AdminProducts from "./pages/Admin/Products/AdminProducts";
+import AdminOrders from "./pages/Admin/Orders/AdminOrders";
+import ErrorBoundary from "./ErrorBoundary";
+import AuthGuard from "./guards/AuthGuard";
+import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
+
+const AdminPrivateRoute = () => {
+  return isAdmin() ? <Outlet /> : <Navigate to="/admin/login" />;
+};
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <Toaster position="top-right" reverseOrder={false} />
+      <AuthGuard>
+        <Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/*" element={<AdminPrivateRoute />}>
+            <Route path="admin" element={<AdminLayout />}>
+              <Route path="stats" element={<AdminStats />} />
+              <Route path="add-product" element={<AdminAddProduct />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="*" element={<Error isAdmin />} />
+            </Route>
+          </Route>
+        </Routes>
+      </AuthGuard>
+    </ErrorBoundary>
+  );
+}
+
+export default App;

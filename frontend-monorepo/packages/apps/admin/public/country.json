@@ -1,0 +1,102 @@
+[
+    {
+        "country": "United States",
+        "city": [
+            "Washington",
+            "New York",
+            "Los Angeles",
+            "Chicago",
+            "Houston"
+        ]
+    },
+    {
+        "country": "United Kingdom",
+        "city": [
+            "London",
+            "Manchester",
+            "Birmingham",
+            "Liverpool",
+            "Edinburgh"
+        ]
+    },
+    {
+        "country": "Germany",
+        "city": [
+            "Berlin",
+            "Hamburg",
+            "Munich",
+            "Cologne",
+            "Frankfurt"
+        ]
+    },
+    {
+        "country": "France",
+        "city": [
+            "Paris",
+            "Lyon",
+            "Marseille",
+            "Toulouse",
+            "Nice"
+        ]
+    },
+    {
+        "country": "Turkey",
+        "city": [
+            "Istanbul",
+            "Ankara",
+            "Izmir",
+            "Bursa",
+            "Antalya"
+        ]
+    },
+    {
+        "country": "Japan",
+        "city": [
+            "Tokyo",
+            "Osaka",
+            "Kyoto",
+            "Yokohama",
+            "Nagoya"
+        ]
+    },
+    {
+        "country": "Brazil",
+        "city": [
+            "São Paulo",
+            "Rio de Janeiro",
+            "Brasília",
+            "Salvador",
+            "Fortaleza"
+        ]
+    },
+    {
+        "country": "India",
+        "city": [
+            "Mumbai",
+            "Delhi",
+            "Bangalore",
+            "Chennai",
+            "Kolkata"
+        ]
+    },
+    {
+        "country": "Canada",
+        "city": [
+            "Toronto",
+            "Vancouver",
+            "Montreal",
+            "Calgary",
+            "Ottawa"
+        ]
+    },
+    {
+        "country": "Australia",
+        "city": [
+            "Sydney",
+            "Melbourne",
+            "Brisbane",
+            "Perth",
+            "Adelaide"
+        ]
+    }
+]

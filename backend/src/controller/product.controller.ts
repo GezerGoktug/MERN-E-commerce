@@ -11,6 +11,7 @@ import { pageableToResponse, PaginationRequest } from "../util/pagination";
 import {
   cacheEvict,
   createCacheKeyWithBrowserId,
+  createCacheKeyWithUserId,
   createDynamicVariables,
   setCache,
   updateCache,
@@ -522,7 +523,7 @@ export const updateComment = async (req: ExtendedRequest, res: Response) => {
         0
       ) / updatedProduct?.comments.length;
 
-  const updatedProductsObject = updatedProduct?.toObject();    
+  const updatedProductsObject = updatedProduct?.toObject();
   updatedProductsObject.comments.sort((a, b) => {
     const dateA = new Date(a.createdAt).getTime();
     const dateB = new Date(b.createdAt).getTime();
@@ -675,7 +676,7 @@ export const getFavouriteProducts = async (req: ExtendedRequest, res: Response) 
 
   await setCache(
     req,
-    createCacheKeyWithBrowserId(req, 'favProducts'),
+    createCacheKeyWithBrowserId(req, createCacheKeyWithUserId(req, 'favProducts')),
     pageableToResponse(favProductLength[0].count, pageNumber, pageSize, favouriteProducts?.products || []),
     createDynamicVariables(
       [],
@@ -713,7 +714,7 @@ export const addFavouriteProduct = async (req: ExtendedRequest, res: Response) =
     { new: true, upsert: true }
   );
 
-  await cacheEvict(req, createCacheKeyWithBrowserId(req, 'favProducts'));
+  await cacheEvict(req, createCacheKeyWithBrowserId(req, createCacheKeyWithUserId(req, 'favProducts')));
 
 
   ResponseHandler.success(res, 200, { message: 'Successfully product added to your favourite products.' });
@@ -739,7 +740,7 @@ export const removeFavouriteProduct = async (req: ExtendedRequest, res: Response
     { new: true, upsert: true }
   );
 
-  await cacheEvict(req, createCacheKeyWithBrowserId(req, 'favProducts'));
+  await cacheEvict(req, createCacheKeyWithBrowserId(req, createCacheKeyWithUserId(req, 'favProducts')));
 
   ResponseHandler.success(res, 200, { message: 'Successfully product remove to your favourite products.' });
 

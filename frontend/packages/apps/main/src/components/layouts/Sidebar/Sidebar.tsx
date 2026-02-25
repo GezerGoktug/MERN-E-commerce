@@ -1,6 +1,6 @@
 import { MdArrowBackIos } from "react-icons/md";
 import styles from "./Sidebar.module.scss";
-import OutsideClickHandler from "react-outside-click-handler";
+import { OutsideClickHandler } from "@forever/common-utils";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import { IoSunny } from "react-icons/io5";
 import { Backdrop, Overlay } from "@forever/ui-kit";
 
 const Sidebar = ({ onClose }: { onClose: () => void }) => {
-  const { theme,  setTheme } = useThemeStore();
+  const { theme, setTheme } = useThemeStore();
   const links = [
     {
       label: "Home",
@@ -36,7 +36,6 @@ const Sidebar = ({ onClose }: { onClose: () => void }) => {
           onOutsideClick={() => {
             onClose();
           }}
-          display="contents"
         >
           <motion.div
             initial={{ x: "100%" }}

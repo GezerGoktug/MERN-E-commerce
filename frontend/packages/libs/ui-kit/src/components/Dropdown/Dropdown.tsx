@@ -2,7 +2,6 @@ import { type ReactNode, useRef, useState } from "react";
 import styles from "./Dropdown.module.scss";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { OutsideClickHandler } from "@forever/common-utils";
 import { useClickOutside } from "@forever/hook-kit";
 
 type ListItemType = {

@@ -1,4 +1,4 @@
-import { DependencyList, type ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { type DependencyList, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
 
 const useMultipleStepForm = (comps: ReactNode[]) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -33,7 +33,7 @@ const useDebounce = <T>(value: T, delay: number = 500) => {
     return debouncedValue;
 };
 
-const useClickOutside = <T>(
+const useClickOutside = (
     el: RefObject<HTMLElement>,
     onOutsideClick: () => void = () => { },
     disable: boolean = false

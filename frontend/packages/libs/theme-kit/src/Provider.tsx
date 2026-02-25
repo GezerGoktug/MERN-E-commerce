@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, type ReactNode, useEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "@forever/storage-kit";
 
 export type ThemeType = "light" | "dark";

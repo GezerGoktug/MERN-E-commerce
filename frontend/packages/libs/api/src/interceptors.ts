@@ -1,5 +1,5 @@
-import { AxiosInstance } from "axios";
-import { RequestInterceptorItem, ResponseInterceptorItem } from "./types";
+import type { AxiosInstance } from "axios";
+import type { RequestInterceptorItem, ResponseInterceptorItem } from "./types";
 import { getLocalStorage, setLocalStorage, removeLocalStorage } from "@forever/storage-kit"
 
 //! REQUEST INTERCEPTORS

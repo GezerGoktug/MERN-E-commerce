@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
-import { RequestInterceptorItem, ResponseInterceptorItem } from "./types";
+import axios, { type AxiosInstance, type CreateAxiosDefaults } from "axios";
+import type { RequestInterceptorItem, ResponseInterceptorItem } from "./types";
 
 export class API {
     private apiInstance: AxiosInstance;

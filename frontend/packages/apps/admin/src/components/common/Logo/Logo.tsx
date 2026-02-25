@@ -8,8 +8,8 @@ interface LogoProps {
 }
 
 const LOGO_SOURCES = {
-  ADMIN: { dark: "/admin-logo-dark.png", light: "/admin-logo.png" },
-  DEFAULT: { dark: "/logo_dark.png", light: "/logo.png" },
+  ADMIN: { dark: "/admin/admin-logo-dark.png", light: "/admin/admin-logo.png" },
+  DEFAULT: { dark: "/admin/logo_dark.png", light: "/admin/logo.png" },
 }
 
 const Logo = ({ className, isAdminLogo = false }: LogoProps) => {

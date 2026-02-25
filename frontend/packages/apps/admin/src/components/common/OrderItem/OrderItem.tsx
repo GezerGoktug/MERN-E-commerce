@@ -76,7 +76,7 @@ const OrderItem = ({
             <div>
               <div className={styles.payment_method_option}>
                 {order.paymentMethod === "STRIPE" ? (
-                  <img src="/stripe.png" alt="" />
+                  <img src="/admin/stripe.png" alt="" />
                 ) : (
                   <span>CASH ON DELIVERY</span>
                 )}

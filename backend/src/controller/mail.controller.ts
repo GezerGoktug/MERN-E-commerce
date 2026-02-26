@@ -141,6 +141,7 @@ export const sendResetPasswordCodeEmail = async (
       resetCode,
     });
   } catch (err) {
+    logger.error("Failed to send reset password email ", err)
     throw new ErrorHandler(500, 'Failed to send reset password email');
   }
 };

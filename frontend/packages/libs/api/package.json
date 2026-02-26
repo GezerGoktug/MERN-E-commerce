@@ -1,0 +1,19 @@
+{
+    "name": "@forever/api",
+    "version": "1.0.0",
+    "main": "index.ts",
+    "module": "index.ts",
+    "types": "index.ts",
+    "exports": {
+        ".": {
+            "import": "./index.ts",
+            "types": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@forever/storage-kit": "workspace:*"
+    },
+    "peerDependencies": {
+        "axios": "1.7.9"
+    }
+}

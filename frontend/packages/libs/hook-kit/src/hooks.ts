@@ -1,0 +1,94 @@
+import { type DependencyList, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
+
+const useMultipleStepForm = (comps: ReactNode[]) => {
+    const [currentStep, setCurrentStep] = useState(0);
+
+    const next = () => {
+        if (currentStep < comps.length - 1) setCurrentStep(currentStep + 1);
+    };
+
+    const prev = () => {
+        if (currentStep > 0) setCurrentStep(currentStep - 1);
+    };
+
+    return {
+        next,
+        prev,
+        step: comps[currentStep],
+    };
+};
+
+
+const useDebounce = <T>(value: T, delay: number = 500) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => clearTimeout(timer);
+    }, [value, delay]);
+
+    return debouncedValue;
+};
+
+const useClickOutside = (
+    el: RefObject<HTMLElement>,
+    onOutsideClick: () => void = () => { },
+    disable: boolean = false
+) => {
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (!disable && !el.current?.contains(e.target as Node)) {
+                onOutsideClick();
+            }
+        }
+        if (!disable) {
+            document.addEventListener("click", handleClickOutside, { capture: true });
+        }
+        else {
+            document.removeEventListener("click", handleClickOutside, { capture: true });
+        }
+        return () => {
+            document.removeEventListener("click", handleClickOutside, { capture: true });
+        }
+    }, [disable, el, onOutsideClick])
+}
+
+
+const useEffectIgnoreFirst = (effect: () => void, dependencyList: DependencyList, unmount: () => void = () => { }) => {
+    const firstRenderRef = useRef(false);
+
+    useEffect(() => {
+        if (firstRenderRef.current) {
+            firstRenderRef.current = true
+            effect();
+        }
+        return () => unmount();
+    }, [...dependencyList, firstRenderRef])
+}
+
+const useMediaQuery = ({ maxWidth = null, minWidth = 0 }: { maxWidth?: number | null, minWidth?: number }) => {
+    const [isCorrectScreenSize, setIsCorrectScreenSize] = useState(false);
+
+    useEffect(() => {
+        const handleResizeScreen = () => {            
+            const width = window.screen.width;
+            if ((maxWidth === null || width < maxWidth) && width > minWidth) {
+                setIsCorrectScreenSize(true);
+            }
+            else {                
+                setIsCorrectScreenSize(false);
+            }
+        }
+        handleResizeScreen();
+        window.addEventListener("resize", handleResizeScreen);
+        return () => {
+            document.removeEventListener("resize", handleResizeScreen);
+        }
+    }, [])
+    return isCorrectScreenSize;
+}
+
+export { useEffectIgnoreFirst, useClickOutside, useDebounce, useMultipleStepForm, useMediaQuery }

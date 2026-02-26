@@ -114,19 +114,21 @@ export const sendResetPasswordCodeEmail = async (
     const ejsHtmlContent = ejs.render(ejsTemplate, { resetCode });
     const html = juice.inlineContent(ejsHtmlContent, css);
 
-    logger.info("Created successfuly email templates");
-
-    return;
-
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    
+    logger.info("Transporter Verify Status: ", {
+      status: await transporter.verify()
+    })
+    return;
+
     await transporter.sendMail({
       from: `"Forever E-commerce" <${process.env.EMAIL}>`,
       to: toEmail,
@@ -146,7 +148,7 @@ export const sendResetPasswordCodeEmail = async (
       resetCode,
     });
   } catch (err) {
-    logger.error("Failed to send reset password email ", err)
+    logger.error("Reset password email ", err)
     throw new ErrorHandler(500, 'Failed to send reset password email');
   }
 };

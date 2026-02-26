@@ -35,7 +35,7 @@ const isPatternCompatibility = (url: string = "") => {
 const corsConfig: CorsOptions = {
     origin: (origin, callback) => {
         const isMainUrl = origin === process.env.CLIENT_URL
-        
+
         if (!origin || isMainUrl || isPatternCompatibility(origin)) {
             callback(null, true);
         }

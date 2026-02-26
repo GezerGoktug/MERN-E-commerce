@@ -17,6 +17,6 @@ api.initInterceptors({
         window.location.href = "/auth"
       }
     })]
-})
+});
 
 export default api.instance;

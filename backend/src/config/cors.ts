@@ -36,7 +36,7 @@ const corsConfig: CorsOptions = {
     origin: (origin, callback) => {
         const isMainUrl = origin === process.env.CLIENT_URL
 
-        if (isMainUrl || isPatternCompatibility(origin)) {
+        if (!origin || isMainUrl || isPatternCompatibility(origin)) {
             callback(null, true);
         }
         else {

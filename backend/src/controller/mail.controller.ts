@@ -114,6 +114,10 @@ export const sendResetPasswordCodeEmail = async (
     const ejsHtmlContent = ejs.render(ejsTemplate, { resetCode });
     const html = juice.inlineContent(ejsHtmlContent, css);
 
+    logger.info("Created successfuly email templates");
+
+    return;
+
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -122,6 +126,7 @@ export const sendResetPasswordCodeEmail = async (
       },
     });
 
+    
     await transporter.sendMail({
       from: `"Forever E-commerce" <${process.env.EMAIL}>`,
       to: toEmail,

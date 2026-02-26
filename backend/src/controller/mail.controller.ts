@@ -115,22 +115,15 @@ export const sendResetPasswordCodeEmail = async (
     const html = juice.inlineContent(ejsHtmlContent, css);
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      service: "Gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    logger.info("Transporter Verify Status: ", {
-      status: await transporter.verify()
-    })
-    return;
-
     await transporter.sendMail({
-      from: `"Forever E-commerce" <${process.env.EMAIL}>`,
+      from: `"Forever E-commerce" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: "Reset Password",
       html,

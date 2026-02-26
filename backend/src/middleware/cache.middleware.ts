@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import ResponseHandler from "../util/response";
 import CacheManager from "../cache/cache";
 import { ExtendedRequest } from "../types/types";
+import { JwtPayload } from "jsonwebtoken";
 
 type VariablesKeysType = "params" | "query" | "body";
 
@@ -60,12 +61,15 @@ export const createDynamicVariables = (
 export const cacheable = (
   cacheKey: string,
   dynamicKeys: Map<VariablesKeysType, string[][]>,
-  isCacheKeyWithBrowserId?: boolean
+  isCacheKeyWithBrowserId?: boolean,
+  isCacheKeyWithUserId?: boolean
 ) => {
   return async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const cached = await CacheManager.get(
       `${isCacheKeyWithBrowserId ?
-        createCacheKeyWithBrowserId(req, cacheKey)
+        isCacheKeyWithUserId
+          ? createCacheKeyWithBrowserId(req, createCacheKeyWithUserId(req, 'favProducts'))
+          : createCacheKeyWithBrowserId(req, cacheKey)
         : cacheKey
       }:${generateCacheKey(req, dynamicKeys)}`
     );
@@ -122,3 +126,5 @@ export const updateCache = async <T>(
 
 
 export const createCacheKeyWithBrowserId = (req: ExtendedRequest, key: string) => `${req.browserId}:${key}`
+
+export const createCacheKeyWithUserId = (req: ExtendedRequest, key: string) => `${(req.user as JwtPayload).userId}:${key}`

@@ -112,6 +112,7 @@ router.get(
     "subCategory",
     "searchQuery",
   ], []),
+    true,
     true
   ),
   asyncHandler(getFavouriteProducts)

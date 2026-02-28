@@ -1,26 +1,32 @@
 # **MERN Stack E-Commerce**
 
-This project is an e-commerce clothing platform developed using MERN Stack technologies. Users can browse products, apply filters, search, and view detailed product information. They can also add items to their cart, manage quantities, and complete purchases via Stripe or cash on delivery. The platform includes features like user authentication, order management, and an admin panel for managing products and viewing statistics.
-
+This project is an e-commerce clothing platform developed using MERN Stack technologies. Users can browse products, apply filters, search,favourite, and view detailed product information. They can also add items to their cart, manage quantities, and complete purchases via Stripe or cash on delivery. .The platform includes features like user authentication, order management, send email and an admin panel for managing products and viewing statistics.Also customers can ask to AI Chatbot what they wanna help about shop general info ,faqs or recommend product. This chatbot recommend products according user intent,preferences. Or it provide to help what shop general info,faqs,shop goals, cargo informations etc. according to shop info knowledge context.
 
 
 ### 🔑 **Features:**
 
 - **Authentication:**
   - Strong and secure authentication.
-  - Login with popular service providers.
+  - Login with popular service providers .
+  - Securely reset password functionality
 
 - **Product Browsing and Management:**
   - View and filter clothing products by category, sub category, and sorting
   - Search for specific products.
   - View detailed product information and customer reviews.
   - Add products to cart in desired sizes.
+  - Add products to favourites.
   - Add ,Edit or delete product reviews.
 
 - **Shopping Cart and Orders:**
   - Manage cart items (increase quantity, remove items).
   - Checkout with payment via Stripe or cash on delivery.
   - View and track orders in the user profile.
+  - Successfully payment emails
+ 
+- **Customer Help Service with AI Chatbot**
+  - Answers about Shop general information or faqs.
+  - Recommend products according to user wants, intents or semantic preferences.
 
 - **Admin Dashboard:**
   - Admin can add, update, delete, and list products.
@@ -128,7 +134,7 @@ cd MERN-E-commerce
 
 ```
 cd frontend
-npm install
+pnpm install
 ```
 4.**Create a mongo db database on mongo db website if it doesn't exist**
 

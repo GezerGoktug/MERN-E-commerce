@@ -1,13 +1,13 @@
 # **MERN Stack E-Commerce**
 
-This project is an e-commerce clothing platform developed using MERN Stack technologies. Users can browse products, apply filters, search,favourite, and view detailed product information. They can also add items to their cart, manage quantities, and complete purchases via Stripe or cash on delivery. .The platform includes features like user authentication, order management, send email and an admin panel for managing products and viewing statistics.Also customers can ask to AI Chatbot what they wanna help about shop general info ,faqs or recommend product. This chatbot recommend products according user intent,preferences. Or it provide to help what shop general info,faqs,shop goals, cargo informations etc. according to shop info knowledge context.
+This project is an e-commerce clothing platform developed using MERN Stack technologies. Users can browse products, apply filters, search,favourite, and view detailed product information. They can also add items to their cart, manage quantities, and complete purchases via Stripe or cash on delivery.The platform includes features like user authentication, order management, send email and an admin panel for managing products and viewing statistics. Also customers can ask to AI Chatbot what they wanna help about shop general info ,faqs or recommend product. This chatbot recommend products according user intent,preferences. Or it provide to help what shop general info,faqs,shop goals, cargo informations etc. according to shop info knowledge context.
 
 
 ### 🔑 **Features:**
 
 - **Authentication:**
   - Strong and secure authentication.
-  - Login with popular service providers .
+  - Login with popular service providers.
   - Securely reset password functionality
 
 - **Product Browsing and Management:**
@@ -40,6 +40,19 @@ This project is an e-commerce clothing platform developed using MERN Stack techn
 ### 🔨 **Technologies Used:**
 
 ### 💻 **Frontend:**
+
+### **Monorepo Architecture**
+It is an approach that keeps multiple projects under a single repository (root directory), but also allows these projects to be managed independently. 
+<br>
+Advantages:
+- Each application is developed independently,
+- Code base complexity is avoided,
+- Teams can work on their own applications without interfering with others.
+
+The codebase started to grow for Admin and main application . For this reason this two application divided two app,two repo and two codebase within monorepo as admin and main.Pnpm was used for monorepo arch. Some frequently used structure transfered to libs folders. These folders can install and call inside apps same a npm package.The codebase started to grow for Admin and main application . For this reason this two application divided two app,two repo and two codebase within monorepo as admin and main.Pnpm was used for monorepo arch. Some frequently used structure transfered to libs folders. These folders can install and call inside apps same a npm package.
+
+**Using General Libraries in Applications:**
+
 - **React**: JavaScript library for building user interfaces .
 - **Sass**: CSS preprocessor for cleaner, more efficient styling.
 - **React Icons**: For user interface icons.
@@ -59,6 +72,18 @@ This project is an e-commerce clothing platform developed using MERN Stack techn
 - **IMask**: Input masking for formatting user input.
 - **Millify**: Formats large numbers for readability.
 
+**Created Custom Util Libraries:**
+
+- **@forever/api**: structured libs with axios for better api requests, interceptor management.
+- **@forever/sass-utils**: sass utils kit about frequently using some mixins, color variables, utils css functions.
+- **@forever/storage-kit**: helper library for local storage and session storage create read and delete operations with ttl time .
+- **@forever/ui-kit**: ui component lib for frequently using atomic generic components at ui
+- **@forever/hook-kit**: kit about some frequently using hooks.
+- **@forever/speech**: hook, utils set usign Speech Recognition API
+- **@forever/common-utils**: structures, tools, and components that are not related to the UI but may be frequently used.
+- **@forever/theme-kit**: component function set about theme settings.
+- **@forever/query-kit**: helper functions, hooks about better manage, create search params.
+
 ### 🌐 **Backend:**
 - **Express.js**: Web framework for building Rest APIs in Node.js.
 - **Helmet**: Adds security headers to Express apps.
@@ -66,20 +91,29 @@ This project is an e-commerce clothing platform developed using MERN Stack techn
 - **Express Async Handler**:  Middleware for handling async errors.
 - **Stripe**: Payment processing for online transactions.
 - **Swagger-jsdoc & Swagger-UI-Express**: Auto-generates API documentation.
-- **Passport & Passport Google OAuth**:Authentication middleware with OAuth support.
+- **Passport & Passport Google OAuth**: Authentication middleware with OAuth support.
 - **Cookie Parser**: Parses cookies for session management.
-- **JWT**: More secure session management with access token and refresh token .
+- **JWT**: More secure session management with access token and refresh token.
 - **MongoDB**: Database system.
 - **Redis**: Database that we use to cache data for faster responses and request limiting.
 - **Bcryptjs**: For hashing password with encryption algorithm.
 - **Mongoose**: ODM for MongoDB.
 - **Cloudinary & Multer**: Media hosting and file upload handling.
 - **Dotenv**: Loads environment variables for secure app configuration.
+- **Nodemailer**: For send mail.
+- **ejs** and **juice**: Embedded javascript html templates and css file parse to inside html as inline.
+- **winston** and **morgan**: Logs edit format and save to file library and http requests logger middleware 
+- **Langchain**: Framework for building LLM-powered applications.
+- **Langgraph**: Orchestration tools for building controllable agents. Or helper create workflow agentic workflows
+- **Faiss Node**: Local Vector Database Library.
 
 ### 🌐 **Devops:**
 - **Docker** : For application containerization
+- **Nginx** : For web server and reverse proxy
 
-
+### 🌐 **Deployment:**
+- **Netlify** : Frontend Monorepo hoisting
+- **Render** : Backend Server Hoisting
 
 
 

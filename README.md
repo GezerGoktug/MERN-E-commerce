@@ -51,7 +51,7 @@ Advantages:
 
 The codebase started to grow for Admin and main application . For this reason this two application divided two app,two repo and two codebase within monorepo as admin and main.Pnpm was used for monorepo arch. Some frequently used structure transfered to libs folders. These folders can install and call inside apps same a npm package.
 
-**Using General Libraries in Applications:**
+🔷 **Using General Libraries in Applications:**
 
 - **React**: JavaScript library for building user interfaces .
 - **Sass**: CSS preprocessor for cleaner, more efficient styling.
@@ -72,7 +72,7 @@ The codebase started to grow for Admin and main application . For this reason th
 - **IMask**: Input masking for formatting user input.
 - **Millify**: Formats large numbers for readability.
 
-**Created Custom Util Libraries:**
+🔷 **Created Custom Util Libraries:**
 
 - **@forever/api**: structured libs with axios for better api requests, interceptor management.
 - **@forever/sass-utils**: sass utils kit about frequently using some mixins, color variables, utils css functions.
@@ -107,7 +107,7 @@ The codebase started to grow for Admin and main application . For this reason th
 - **Langgraph**: Orchestration tools for building controllable agents. Or helper create workflow agentic workflows
 - **Faiss Node**: Local Vector Database Library.
 
-### 🌐 **Devops:**
+### 🛠 **Devops:**
 - **Docker** : For application containerization
 - **Nginx** : For web server and reverse proxy
 
@@ -116,7 +116,7 @@ The codebase started to grow for Admin and main application . For this reason th
 - **Render** : Backend Server hosting
 
 
-### 🌐 **AI Customer Support Chatbot with Langchain and Langgraph**
+### 🤖 **AI Customer Support Chatbot with Langchain and Langgraph**
 
 A chatbot was created using Langchain and Langgraph to provide customer support. Two tools were defined in the system that the LLM  can use with Langchain and Langgraph: one for general questions and one for product recommendations.
 

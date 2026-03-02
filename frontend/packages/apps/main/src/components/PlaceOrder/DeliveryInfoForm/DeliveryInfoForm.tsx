@@ -1,13 +1,15 @@
 import { Controller, useFormContext } from "react-hook-form";
 import styles from "./DeliveryInfoForm.module.scss";
-import { useEffect, useRef, useState } from "react";
-import ErrorModal from "../ErrorModal/ErrorModal";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { IMaskInput } from "react-imask";
 import Select from "react-select";
 import { Input } from "@forever/ui-kit";
+import { isEmptyString } from "@forever/common-utils";
 
-type CountryType = {
+const ErrorModal = lazy(() => import("../ErrorModal/ErrorModal"));
+
+type CountryDataType = {
   country: string;
   city: string[];
 };
@@ -15,42 +17,51 @@ type CountryType = {
 const DeliveryInfoForm = () => {
   const form = useFormContext();
   const [modal, setModal] = useState(false);
-  const [countries, setCountries] = useState<CountryType[]>([]);
-  const firstMount = useRef(false);
+  const [countryData, setCountryData] = useState<CountryDataType[]>([]);
 
   useEffect(() => {
-    if (firstMount.current && !form.formState.isValid) {
+    if (form.formState.isSubmitting && !form.formState.isValid) {
       setModal(true);
     }
-    firstMount.current = true;
-  }, [form.formState.isSubmitting, form.formState.isValid]);
+  }, [form.formState.isSubmitting, form.formState.isValid])
 
   useEffect(() => {
     const fetchCountriesData = async () => {
       const res = await fetch("/country.json");
       const dt = await res.json();
-      setCountries(dt);
+      setCountryData(dt);
     };
     fetchCountriesData();
   }, []);
 
-  const countriesOptions = countries.map((item) => ({
+  const countriesOptions = useMemo(() => countryData.map((item) => ({
     value: item.country,
     label: item.country,
-  }));
+  })), [countryData]);
 
-  const cityOptions = countries
-    .find((item) => item.country === form.watch("country"))
-    ?.city.map((item) => ({ value: item, label: item }));
+  const cityOptions = useMemo(() =>
+    countryData
+      .find((item) => item.country === form.watch("country"))
+      ?.city
+      ?.map((item) => ({ value: item, label: item })) || [],
+    [form.watch("country")]);
+
+  const cityValue = isEmptyString(form.watch("city")) ? null : { value: form.watch("city"), label: form.watch("city") }
+
+  console.log(form.watch("city"));
+  console.log(form.watch("country"));
+
 
   return (
     <div className={styles.delivery_info_form_wrapper}>
       <AnimatePresence>
         {modal && (
-          <ErrorModal
-            errors={form.formState.errors}
-            closeModal={() => setModal(false)}
-          />
+          <Suspense fallback={<></>}>
+            <ErrorModal
+              errors={form.formState.errors}
+              closeModal={() => setModal(false)}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
       <h6>
@@ -110,16 +121,23 @@ const DeliveryInfoForm = () => {
             placeholder="Select a city"
             className={styles.form_select}
             onChange={(e) => form.setValue("city", e?.value)}
+            value={cityValue}
             options={cityOptions}
             classNamePrefix="react-select"
+            isSearchable
+            isClearable
           />
-
           <Select
             placeholder="Select a country"
             className={styles.form_select}
-            onChange={(e) => form.setValue("country", e?.value)}
+            onChange={(e) => {
+              form.setValue("country", e?.value || "");
+              form.setValue("city", "")
+            }}
             options={countriesOptions}
             classNamePrefix="react-select"
+            isSearchable
+            isClearable
           />
         </div>
         <div className={styles.side_by_side_inputs}>

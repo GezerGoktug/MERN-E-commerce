@@ -1,0 +1,1 @@
+export const isEmptyString = (txt: string) => txt.trim().length === 0; 

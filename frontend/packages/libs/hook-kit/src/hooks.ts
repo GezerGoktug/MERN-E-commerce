@@ -62,9 +62,9 @@ const useEffectIgnoreFirst = (effect: () => void, dependencyList: DependencyList
 
     useEffect(() => {
         if (firstRenderRef.current) {
-            firstRenderRef.current = true
             effect();
         }
+        firstRenderRef.current = true
         return () => unmount();
     }, [...dependencyList, firstRenderRef])
 }
@@ -73,12 +73,12 @@ const useMediaQuery = ({ maxWidth = null, minWidth = 0 }: { maxWidth?: number | 
     const [isCorrectScreenSize, setIsCorrectScreenSize] = useState(false);
 
     useEffect(() => {
-        const handleResizeScreen = () => {            
+        const handleResizeScreen = () => {
             const width = window.screen.width;
             if ((maxWidth === null || width < maxWidth) && width > minWidth) {
                 setIsCorrectScreenSize(true);
             }
-            else {                
+            else {
                 setIsCorrectScreenSize(false);
             }
         }

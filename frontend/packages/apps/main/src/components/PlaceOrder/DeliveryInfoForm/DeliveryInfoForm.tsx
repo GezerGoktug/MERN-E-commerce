@@ -44,13 +44,9 @@ const DeliveryInfoForm = () => {
       .find((item) => item.country === form.watch("country"))
       ?.city
       ?.map((item) => ({ value: item, label: item })) || [],
-    [form.watch("country")]);
+    [form.watch("country"), countryData]);
 
   const cityValue = isEmptyString(form.watch("city")) ? null : { value: form.watch("city"), label: form.watch("city") }
-
-  console.log(form.watch("city"));
-  console.log(form.watch("country"));
-
 
   return (
     <div className={styles.delivery_info_form_wrapper}>

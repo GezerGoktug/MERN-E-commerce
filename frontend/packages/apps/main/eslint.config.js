@@ -15,11 +15,15 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    parserOptions: {
+      projectService: true,
+      tsconfigRootDir: import.meta.dirname,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-    rules:{
+    rules: {
       "react-hooks/set-state-in-effect": "off"
     }
   },

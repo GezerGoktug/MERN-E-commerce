@@ -1,7 +1,7 @@
-@use './fonts' as *;
 @use "@forever/sass-utils/utils-mixins" as u;
 @use "@forever/sass-utils/mixins" as m;
 @use "@forever/sass-utils/variables" as v;
+@use "./fonts" as *;
 
 * {
   text-decoration: none;

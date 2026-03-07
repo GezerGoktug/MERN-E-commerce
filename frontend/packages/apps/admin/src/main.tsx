@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
-// import "./fonts.scss";
 import "./globals.scss";
 import { BrowserRouter } from "react-router-dom";
 import ScrollTop from "./ScrollTop.tsx";

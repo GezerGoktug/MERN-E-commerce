@@ -33,7 +33,7 @@ const Hero = () => {
         </div>
       </div>
       <div className={styles.hero_right}>
-        <img src="/hero_img.png" alt="hero_img" />
+        <img src="/hero_img.avif" fetchPriority="high" alt="hero_img" />
       </div>
     </div>
   );

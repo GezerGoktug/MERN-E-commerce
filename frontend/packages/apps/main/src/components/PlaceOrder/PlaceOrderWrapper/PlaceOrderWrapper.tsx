@@ -1,17 +1,16 @@
 import { FormProvider, useForm } from "react-hook-form";
-import DeliveryInfoForm from "../../components/PlaceOrder/DeliveryInfoForm/DeliveryInfoForm";
-import OrdersDetail from "../../components/PlaceOrder/OrdersDetail/OrdersDetail";
-import styles from "./PlaceOrder.module.scss";
+import styles from "./PlaceOrderWrapper.module.scss";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { isAccess } from "../../store/auth/hooks";
 import toast from "react-hot-toast";
-import { useCart } from "../../store/cart/hooks";
 import { AxiosError } from "axios";
-import { clearCart } from "../../store/cart/actions";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "../../services/hooks/mutations/order.mutations";
+import { useCart } from "../../../store/cart/hooks";
+import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "../../../services/hooks/mutations/order.mutations";
+import { clearCart } from "../../../store/cart/actions";
+import { isAccess } from "../../../store/auth/hooks";
+import DeliveryInfoForm from "../DeliveryInfoForm/DeliveryInfoForm";
+import OrdersDetail from "../OrdersDetail/OrdersDetail";
 
 const schema = z.object({
   firstName: z.string().min(3, "First name must be at least 3 characters long"),
@@ -35,7 +34,7 @@ const schema = z.object({
     .default("CASH_ON_DELIVERY"),
 });
 
-const PlaceOrder = () => {
+const PlaceOrderWrapper = () => {
   const cart = useCart();
   const navigate = useNavigate();
 
@@ -58,11 +57,8 @@ const PlaceOrder = () => {
   const { mutateAsync: createOrderWithCashOnDeliveryMutation } = useCreateOrderWithCashOnDeliveryPaymentMethodMutation({
     onSuccess(data) {
       toast.success(data.data.message);
-
       form.reset();
-
       clearCart();
-
       navigate("/profile");
     },
   });
@@ -115,13 +111,6 @@ const PlaceOrder = () => {
 
   return (
     <FormProvider {...form}>
-      <Helmet>
-        <title>Place Order - Forever</title>
-        <meta
-          name="description"
-          content="Complete your order securely on Forever. Buy digital products, software, and AI tools with confidence."
-        />
-      </Helmet>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className={styles.place_order_wrapper}>
           <DeliveryInfoForm />
@@ -132,4 +121,4 @@ const PlaceOrder = () => {
   );
 };
 
-export default PlaceOrder;
+export default PlaceOrderWrapper;

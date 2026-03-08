@@ -8,7 +8,7 @@ import Cart from "./pages/Cart/Cart";
 import Auth from "./pages/Auth";
 import Collections from "./pages/Collections/Collections";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
-import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
+import PlaceOrder from "./pages/PlaceOrder";
 import Profile from "./pages/Profile";
 import { Toaster } from "react-hot-toast";
 import { isAccess } from "./store/auth/hooks";
@@ -27,7 +27,7 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
       <AuthGuard>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
+          <Route element={<MainLayout />}>
             <Route index element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/collection" element={<Collections />} />

@@ -6,6 +6,7 @@ import Input from "./components/Input/Input";
 import Modal from "./components/Modal/Modal";
 import Overlay from "./components/Overlay/Overlay";
 import Tooltip from "./components/Tooltip/Tooltip";
+import Loading from "./components/Loading/Loading";
 
 export {
     Button,
@@ -15,6 +16,7 @@ export {
     Input,
     Modal,
     Overlay,
-    Tooltip
+    Tooltip,
+    Loading
 }
 

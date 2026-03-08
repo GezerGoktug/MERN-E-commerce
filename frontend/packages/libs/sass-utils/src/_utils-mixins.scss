@@ -40,6 +40,10 @@
   height: $height;
 }
 
+@mixin loading_animate {
+  animation: loading_animate 1s linear infinite;
+}
+
 @keyframes skeleton_animate {
   0% {
     opacity: 0.35;
@@ -49,6 +53,18 @@
   }
   100% {
     opacity: 0.9;
+  }
+}
+
+@keyframes loading_animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+   transform: rotate(360deg);
   }
 }
 

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { isAccess } from "../../../store/auth/hooks";
 import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
+import { cloudinaryImageOptimizer } from "@forever/common-utils";
 
 const variant = {
   open: { y: 0, opacity: 1 },
@@ -70,7 +71,7 @@ const ProductCard = ({
           {isFav ? <IoMdHeart fill="red" size={20} /> : <IoMdHeartEmpty size={20} />}
         </div>
         <div className={styles.product_card_img}>
-          <img src={product.image} alt={product.name} />
+          <img src={cloudinaryImageOptimizer(product.image)} alt={product.name} />
         </div>
         <h4>{product.name}</h4>
         <span>${product.price}</span>

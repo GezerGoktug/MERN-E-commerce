@@ -24,6 +24,7 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/*" element={<AdminPrivateRoute />}>
             <Route path="admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="/admin/stats" />} />
               <Route path="stats" element={<AdminStats />} />
               <Route path="add-product" element={<AdminAddProduct />} />
               <Route path="products" element={<AdminProducts />} />

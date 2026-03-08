@@ -2,7 +2,7 @@ import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 
 const callGoogleGenAIEmbeddingsModel = new GoogleGenerativeAIEmbeddings({
     apiKey:process.env.GOOGLE_API_KEY,
-    modelName:"text-embedding-004",
+    modelName:"gemini-embedding-001",
 })
 
 export default callGoogleGenAIEmbeddingsModel;

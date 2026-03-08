@@ -6,7 +6,7 @@
         "dev:main": "pnpm --filter main dev",
         "dev:admin": "pnpm --filter admin dev",
         "prod:admin": "pnpm --filter admin preview",
-        "prod:main": "pnpm --filter admin preview",
+        "prod:main": "pnpm --filter main preview",
         "i:admin": "pnpm --filter admin install",
         "i:main": "pnpm --filter main install",
         "build": "pnpm -r build"

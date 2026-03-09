@@ -26,7 +26,7 @@ const OrdersDetail = () => {
               <GoDot size={25} />
             )}
 
-            <img src="/stripe.png" alt="" />
+            <img src={`${import.meta.env.BASE_URL}stripe.png`} alt="" />
           </div>
           <div
             onClick={() => form.setValue("paymentMethod", "CASH_ON_DELIVERY")}

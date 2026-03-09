@@ -46,7 +46,7 @@ const SupportChatBot = () => {
                 }}
             >
                 {!show && <div className={styles.glare_effect} />}
-                <img src="/agent.avif" fetchPriority='high' alt="sora_agent" />
+                <img src={`${import.meta.env.BASE_URL}agent.avif`} fetchPriority='high' alt="sora_agent" />
             </motion.div>
         </div>
     )

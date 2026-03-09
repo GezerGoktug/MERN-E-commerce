@@ -7,24 +7,21 @@ interface LogoProps {
   isAdminLogo?: boolean;
 }
 
-const LOGO_SOURCES = {
-  ADMIN: { dark: "/admin-logo-dark.png", light: "/admin-logo.png" },
-  DEFAULT: { dark: "/logo_dark.png", light: "/logo.png" },
-};
-
 const Logo = ({ className, isAdminLogo = false }: LogoProps) => {
   const { theme } = useThemeStore();
+  const base = import.meta.env.BASE_URL as string;
+
+  const logoSrc = isAdminLogo
+    ? theme === "dark"
+      ? `${base}admin-logo-dark.png`
+      : `${base}admin-logo.png`
+    : theme === "dark"
+    ? `${base}logo_dark.png`
+    : `${base}logo.png`;
 
   return (
     <div className={clsx(styles.logo, className)}>
-      <img
-        src={
-          isAdminLogo
-            ? LOGO_SOURCES.ADMIN[theme || "light"]
-            : LOGO_SOURCES.DEFAULT[theme || "light"]
-        }
-        alt="logo"
-      />
+      <img src={logoSrc} alt="logo" />
     </div>
   );
 };

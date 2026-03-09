@@ -28,7 +28,13 @@ const PaymentFormInner = ({ orderId, onError }: PaymentFormInnerProps) => {
     });
 
     if (error) {
-      onError(error.message ?? "Payment failed. Please try again.");
+      const message =
+        error.type === "card_error"
+          ? error.message ?? "Your card was declined. Please try a different card."
+          : error.type === "validation_error"
+          ? error.message ?? "Please review your payment details and try again."
+          : "Payment could not be processed. Please try again or contact support.";
+      onError(message);
       setIsLoading(false);
     }
     // On success Stripe redirects; no further action needed here.

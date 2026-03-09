@@ -13,7 +13,7 @@ export const confirmOrderPayment = async (req: ExtendedRequest, res: Response) =
   const orderId = req.params.id;
 
   if (!sessionId && !paymentIntentId) {
-    throw new ErrorHandler(400, "A payment session ID or payment intent ID is required.");
+    throw new ErrorHandler(400, "A 'paymentIntentId' or 'sessionId' is required to confirm the order payment.");
   }
 
   let isPaid = false;

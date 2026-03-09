@@ -47,25 +47,25 @@ const PaymentResult = () => {
   const orderId = searchParams.get("orderId");
 
   useEffect(() => {
-    if (!orderId && !searchParams.get("isSuccess")) {
+    const currentOrderId = searchParams.get("orderId");
+
+    if (!currentOrderId) {
       navigate("/cart");
       return;
     }
 
-    if (!orderId) return;
-
     if (isSuccess) {
       confirmOrderMutation({
-        orderId,
+        orderId: currentOrderId,
         isPayment: true,
         ...(paymentIntentId ? { paymentIntentId } : {}),
       });
     } else {
-      deleteOrderMutation(orderId);
+      deleteOrderMutation(currentOrderId);
     }
   }, []);
 
-  if (!orderId && !searchParams.get("isSuccess")) return null;
+  if (!orderId) return null;
 
   return (
     <div className={styles.payment_result_wrapper}>

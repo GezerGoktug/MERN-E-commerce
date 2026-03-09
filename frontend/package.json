@@ -5,10 +5,13 @@
     "scripts": {
         "dev:main": "pnpm --filter main dev",
         "dev:admin": "pnpm --filter admin dev",
+        "dev:checkout": "pnpm --filter checkout dev",
         "prod:admin": "pnpm --filter admin preview",
         "prod:main": "pnpm --filter main preview",
+        "prod:checkout": "pnpm --filter checkout preview",
         "i:admin": "pnpm --filter admin install",
         "i:main": "pnpm --filter main install",
+        "i:checkout": "pnpm --filter checkout install",
         "build": "pnpm -r build"
     },
     "devDependencies": {

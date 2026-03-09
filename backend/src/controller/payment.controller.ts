@@ -60,8 +60,8 @@ export const createPayment = async (req: ExtendedRequest, res: Response) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=1&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
-    cancel_url: `${process.env.CLIENT_URL}/payment/result?isSuccess=0&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
+    success_url: `${process.env.CLIENT_URL}/checkout/payment/result?isSuccess=1&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
+    cancel_url: `${process.env.CLIENT_URL}/checkout/payment/result?isSuccess=0&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
   });
 
   ResponseHandler.success(res, 200, { sessionId: session.id });

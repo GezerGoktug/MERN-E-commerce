@@ -163,6 +163,142 @@ importers:
         specifier: 7.3.1
         version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)
 
+  packages/apps/checkout:
+    dependencies:
+      '@forever/api':
+        specifier: workspace:*
+        version: link:../../libs/api
+      '@forever/common-utils':
+        specifier: workspace:*
+        version: link:../../libs/common-utils
+      '@forever/hook-kit':
+        specifier: workspace:*
+        version: link:../../libs/hook-kit
+      '@forever/query-kit':
+        specifier: workspace:*
+        version: link:../../libs/query-kit
+      '@forever/sass-utils':
+        specifier: workspace:*
+        version: link:../../libs/sass-utils
+      '@forever/speech':
+        specifier: workspace:*
+        version: link:../../libs/speech
+      '@forever/storage-kit':
+        specifier: workspace:*
+        version: link:../../libs/storage-kit
+      '@forever/theme-kit':
+        specifier: workspace:*
+        version: link:../../libs/theme-kit
+      '@forever/ui-kit':
+        specifier: workspace:*
+        version: link:../../libs/ui-kit
+      '@hookform/error-message':
+        specifier: 2.0.1
+        version: 2.0.1(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)
+      '@hookform/resolvers':
+        specifier: 3.10.0
+        version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
+      '@stripe/stripe-js':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@tanstack/react-query':
+        specifier: 5.64.2
+        version: 5.64.2(react@18.3.1)
+      '@types/react-helmet':
+        specifier: 6.1.11
+        version: 6.1.11
+      axios:
+        specifier: 1.7.9
+        version: 1.7.9
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      dayjs:
+        specifier: 1.11.13
+        version: 1.11.13
+      framer-motion:
+        specifier: 11.15.0
+        version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      millify:
+        specifier: 6.1.0
+        version: 6.1.0
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-countup:
+        specifier: 6.5.3
+        version: 6.5.3(react@18.3.1)
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-helmet:
+        specifier: 6.1.0
+        version: 6.1.0(react@18.3.1)
+      react-hook-form:
+        specifier: 7.54.2
+        version: 7.54.2(react@18.3.1)
+      react-hot-toast:
+        specifier: 2.5.1
+        version: 2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-icons:
+        specifier: 5.4.0
+        version: 5.4.0(react@18.3.1)
+      react-imask:
+        specifier: 7.6.1
+        version: 7.6.1(react@18.3.1)
+      react-router-dom:
+        specifier: 7.0.2
+        version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-select:
+        specifier: 5.10.0
+        version: 5.10.0(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zod:
+        specifier: 3.24.1
+        version: 3.24.1
+      zustand:
+        specifier: 5.0.3
+        version: 5.0.3(@types/react@18.3.12)(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: 9.39.1
+        version: 9.39.1
+      '@types/node':
+        specifier: 22.13.4
+        version: 22.13.4
+      '@types/react':
+        specifier: 18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+      '@vitejs/plugin-react':
+        specifier: 5.1.1
+        version: 5.1.1(vite@7.3.1(@types/node@22.13.4)(sass@1.97.3))
+      eslint:
+        specifier: 9.39.1
+        version: 9.39.1
+      eslint-plugin-react-hooks:
+        specifier: 7.0.1
+        version: 7.0.1(eslint@9.39.1)
+      eslint-plugin-react-refresh:
+        specifier: 0.4.24
+        version: 0.4.24(eslint@9.39.1)
+      globals:
+        specifier: 16.5.0
+        version: 16.5.0
+      sass:
+        specifier: 1.97.3
+        version: 1.97.3
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: 8.48.0
+        version: 8.48.0(eslint@9.39.1)(typescript@5.9.3)
+      vite:
+        specifier: 7.3.1
+        version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)
+
   packages/apps/main:
     dependencies:
       '@forever/api':

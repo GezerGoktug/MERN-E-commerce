@@ -9,41 +9,25 @@ import { stripe } from "../config/stripe";
 
 dotenv.config();
 
-export const createPayment = async (req: ExtendedRequest, res: Response) => {
+/**
+ * POST /payment/intent
+ * Creates a Stripe PaymentIntent and the pending order, returns clientSecret + orderId.
+ * The frontend uses @stripe/react-stripe-js to render the Payment Element inline.
+ */
+export const createPaymentIntent = async (req: ExtendedRequest, res: Response) => {
   const { products, cargoFee, delivery_info } = req.body;
 
   if (products.length === 0)
     throw new ErrorHandler(
       400,
-      "You must add a few product to your cart ,before go to payment."
+      "You must add a few products to your cart before going to payment."
     );
 
-  const lineItems = products.map((product: CartProductType) => ({
-    price_data: {
-      currency: "usd",
-      product_data: {
-        name: product.name,
-        description: "Size : " + product.size,
-        images: [product.image],
-        metadata: {
-          size: product.size,
-        },
-      },
-      unit_amount: Math.round(product.price * 100),
-    },
-    quantity: product.quantity,
-  }));
-
-  lineItems.push({
-    price_data: {
-      currency: "usd",
-      product_data: {
-        name: "Cargo fee",
-      },
-      unit_amount: Math.round(cargoFee * 100),
-    },
-    quantity: 1,
-  });
+  const totalAmount =
+    products.reduce(
+      (sum: number, p: CartProductType) => sum + p.price * p.quantity,
+      0
+    ) + cargoFee;
 
   const body = {
     delivery_info,
@@ -51,18 +35,20 @@ export const createPayment = async (req: ExtendedRequest, res: Response) => {
     products,
     cargoFee,
   };
+
   const response = await createOrder(body);
 
   if (!response.success)
     throw new ErrorHandler(response.status, response.error as string);
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: lineItems,
-    mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/checkout/payment/result?isSuccess=1&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
-    cancel_url: `${process.env.CLIENT_URL}/checkout/payment/result?isSuccess=0&sessionId={CHECKOUT_SESSION_ID}&orderId=${response.orderId}`,
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: Math.round(totalAmount * 100),
+    currency: "usd",
+    metadata: { orderId: String(response.orderId) },
   });
 
-  ResponseHandler.success(res, 200, { sessionId: session.id });
+  ResponseHandler.success(res, 200, {
+    clientSecret: paymentIntent.client_secret,
+    orderId: response.orderId,
+  });
 };

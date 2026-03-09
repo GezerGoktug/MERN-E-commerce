@@ -1,12 +1,12 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import Cart from "./pages/Cart/Cart";
-import MainLayout from "./layouts/MainLayout";
-import PlaceOrder from "./pages/PlaceOrder";
+import Cart from "./presentation/pages/Cart/Cart";
+import MainLayout from "./presentation/layouts/MainLayout";
+import PlaceOrder from "./presentation/pages/PlaceOrder/PlaceOrder";
 import { Toaster } from "react-hot-toast";
-import { isAccess } from "./store/auth/hooks";
-import PaymentResult from "./pages/PaymentResult/PaymentResult";
+import { isAccess } from "./application/store/auth/hooks";
+import PaymentResult from "./presentation/pages/PaymentResult/PaymentResult";
 import ErrorBoundary from "./ErrorBoundary";
-import AuthGuard from "./guards/AuthGuard";
+import AuthGuard from "./presentation/guards/AuthGuard";
 
 const PrivateRoute = () => {
   return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
@@ -19,12 +19,12 @@ function App() {
       <AuthGuard>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/checkout/cart" element={<Cart />} />
-            <Route path="/checkout/place-order" element={<PlaceOrder />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/checkout/payment/result" element={<PaymentResult />} />
+              <Route path="/payment/result" element={<PaymentResult />} />
             </Route>
-            <Route path="*" element={<Navigate to="/checkout/cart" replace />} />
+            <Route path="*" element={<Navigate to="/cart" replace />} />
           </Route>
         </Routes>
       </AuthGuard>

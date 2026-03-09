@@ -26,7 +26,7 @@ const Cash = ({ isCheckoutButton = true }: { isCheckoutButton?: boolean }) => {
         </li>
       </ul>
       {isCheckoutButton && (
-        <Link to="/checkout/place-order">
+        <Link to="/place-order">
           <Button className={styles.cash_button}>PROCEED TO CHECKOUT</Button>
         </Link>
       )}

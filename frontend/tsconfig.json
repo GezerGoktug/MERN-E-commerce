@@ -36,7 +36,10 @@
       "@forever/theme-kit/*": ["libs/theme-kit/src/*"],
       
       "@forever/ui-kit": ["libs/ui-kit/src/index.ts"],
-      "@forever/ui-kit/*": ["libs/ui-kit/src/*"]
+      "@forever/ui-kit/*": ["libs/ui-kit/src/*"],
+
+      "@forever/layout-kit": ["libs/layout-kit/src/index.ts"],
+      "@forever/layout-kit/*": ["libs/layout-kit/src/*"]
     }
   }
 }

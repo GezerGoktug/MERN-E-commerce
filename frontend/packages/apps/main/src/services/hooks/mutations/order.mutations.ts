@@ -1,8 +1,7 @@
 import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import type { IError, IResponse, IDefaultResponse } from "@forever/api";
-import type { IConfirmOrderVariables, ICreateOrderVariables } from "../../../types/order.type";
+import type { IConfirmOrderVariables, ICreateOrderVariables, ICreateOrderWithStripeIntentResponse } from "../../../types/order.type";
 import OrderService from "../../actions/order.service";
-import { loadStripe } from "@stripe/stripe-js";
 
 const useCreateOrderWithCashOnDeliveryPaymentMethodMutation = (
     mutationDetails?: UseMutationOptions<IResponse<IDefaultResponse>, IError, ICreateOrderVariables>
@@ -14,31 +13,12 @@ const useCreateOrderWithCashOnDeliveryPaymentMethodMutation = (
 });
 
 const useCreateOrderWithStripePaymentMethodMutation = (
-    mutationDetails?: UseMutationOptions<
-        IDefaultResponse,
-        IError | Error,
-        ICreateOrderVariables
-    >
-) => {
-    return useMutation<IDefaultResponse, IError | Error, ICreateOrderVariables>({
-        mutationKey: ["create_order_with_stripe"],
-        mutationFn: async (body) => {
-            const data = await OrderService.createOrderWithStripePaymentMethod(body);
-            const stripe = await loadStripe(import.meta.env.VITE_REACT_STRIPE_PUBLISHABLE_KEY);
-
-            const result = await stripe?.redirectToCheckout({
-                sessionId: data.data.sessionId,
-            });
-
-            if (result?.error) {
-                throw new Error(result.error.message);
-            }
-
-            return { message: "Successfully create payment session" };
-        },
-        ...mutationDetails,
-    });
-};
+    mutationDetails?: UseMutationOptions<IResponse<ICreateOrderWithStripeIntentResponse>, IError, ICreateOrderVariables>
+) => useMutation<IResponse<ICreateOrderWithStripeIntentResponse>, IError, ICreateOrderVariables>({
+    mutationKey: ["create_order_with_stripe"],
+    mutationFn: (body) => OrderService.createOrderWithStripePaymentMethod(body),
+    ...mutationDetails,
+});
 
 const useDeleteOrderMutation = (mutationDetails?: UseMutationOptions<IResponse<IDefaultResponse>, IError, string>) => {
     const queryClient = useQueryClient();
@@ -59,7 +39,8 @@ const useConfirmOrderPaymentMutation = (mutationDetails?: UseMutationOptions<IRe
     const queryClient = useQueryClient();
     const { onSuccess, ...details } = mutationDetails ?? {};
     return useMutation<IResponse<IDefaultResponse>, IError, IConfirmOrderVariables>({
-        mutationFn: ({ orderId, isPayment, sessionId }) => OrderService.confirmOrderPayment(orderId, isPayment, sessionId),
+        mutationFn: ({ orderId, isPayment, sessionId, paymentIntentId }) =>
+            OrderService.confirmOrderPayment(orderId, isPayment, sessionId, paymentIntentId),
         onSuccess: async (data, variables, context) => {
             await queryClient.invalidateQueries({ queryKey: ["my-orders"] });
             if (onSuccess) {

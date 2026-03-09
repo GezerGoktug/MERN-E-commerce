@@ -23,10 +23,12 @@ export interface ICreateOrderVariables {
 export interface IConfirmOrderVariables {
   orderId: string
   isPayment: boolean,
-  sessionId: string
+  sessionId?: string,
+  paymentIntentId?: string,
 }
-export interface ICreateOrderWithStripeResponse {
-  sessionId: string
+export interface ICreateOrderWithStripeIntentResponse {
+  clientSecret: string;
+  orderId: string;
 }
 
 

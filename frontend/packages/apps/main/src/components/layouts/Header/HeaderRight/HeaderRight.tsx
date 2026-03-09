@@ -58,7 +58,7 @@ const HeaderRight = () => {
     },
     {
       icon: HiOutlineShoppingBag,
-      href: "/checkout/cart",
+      href: "/cart",
       is_count_badge: true,
       badge_data: totalQuantity,
       message: "Cart",

@@ -174,6 +174,9 @@ importers:
       '@forever/hook-kit':
         specifier: workspace:*
         version: link:../../libs/hook-kit
+      '@forever/layout-kit':
+        specifier: workspace:*
+        version: link:../../libs/layout-kit
       '@forever/query-kit':
         specifier: workspace:*
         version: link:../../libs/query-kit
@@ -198,9 +201,12 @@ importers:
       '@hookform/resolvers':
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
+      '@stripe/react-stripe-js':
+        specifier: 5.6.1
+        version: 5.6.1(@stripe/stripe-js@8.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@stripe/stripe-js':
-        specifier: 5.6.0
-        version: 5.6.0
+        specifier: 8.9.0
+        version: 8.9.0
       '@tanstack/react-query':
         specifier: 5.64.2
         version: 5.64.2(react@18.3.1)
@@ -310,6 +316,9 @@ importers:
       '@forever/hook-kit':
         specifier: workspace:*
         version: link:../../libs/hook-kit
+      '@forever/layout-kit':
+        specifier: workspace:*
+        version: link:../../libs/layout-kit
       '@forever/query-kit':
         specifier: workspace:*
         version: link:../../libs/query-kit
@@ -335,8 +344,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
       '@stripe/stripe-js':
-        specifier: 5.6.0
-        version: 5.6.0
+        specifier: 8.9.0
+        version: 8.9.0
       '@tanstack/react-query':
         specifier: 5.64.2
         version: 5.64.2(react@18.3.1)
@@ -471,6 +480,46 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+
+  packages/libs/layout-kit:
+    dependencies:
+      '@forever/common-utils':
+        specifier: workspace:*
+        version: link:../common-utils
+      '@forever/sass-utils':
+        specifier: workspace:*
+        version: link:../sass-utils
+      '@forever/theme-kit':
+        specifier: workspace:*
+        version: link:../theme-kit
+      '@forever/ui-kit':
+        specifier: workspace:*
+        version: link:../ui-kit
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      framer-motion:
+        specifier: 11.15.0
+        version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-icons:
+        specifier: 5.4.0
+        version: 5.4.0(react@18.3.1)
+      react-router-dom:
+        specifier: 7.0.2
+        version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: 18.3.12
@@ -1168,8 +1217,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@stripe/stripe-js@5.6.0':
-    resolution: {integrity: sha512-w8CEY73X/7tw2KKlL3iOk679V9bWseE4GzNz3zlaYxcTjmcmWOathRb0emgo/QQ3eoNzmq68+2Y2gxluAv3xGw==}
+  '@stripe/react-stripe-js@5.6.1':
+    resolution: {integrity: sha512-5xBrjkGmFvKvpMod6VvpOaFaa67eRbmieKeFTePZyOr/sUXzm7A3YY91l330pS0usUst5PxTZDUZHWfOc0v1GA==}
+    peerDependencies:
+      '@stripe/stripe-js': '>=8.0.0 <9.0.0'
+      react: 18.3.1
+      react-dom: 18.3.1
+
+  '@stripe/stripe-js@8.9.0':
+    resolution: {integrity: sha512-OJkXvUI5GAc56QdiSRimQDvWYEqn475J+oj8RzRtFTCPtkJNO2TWW619oDY+nn1ExR+2tCVTQuRQBbR4dRugww==}
     engines: {node: '>=12.16'}
 
   '@tanstack/query-core@5.64.2':
@@ -2823,7 +2879,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
-  '@stripe/stripe-js@5.6.0': {}
+  '@stripe/react-stripe-js@5.6.1(@stripe/stripe-js@8.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@stripe/stripe-js': 8.9.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@stripe/stripe-js@8.9.0': {}
 
   '@tanstack/query-core@5.64.2': {}
 

@@ -7,6 +7,27 @@
   to = "/admin/index.html"
   status = 200
 
+# Checkout app routes served from /checkout/index.html (assets at /checkout/)
+[[redirects]]
+  from = "/cart"
+  to = "/checkout/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/place-order"
+  to = "/checkout/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/payment/result"
+  to = "/checkout/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/checkout/*"
+  to = "/checkout/index.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

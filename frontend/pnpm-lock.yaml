@@ -10,7 +10,7 @@ overrides:
   react-dom: 18.3.1
   react-router-dom: 7.0.2
   zustand: 5.0.3
-  axios: 1.7.9
+  axios: 1.13.5
   '@tanstack/react-query': 5.64.2
 
 importers:
@@ -66,8 +66,8 @@ importers:
         specifier: 6.1.11
         version: 6.1.11
       axios:
-        specifier: 1.7.9
-        version: 1.7.9
+        specifier: 1.13.5
+        version: 1.13.5
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -163,6 +163,148 @@ importers:
         specifier: 7.3.1
         version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)
 
+  packages/apps/checkout:
+    dependencies:
+      '@forever/api':
+        specifier: workspace:*
+        version: link:../../libs/api
+      '@forever/common-utils':
+        specifier: workspace:*
+        version: link:../../libs/common-utils
+      '@forever/hook-kit':
+        specifier: workspace:*
+        version: link:../../libs/hook-kit
+      '@forever/layout-kit':
+        specifier: workspace:*
+        version: link:../../libs/layout-kit
+      '@forever/query-kit':
+        specifier: workspace:*
+        version: link:../../libs/query-kit
+      '@forever/sass-utils':
+        specifier: workspace:*
+        version: link:../../libs/sass-utils
+      '@forever/speech':
+        specifier: workspace:*
+        version: link:../../libs/speech
+      '@forever/storage-kit':
+        specifier: workspace:*
+        version: link:../../libs/storage-kit
+      '@forever/theme-kit':
+        specifier: workspace:*
+        version: link:../../libs/theme-kit
+      '@forever/ui-kit':
+        specifier: workspace:*
+        version: link:../../libs/ui-kit
+      '@hookform/error-message':
+        specifier: 2.0.1
+        version: 2.0.1(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react@18.3.1)
+      '@hookform/resolvers':
+        specifier: 3.10.0
+        version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
+      '@stripe/react-stripe-js':
+        specifier: 5.6.1
+        version: 5.6.1(@stripe/stripe-js@8.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@stripe/stripe-js':
+        specifier: 8.9.0
+        version: 8.9.0
+      '@tanstack/react-query':
+        specifier: 5.64.2
+        version: 5.64.2(react@18.3.1)
+      '@types/react-helmet':
+        specifier: 6.1.11
+        version: 6.1.11
+      axios:
+        specifier: 1.13.5
+        version: 1.13.5
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      dayjs:
+        specifier: 1.11.13
+        version: 1.11.13
+      framer-motion:
+        specifier: 11.15.0
+        version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      millify:
+        specifier: 6.1.0
+        version: 6.1.0
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-countup:
+        specifier: 6.5.3
+        version: 6.5.3(react@18.3.1)
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-helmet:
+        specifier: 6.1.0
+        version: 6.1.0(react@18.3.1)
+      react-hook-form:
+        specifier: 7.54.2
+        version: 7.54.2(react@18.3.1)
+      react-hot-toast:
+        specifier: 2.5.1
+        version: 2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-icons:
+        specifier: 5.4.0
+        version: 5.4.0(react@18.3.1)
+      react-imask:
+        specifier: 7.6.1
+        version: 7.6.1(react@18.3.1)
+      react-router-dom:
+        specifier: 7.0.2
+        version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-select:
+        specifier: 5.10.0
+        version: 5.10.0(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zod:
+        specifier: 3.24.1
+        version: 3.24.1
+      zustand:
+        specifier: 5.0.3
+        version: 5.0.3(@types/react@18.3.12)(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: 9.39.1
+        version: 9.39.1
+      '@types/node':
+        specifier: 22.13.4
+        version: 22.13.4
+      '@types/react':
+        specifier: 18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+      '@vitejs/plugin-react':
+        specifier: 5.1.1
+        version: 5.1.1(vite@7.3.1(@types/node@22.13.4)(sass@1.97.3))
+      eslint:
+        specifier: 9.39.1
+        version: 9.39.1
+      eslint-plugin-react-hooks:
+        specifier: 7.0.1
+        version: 7.0.1(eslint@9.39.1)
+      eslint-plugin-react-refresh:
+        specifier: 0.4.24
+        version: 0.4.24(eslint@9.39.1)
+      globals:
+        specifier: 16.5.0
+        version: 16.5.0
+      sass:
+        specifier: 1.97.3
+        version: 1.97.3
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: 8.48.0
+        version: 8.48.0(eslint@9.39.1)(typescript@5.9.3)
+      vite:
+        specifier: 7.3.1
+        version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)
+
   packages/apps/main:
     dependencies:
       '@forever/api':
@@ -174,6 +316,9 @@ importers:
       '@forever/hook-kit':
         specifier: workspace:*
         version: link:../../libs/hook-kit
+      '@forever/layout-kit':
+        specifier: workspace:*
+        version: link:../../libs/layout-kit
       '@forever/query-kit':
         specifier: workspace:*
         version: link:../../libs/query-kit
@@ -199,8 +344,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
       '@stripe/stripe-js':
-        specifier: 5.6.0
-        version: 5.6.0
+        specifier: 8.9.0
+        version: 8.9.0
       '@tanstack/react-query':
         specifier: 5.64.2
         version: 5.64.2(react@18.3.1)
@@ -208,8 +353,8 @@ importers:
         specifier: 6.1.11
         version: 6.1.11
       axios:
-        specifier: 1.7.9
-        version: 1.7.9
+        specifier: 1.13.5
+        version: 1.13.5
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -305,8 +450,8 @@ importers:
         specifier: workspace:*
         version: link:../storage-kit
       axios:
-        specifier: 1.7.9
-        version: 1.7.9
+        specifier: 1.13.5
+        version: 1.13.5
 
   packages/libs/common-utils:
     dependencies:
@@ -335,6 +480,46 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+
+  packages/libs/layout-kit:
+    dependencies:
+      '@forever/common-utils':
+        specifier: workspace:*
+        version: link:../common-utils
+      '@forever/sass-utils':
+        specifier: workspace:*
+        version: link:../sass-utils
+      '@forever/theme-kit':
+        specifier: workspace:*
+        version: link:../theme-kit
+      '@forever/ui-kit':
+        specifier: workspace:*
+        version: link:../ui-kit
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      framer-motion:
+        specifier: 11.15.0
+        version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-icons:
+        specifier: 5.4.0
+        version: 5.4.0(react@18.3.1)
+      react-router-dom:
+        specifier: 7.0.2
+        version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: 18.3.12
@@ -1032,8 +1217,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@stripe/stripe-js@5.6.0':
-    resolution: {integrity: sha512-w8CEY73X/7tw2KKlL3iOk679V9bWseE4GzNz3zlaYxcTjmcmWOathRb0emgo/QQ3eoNzmq68+2Y2gxluAv3xGw==}
+  '@stripe/react-stripe-js@5.6.1':
+    resolution: {integrity: sha512-5xBrjkGmFvKvpMod6VvpOaFaa67eRbmieKeFTePZyOr/sUXzm7A3YY91l330pS0usUst5PxTZDUZHWfOc0v1GA==}
+    peerDependencies:
+      '@stripe/stripe-js': '>=8.0.0 <9.0.0'
+      react: 18.3.1
+      react-dom: 18.3.1
+
+  '@stripe/stripe-js@8.9.0':
+    resolution: {integrity: sha512-OJkXvUI5GAc56QdiSRimQDvWYEqn475J+oj8RzRtFTCPtkJNO2TWW619oDY+nn1ExR+2tCVTQuRQBbR4dRugww==}
     engines: {node: '>=12.16'}
 
   '@tanstack/query-core@5.64.2':
@@ -1210,8 +1402,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.7.9:
-    resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
+  axios@1.13.5:
+    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
 
   babel-plugin-macros@3.1.0:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
@@ -2687,7 +2879,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
-  '@stripe/stripe-js@5.6.0': {}
+  '@stripe/react-stripe-js@5.6.1(@stripe/stripe-js@8.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@stripe/stripe-js': 8.9.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@stripe/stripe-js@8.9.0': {}
 
   '@tanstack/query-core@5.64.2': {}
 
@@ -2901,7 +3100,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.7.9:
+  axios@1.13.5:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.5

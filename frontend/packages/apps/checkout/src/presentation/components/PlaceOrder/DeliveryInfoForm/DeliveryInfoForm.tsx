@@ -1,0 +1,182 @@
+import { Controller, useFormContext } from "react-hook-form";
+import styles from "./DeliveryInfoForm.module.scss";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { IMaskInput } from "react-imask";
+import Select from "react-select";
+import { Input } from "@forever/ui-kit";
+import { isEmptyString } from "@forever/common-utils";
+
+const ErrorModal = lazy(() => import("../ErrorModal/ErrorModal"));
+
+type CountryDataType = {
+  country: string;
+  city: string[];
+};
+
+const DeliveryInfoForm = () => {
+  const form = useFormContext();
+  const [modal, setModal] = useState(false);
+  const [countryData, setCountryData] = useState<CountryDataType[]>([]);
+
+  useEffect(() => {
+    if (form.formState.isSubmitting && !form.formState.isValid) {
+      setModal(true);
+    }
+  }, [form.formState.isSubmitting, form.formState.isValid])
+
+  useEffect(() => {
+    const fetchCountriesData = async () => {
+      const res = await fetch("/country.json");
+      const dt = await res.json();
+      setCountryData(dt);
+    };
+    fetchCountriesData();
+  }, []);
+
+  const countriesOptions = useMemo(() => countryData.map((item) => ({
+    value: item.country,
+    label: item.country,
+  })), [countryData]);
+
+  const cityOptions = useMemo(() =>
+    countryData
+      .find((item) => item.country === form.watch("country"))
+      ?.city
+      ?.map((item) => ({ value: item, label: item })) || [],
+    [form.watch("country"), countryData]);
+
+  const cityValue = isEmptyString(form.watch("city")) ? null : { value: form.watch("city"), label: form.watch("city") }
+
+  return (
+    <div className={styles.delivery_info_form_wrapper}>
+      <AnimatePresence>
+        {modal && (
+          <Suspense fallback={<></>}>
+            <ErrorModal
+              errors={form.formState.errors}
+              closeModal={() => setModal(false)}
+            />
+          </Suspense>
+        )}
+      </AnimatePresence>
+      <h6>
+        DELIVERY
+        <span>INFORMATION</span>
+      </h6>
+      <div className={styles.delivery_info_form}>
+        <div className={styles.side_by_side_inputs}>
+          <Controller
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <Input
+                className={styles.delivery_form_input}
+                fields={field}
+                placeholder="First name"
+              />
+            )}
+          />
+          <Controller
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <Input
+                className={styles.delivery_form_input}
+                fields={field}
+                placeholder="Last name"
+              />
+            )}
+          />
+        </div>
+        <Controller
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <Input
+              className={styles.delivery_form_input}
+              fields={field}
+              placeholder="Email address"
+              type="email"
+            />
+          )}
+        />
+        <Controller
+          control={form.control}
+          name="street"
+          render={({ field }) => (
+            <Input
+              className={styles.delivery_form_input}
+              fields={field}
+              placeholder="Street"
+            />
+          )}
+        />
+        <div className={styles.side_by_side_inputs}>
+          <Select
+            placeholder="Select a city"
+            className={styles.form_select}
+            onChange={(e) => form.setValue("city", e?.value)}
+            value={cityValue}
+            options={cityOptions}
+            classNamePrefix="react-select"
+            isSearchable
+            isClearable
+          />
+          <Select
+            placeholder="Select a country"
+            className={styles.form_select}
+            onChange={(e) => {
+              form.setValue("country", e?.value || "");
+              form.setValue("city", "")
+            }}
+            options={countriesOptions}
+            classNamePrefix="react-select"
+            isSearchable
+            isClearable
+          />
+        </div>
+        <div className={styles.side_by_side_inputs}>
+          <Controller
+            control={form.control}
+            name="zipCode"
+            render={({ field }) => (
+              <Input
+                className={styles.delivery_form_input}
+                fields={field}
+                placeholder="Zipcode"
+              />
+            )}
+          />
+          <Controller
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <Input
+                className={styles.delivery_form_input}
+                fields={field}
+                placeholder="State"
+              />
+            )}
+          />
+        </div>
+
+        <Controller
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <Input
+              customInput={IMaskInput}
+              mask="0 (000) 000 00 00"
+              className={styles.delivery_form_input}
+              fields={field}
+              placeholder="Phone Number"
+            />
+          )}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default DeliveryInfoForm;

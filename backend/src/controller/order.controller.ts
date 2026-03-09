@@ -9,27 +9,33 @@ import { sendOrderMail } from "./mail.controller";
 import { stripe } from "../config/stripe";
 
 export const confirmOrderPayment = async (req: ExtendedRequest, res: Response) => {
-  const { payment, sessionId } = req.body;
+  const { payment, sessionId, paymentIntentId } = req.body;
   const orderId = req.params.id;
 
-  if (!sessionId) {
-    throw new ErrorHandler(400, "Session id not found");
+  if (!sessionId && !paymentIntentId) {
+    throw new ErrorHandler(400, "A 'paymentIntentId' or 'sessionId' is required to confirm the order payment.");
   }
 
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  let isPaid = false;
 
-  if (session.payment_status === "paid") {
+  if (paymentIntentId) {
+    // Stripe Payment Element (Payment Intent) flow
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId as string);
+    isPaid = paymentIntent.status === "succeeded";
+  } else {
+    // Legacy Checkout Session flow
+    const session = await stripe.checkout.sessions.retrieve(sessionId as string);
+    isPaid = session.payment_status === "paid";
+  }
+
+  if (isPaid) {
     const isOrderPayment = await Order.findById(orderId).populate("payment");
 
     if (!isOrderPayment?.payment) {
       const order = await Order.findByIdAndUpdate(
         orderId,
-        {
-          payment: payment,
-        },
-        {
-          new: true,
-        }
+        { payment: payment },
+        { new: true }
       );
 
       await sendOrderMail(
@@ -48,13 +54,11 @@ export const confirmOrderPayment = async (req: ExtendedRequest, res: Response) =
         true
       );
       ResponseHandler.success(res, 200, { message: "Order update success" });
+    } else {
+      throw new ErrorHandler(400, "This order has already been paid for.");
     }
-    else {
-      throw new ErrorHandler(400, "This order has already been paid for")
-    }
-  }
-  else {
-    throw new ErrorHandler(400, "This order has not been paid for.")
+  } else {
+    throw new ErrorHandler(400, "This order has not been paid for.");
   }
 };
 

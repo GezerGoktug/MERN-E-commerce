@@ -27,7 +27,7 @@ const initialState: Store = { theme: getInitialTheme(),
 const ThemeContext = createContext<Store>(initialState);
 
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<ThemeType>("light");
+    const [theme, setTheme] = useState<ThemeType>(initialState.theme);
 
     const changeTheme = (theme: ThemeType) => setTheme(theme);
 

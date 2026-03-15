@@ -6,7 +6,9 @@ import {
   removeProductOfCart,
 } from "../../../store/cart/actions";
 import getSize from "../../../helper/getSize";
-import { Input } from "@forever/ui-kit";
+import { Image, Input } from "@forever/ui-kit";
+import TshirtIcon from "../../../icons/TshirtIcon";
+import { cloudinaryImageOptimizer } from "@forever/common-utils";
 
 const CartProducts = () => {
   const cart = useCart();
@@ -22,7 +24,16 @@ const CartProducts = () => {
             key={`${item._id}_${item.size}`}
             className={styles.cart_product_item}
           >
-            <img src={item.image} alt="" />
+            <Image
+              className={styles.cart_product_image}
+              wrapperClassname={styles.cart_product_image_wrapper}
+              src={cloudinaryImageOptimizer(item.image)}
+              placeholder={
+                <div className={styles.cart_product_image_placeholder}>
+                  <TshirtIcon />
+                </div>
+              }
+            />
             <div className={styles.cart_product_item_content}>
               <h6>{item.name}</h6>
               <div className={styles.cart_product_price_and_size}>

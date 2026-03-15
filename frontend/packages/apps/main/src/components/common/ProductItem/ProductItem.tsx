@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { isAccess } from "../../../store/auth/hooks";
 import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
 import { cloudinaryImageOptimizer } from "@forever/common-utils";
+import { Image } from "@forever/ui-kit";
+import TshirtIcon from "../../../icons/TshirtIcon";
 
 const variant = {
   open: { y: 0, opacity: 1 },
@@ -51,6 +53,7 @@ const ProductCard = ({
 
   const toggleFavourite = () => isAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
 
+
   return (
     <Link to={`/product/${product._id}`}>
       <motion.div
@@ -71,7 +74,16 @@ const ProductCard = ({
           {isFav ? <IoMdHeart fill="red" size={20} /> : <IoMdHeartEmpty size={20} />}
         </div>
         <div className={styles.product_card_img}>
-          <img src={cloudinaryImageOptimizer(product.image)} alt={product.name} />
+          <Image
+            className={styles.product_img}
+            src={cloudinaryImageOptimizer(product.image)}
+            alt={product.name}
+            placeholder={
+              <div className={styles.product_card_image_placeholder}>
+                <TshirtIcon />
+              </div>
+            }
+          />
         </div>
         <h4>{product.name}</h4>
         <span>${product.price}</span>

@@ -2,40 +2,88 @@
 @use "@forever/sass-utils/mixins" as m;
 
 .detail_pictures_section {
-  @include u.row-center;
-  gap: 15px;
-  height: 400px;
+  display: grid;
+  grid-template-columns: 100px auto;
+  gap: 40px;
+
+  @include m.responsive(xl) {
+    grid-template-columns: 80px auto;
+  }
+
+  @include m.responsive(lg) {
+    grid-template-columns: 1fr;
+    height: max-content;
+  }
+
   @include m.responsive(sm) {
-    @include u.col-start;
     flex-direction: column-reverse;
     height: auto;
   }
+
   .detail_pictures_section_left {
-    @include u.col-start;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     gap: 10px;
-    height: 100%;
-    width: 16%;
-    @include m.responsive(sm) {
-      @include u.row-center;
+    height: max-content;
+
+    @include m.responsive(lg) {
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      order: 2;
       width: 100%;
     }
-    img {
+
+    .detail_pictures_section_left_img_wrapper {
       width: 100%;
       cursor: pointer;
+      aspect-ratio: 1/1.25;
+
       @include m.responsive(sm) {
-        width: 22%;
+        aspect-ratio: 1/1.2;
+      }
+
+      img {
+        height: auto;
+      }
+
+      .detail_pictures_section_left_img_placeholder {
+        @include u.skeleton_animate(100%, 100%);
+        @include u.flex-center;
+
+        svg {
+          width: 40px;
+          height: 40px;
+        }
       }
     }
+
+    // img {
+    //   width: 100%;
+    //   cursor: pointer;
+
+    //   @include m.responsive(sm) {
+    //     width: 22%;
+    //   }
+    // }
   }
+
   .detail_pictures_section_right {
-    width: 80%;
-    height: 100%;
-    @include m.responsive(sm) {
-      width: 100%;
-    }
-    img {
-      width: 100%;
+    height: max-content;
+
+    .detail_pictures_section_right_img_wrapper {
+      aspect-ratio: 1/1.15;
       height: auto;
+
+      .detail_pictures_section_right_img_placeholder {
+        @include u.skeleton_animate(100%, 100%);
+        @include u.flex-center;
+
+        svg {
+          width: 140px;
+          height: 140px;
+        }
+      }
     }
+
   }
 }

@@ -7,6 +7,7 @@ import Modal from "./components/Modal/Modal";
 import Overlay from "./components/Overlay/Overlay";
 import Tooltip from "./components/Tooltip/Tooltip";
 import Loading from "./components/Loading/Loading";
+import Image from "./components/Image/Image";
 
 export {
     Button,
@@ -17,6 +18,7 @@ export {
     Modal,
     Overlay,
     Tooltip,
-    Loading
+    Loading,
+    Image
 }
 

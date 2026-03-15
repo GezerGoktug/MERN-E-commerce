@@ -1,5 +1,8 @@
 import { useState } from "react";
 import styles from "./DetailPictures.module.scss";
+import { Image } from "@forever/ui-kit";
+import TshirtIcon from "../../../icons/TshirtIcon";
+import { cloudinaryImageOptimizer } from "@forever/common-utils";
 
 type DetailPicturesProps = {
   subImages: string[];
@@ -12,29 +15,62 @@ const DetailPictures = ({ images }: { images: DetailPicturesProps }) => {
   return (
     <div className={styles.detail_pictures_section}>
       <div className={styles.detail_pictures_section_left}>
-        <img
+        <Image
+          wrapperClassname={styles.detail_pictures_section_left_img_wrapper}
           onClick={() => setActiveImage(images.subImages[0])}
-          src={images.subImages[0]}
+          src={cloudinaryImageOptimizer(images.subImages[0])}
           alt=""
+          placeholder={
+            <div className={styles.detail_pictures_section_left_img_placeholder}>
+              <TshirtIcon />
+            </div>
+          }
         />
-        <img
+        <Image
+          wrapperClassname={styles.detail_pictures_section_left_img_wrapper}
           onClick={() => setActiveImage(images.subImages[1])}
-          src={images.subImages[1]}
+          src={cloudinaryImageOptimizer(images.subImages[1])}
           alt=""
+          placeholder={
+            <div className={styles.detail_pictures_section_left_img_placeholder}>
+              <TshirtIcon />
+            </div>
+          }
         />
-        <img
+        <Image
+          wrapperClassname={styles.detail_pictures_section_left_img_wrapper}
           onClick={() => setActiveImage(images.subImages[2])}
-          src={images.subImages[2]}
+          src={cloudinaryImageOptimizer(images.subImages[2])}
           alt=""
+          placeholder={
+            <div className={styles.detail_pictures_section_left_img_placeholder}>
+              <TshirtIcon />
+            </div>
+          }
         />
-        <img
+        <Image
+          wrapperClassname={styles.detail_pictures_section_left_img_wrapper}
           onClick={() => setActiveImage(images.subImages[3])}
-          src={images.subImages[3]}
+          src={cloudinaryImageOptimizer(images.subImages[3])}
           alt=""
+          placeholder={
+            <div className={styles.detail_pictures_section_left_img_placeholder}>
+              <TshirtIcon />
+            </div>
+          }
         />
       </div>
       <div className={styles.detail_pictures_section_right}>
-        <img src={activeImage || images.image} alt="" />
+        <Image
+          className={styles.detail_pictures_section_right_img}
+          wrapperClassname={styles.detail_pictures_section_right_img_wrapper}
+          src={cloudinaryImageOptimizer(activeImage || images.image)}
+          placeholder={
+            <div className={styles.detail_pictures_section_right_img_placeholder}>
+              <TshirtIcon />
+            </div>
+          }
+        />
       </div>
     </div>
   );

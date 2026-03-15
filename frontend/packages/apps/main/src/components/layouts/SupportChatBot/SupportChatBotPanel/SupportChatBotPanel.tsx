@@ -321,7 +321,7 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                         <div className={styles.support_chatbot_panel_top_left}>
                             <div className={styles.support_chatbot_panel_top_left_avatar}>
                                 <RiGeminiFill className={styles.agent_icon} />
-                                <img src="/agent.png" alt="agent" />
+                                <img src="/agent.avif" alt="agent" />
                             </div>
                             <div className={styles.support_chatbot_panel_agent_infos}>
                                 <h6>Sora</h6>
@@ -362,7 +362,7 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                                         className={clsx(styles.support_chatbot_panel_message_item, { [styles.is_my_message]: msg.type === "human" })}
                                     >
                                         <div className={clsx(styles.support_chatbot_panel_message, { [styles.is_my_message]: msg.type === "human" })}>
-                                            {msg.type === "ai" && <img src="/agent.png" alt="" />}
+                                            {msg.type === "ai" && <img src="/agent.avif" alt="" />}
                                             <p>{msg.message}</p>
                                         </div>
                                         {

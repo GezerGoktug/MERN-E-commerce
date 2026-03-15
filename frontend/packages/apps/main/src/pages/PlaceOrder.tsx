@@ -1,8 +1,6 @@
 import { Helmet } from "react-helmet";
-import { lazy, Suspense } from "react";
-import { Loading } from "@forever/ui-kit";
+import PlaceOrderWrapper from "../components/PlaceOrder/PlaceOrderWrapper/PlaceOrderWrapper";
 
-const PlaceOrderWrapper = lazy(() => import("../components/PlaceOrder/PlaceOrderWrapper/PlaceOrderWrapper"));
 
 const PlaceOrder = () => {
   return (
@@ -14,9 +12,7 @@ const PlaceOrder = () => {
           content="Complete your order securely on Forever. Buy digital products, software, and AI tools with confidence."
         />
       </Helmet>
-      <Suspense fallback={<Loading />}>
-        <PlaceOrderWrapper />
-      </Suspense>
+      <PlaceOrderWrapper />
     </>
   );
 };

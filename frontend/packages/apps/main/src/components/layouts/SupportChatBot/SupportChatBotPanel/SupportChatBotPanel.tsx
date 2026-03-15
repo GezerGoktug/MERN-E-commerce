@@ -336,9 +336,9 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                         </div>
                     </div>
                     <motion.div
-                        initial={{ maxHeight: isXSmallDevices ? 0 : "65px" }}
-                        animate={{ maxHeight: isXSmallDevices ? "70vh" : "400px" }}
-                        exit={{ maxHeight: isXSmallDevices ? 0 : "65px", transition: { delay: 0 } }}
+                        initial={{ maxHeight: isXSmallDevices ? 0 : "2vh" }}
+                        animate={{ maxHeight: isXSmallDevices ? "70vh" : "45vh" }}
+                        exit={{ maxHeight: isXSmallDevices ? 0 : "2vh", transition: { delay: 0 } }}
                         transition={{ duration: 0.4, delay: 0.7 }}
                         className={styles.support_chatbot_panel_message_history}
                         id='messageHistory'
@@ -348,66 +348,66 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                             animate={{ display: "block" }}
                             exit={{ display: "none", transition: { display: { delay: 0 } } }}
                             transition={{ duration: 0.4, delay: 0.7 }}
-                            style={{ height: isXSmallDevices ? "70vh" : "400px" }}
+                            style={{ height: isXSmallDevices ? "70vh" : "45vh"}}
                         >
-                            {
-                                messages.map((msg, i) => (
-                                    <motion.div
-                                        key={`chatbot-message-` + msg.products + "-" + i}
-                                        {...(msg.isFirstMessage ? {
-                                            initial: { x: -10, opacity: 0 },
-                                            animate: { x: 0, opacity: 1 },
-                                            transition: { duration: 0.4, delay: 1 }
-                                        } : null)}
-                                        className={clsx(styles.support_chatbot_panel_message_item, { [styles.is_my_message]: msg.type === "human" })}
-                                    >
-                                        <div className={clsx(styles.support_chatbot_panel_message, { [styles.is_my_message]: msg.type === "human" })}>
-                                            {msg.type === "ai" && <img src="/agent.avif" alt="" />}
-                                            <p>{msg.message}</p>
+                        {
+                            messages.map((msg, i) => (
+                                <motion.div
+                                    key={`chatbot-message-` + msg.products + "-" + i}
+                                    {...(msg.isFirstMessage ? {
+                                        initial: { x: -10, opacity: 0 },
+                                        animate: { x: 0, opacity: 1 },
+                                        transition: { duration: 0.4, delay: 1 }
+                                    } : null)}
+                                    className={clsx(styles.support_chatbot_panel_message_item, { [styles.is_my_message]: msg.type === "human" })}
+                                >
+                                    <div className={clsx(styles.support_chatbot_panel_message, { [styles.is_my_message]: msg.type === "human" })}>
+                                        {msg.type === "ai" && <img src="/agent.avif" alt="" />}
+                                        <p>{msg.message}</p>
+                                    </div>
+                                    {
+                                        msg.isFirstMessage &&
+                                        <div className={styles.support_chatbot_panel_example_questions}>
+                                            {
+                                                exampleQuestions[ramdomNumber].map((question, i) => (
+                                                    <motion.div
+                                                        initial={{ x: -10, opacity: 0 }}
+                                                        animate={{ x: 0, opacity: 1 }}
+                                                        transition={{ duration: 0.4, delay: 1 + ((i + 1) * 0.2) }}
+                                                        className={styles.support_chatbot_panel_example_question}
+                                                        onClick={() => handleClickRandomQuestionBtn(question)}
+                                                    >
+                                                        <span>{question}</span>
+                                                        <MdInput size={20} />
+                                                    </motion.div>
+
+                                                ))
+                                            }
                                         </div>
-                                        {
-                                            msg.isFirstMessage &&
-                                            <div className={styles.support_chatbot_panel_example_questions}>
-                                                {
-                                                    exampleQuestions[ramdomNumber].map((question, i) => (
-                                                        <motion.div
-                                                            initial={{ x: -10, opacity: 0 }}
-                                                            animate={{ x: 0, opacity: 1 }}
-                                                            transition={{ duration: 0.4, delay: 1 + ((i + 1) * 0.2) }}
-                                                            className={styles.support_chatbot_panel_example_question}
-                                                            onClick={() => handleClickRandomQuestionBtn(question)}
-                                                        >
-                                                            <span>{question}</span>
-                                                            <MdInput size={20} />
-                                                        </motion.div>
+                                    }
+                                    <AiAdviseProducts msg={msg} />
 
-                                                    ))
-                                                }
-                                            </div>
-                                        }
-                                        <AiAdviseProducts msg={msg} />
+                                </motion.div>
 
-                                    </motion.div>
-
-                                ))
-                            }
-                            {
-                                isPending && (
-                                    <motion.div
-                                        className={styles.support_chatbot_panel_skeleton_message_wrapper}
-                                    >
-                                        <div className={styles.support_chatbot_panel_skeleton_message}>
-                                            <img src="/agent.png" alt="" />
-                                            <div className={styles.support_chatbot_panel_skeletons_text}>
-                                                <div />
-                                                <div />
-                                                <div />
-                                                <div />
-                                            </div>
+                            ))
+                        }
+                        {
+                            isPending && (
+                                <motion.div
+                                    className={styles.support_chatbot_panel_skeleton_message_wrapper}
+                                >
+                                    <div className={styles.support_chatbot_panel_skeleton_message}>
+                                        <img src="/agent.png" alt="" />
+                                        <div className={styles.support_chatbot_panel_skeletons_text}>
+                                            <div />
+                                            <div />
+                                            <div />
+                                            <div />
                                         </div>
-                                    </motion.div>
-                                )
-                            }
+                                    </div>
+                                </motion.div>
+                            )
+                        }
                         </motion.div>
                     </motion.div>
                     <div className={styles.support_chatbot_panel_bottom}>

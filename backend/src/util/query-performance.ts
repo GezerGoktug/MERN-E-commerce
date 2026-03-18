@@ -32,20 +32,20 @@ const getPerformanceParameters = (perfStatsData: IMongooseExplainResult): IPerfo
         examinedKeysCount: perfStatsData.executionStats.totalKeysExamined,
         returnedDocCount: perfStatsData.executionStats.nReturned,
         executionTimeMs: perfStatsData.executionStats.executionTimeMillis,
-        totalWorkUnits: perfStatsData.executionStats.executionStages.works 
+        totalWorkUnits: perfStatsData.executionStats.executionStages.works
     }
 }
 
 //  we expecting has bad performance metrics for variantA , we expecting has better performance metrics for variantB
 const comparePerfMetrics = (variantA: IPerformanceMetrics, variantB: IPerformanceMetrics, totalDocsCount: number) => {
-    
+
     const scannedDocsSaved = variantA.scannedDocsCount - variantB.scannedDocsCount;
     const timeSavedMs = variantA.executionTimeMs - variantB.executionTimeMs;
     const workUnitsSaved = variantA.totalWorkUnits - variantB.totalWorkUnits;
 
     const expectedScanDocCount = variantA.returnedDocCount;
     const range = totalDocsCount - expectedScanDocCount;
-    
+
     let indexEfficiencyPerformance = 0;
     if (range > 0) {
         indexEfficiencyPerformance = (
@@ -72,17 +72,22 @@ const comparePerfMetrics = (variantA: IPerformanceMetrics, variantB: IPerformanc
 }
 
 const queryPerformanceCompare = async (query: MongooseQuery) => {
+    if (process.env.NODE_ENV === "production") {
+        logger.warn("Query performance analyzer disabled for production env");
+        return;
+    }
+
     try {
         const Model = query.model;
         const totalDocsCount = await Model.countDocuments();
 
-        const [perfStatsWithIndex, naturalQueryStatsWithoutIndexes] = await Promise.all([
+        const [perfStatsWithIndex, perfStatsWithoutIndexes] = await Promise.all([
             query.clone().explain("executionStats") as unknown as IMongooseExplainResult,
             query.clone().hint({ $natural: 1 }).explain("executionStats") as unknown as IMongooseExplainResult
         ]);
 
         logger.info("Query Performance Report \n" + comparePerfMetrics(
-            getPerformanceParameters(naturalQueryStatsWithoutIndexes),
+            getPerformanceParameters(perfStatsWithoutIndexes),
             getPerformanceParameters(perfStatsWithIndex),
             totalDocsCount
         ));

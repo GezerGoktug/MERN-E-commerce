@@ -69,4 +69,8 @@ export const productSchema = new mongoose.Schema({
   comments: [CommentSchema],
 });
 
+productSchema.index({ name: "text" }, { name: "search_index" })
+productSchema.index({ category: 1, subCategory: 1, price: 1 }, { name: "product_filter_index" })
+productSchema.index({ subCategory: 1, price: 1 }, { name: "product_filter_index_2" })
+
 export const Product = mongoose.model("Product", productSchema);

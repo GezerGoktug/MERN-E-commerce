@@ -367,14 +367,21 @@ export const getProductDetail = async (req: ExtendedRequest, res: Response) => {
     return dateB - dateA;
   });
 
-  const relatedProducts = await Product.find({
+  const relatedProductsQuery = {
     $or: [
       { category: product?.category },
       { subCategory: product?.subCategory },
     ],
     _id: { $ne: product._id },
-  })
+  }
+
+  const relatedProductsCount = await Product.find(relatedProductsQuery).countDocuments();
+
+  const randomSkipNumber = Math.floor(Math.random() * ((relatedProductsCount - 5) + 1))
+
+  const relatedProducts = await Product.find(relatedProductsQuery)
     .limit(5)
+    .skip(randomSkipNumber)
     .select("image name price _id");
 
   const totalRating =

@@ -68,8 +68,8 @@ export default defineConfig(({ mode, isPreview }) => {
       port: 3000
     },
     build: {
-      outDir: '../../../dist/',
-      emptyOutDir: false,
+      outDir: '../../../dist/main/',
+      emptyOutDir: true,
     }
   }
 })

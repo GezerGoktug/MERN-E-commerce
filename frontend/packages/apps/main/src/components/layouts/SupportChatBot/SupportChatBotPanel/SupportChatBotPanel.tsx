@@ -87,7 +87,7 @@ const exampleQuestions = [
 ];
 
 const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { averageRating: number, isFav: boolean } }) => {
-
+    const isAccess = useIsAccess();
     const [isFav, setIsFav] = useState(false);
 
     useEffect(() => {
@@ -95,10 +95,10 @@ const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { ave
     }, [product.isFav])
 
     useEffect(() => {
-        if (!useIsAccess()) {
+        if (!isAccess) {
             setIsFav(false)
         }
-    }, [useIsAccess()])
+    }, [isAccess])
 
     const { mutate } = useHandleFavouriteMutation({
         onSuccess: async (data) => {
@@ -112,7 +112,7 @@ const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { ave
         }
     });
 
-    const toggleFavourite = () => useIsAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
+    const toggleFavourite = () => isAccess ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
     return (
         <Link to={`/product/${product._id}`}>
             <div className={styles.support_chatbot_panel_products}>

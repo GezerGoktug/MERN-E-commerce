@@ -37,6 +37,7 @@ const schema = z.object({
 const PlaceOrderWrapper = () => {
   const cart = useCart();
   const navigate = useNavigate();
+  const isAccess = useIsAccess();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -66,7 +67,7 @@ const PlaceOrderWrapper = () => {
   const { mutateAsync: createOrderWithStripeMutation } = useCreateOrderWithStripePaymentMethodMutation()
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    if (!useIsAccess()) {
+    if (!isAccess) {
       toast.error("You must log in to make payment.");
       return;
     }

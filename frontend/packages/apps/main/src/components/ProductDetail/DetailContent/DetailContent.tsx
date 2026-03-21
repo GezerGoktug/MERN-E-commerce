@@ -34,16 +34,17 @@ const DetailContent = ({
 }) => {
   const [selectedSize, setSelectedSize] = useState<SizeType | null>(null);
   const [isFav, setIsFav] = useState(false);
+  const isAccess = useIsAccess();
 
   useEffect(() => {
     setIsFav(productDetail.isFav);
   }, [productDetail.isFav])
 
   useEffect(() => {
-    if (!useIsAccess()) {
+    if (!isAccess) {
       setIsFav(false)
     }
-  }, [useIsAccess()])
+  }, [isAccess])
 
 
   const { mutate } = useHandleFavouriteMutation({
@@ -58,7 +59,7 @@ const DetailContent = ({
     }
   })
 
-  const toggleFavourite = () => useIsAccess() ? mutate({ productId: productDetail._id, isFav }) : toast.error('Please you login for add product to your favourites');
+  const toggleFavourite = () => isAccess ? mutate({ productId: productDetail._id, isFav }) : toast.error('Please you login for add product to your favourites');
 
   const handleAddCart = () => {
     if (selectedSize === null) {

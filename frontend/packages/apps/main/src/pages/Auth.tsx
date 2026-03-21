@@ -4,7 +4,7 @@ import Register from "../components/Auth/Register/Register";
 import { Helmet } from "react-helmet";
 
 const Auth = () => {
-  const [form, setForm] = useState<boolean>(false);
+  const [form, setForm] = useState<boolean>(true);
 
   return (
     <div>

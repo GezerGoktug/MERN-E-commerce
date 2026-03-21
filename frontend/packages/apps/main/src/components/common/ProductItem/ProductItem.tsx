@@ -28,16 +28,17 @@ const ProductCard = ({
   useWhileInView?: boolean;
 }) => {
   const [isFav, setIsFav] = useState(false);
+  const isAccess = useIsAccess();
 
   useEffect(() => {
     setIsFav(product.isFav);
   }, [product.isFav])
 
   useEffect(() => {
-    if (!useIsAccess()) {
+    if (!isAccess) {
       setIsFav(false)
     }
-  }, [useIsAccess()])
+  }, [isAccess])
 
   const { mutate } = useHandleFavouriteMutation({
     onSuccess: async (data) => {
@@ -51,7 +52,7 @@ const ProductCard = ({
     }
   });
 
-  const toggleFavourite = () => useIsAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
+  const toggleFavourite = () => isAccess ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
 
 
   return (

@@ -2,26 +2,28 @@ import { type ChangeEvent, useEffect, useState } from "react";
 import styles from "./Filter.module.scss";
 import { IoIosArrowUp } from "react-icons/io";
 import clsx from "clsx";
-import { useMediaQuery } from "@forever/hook-kit"
+import { useDebounce, useMediaQuery } from "@forever/hook-kit"
 import { useMaxPrice } from "../../../store/product/hooks";
 import { useQueryParams } from "@forever/query-kit";
 import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from "../../../types/product.type";
-import { Button } from "@forever/ui-kit";
-
+import { Button, Input } from "@forever/ui-kit";
+import { FaXmark } from "react-icons/fa6";
 
 const Filter = () => {
   const [openFilterOptions, setOpenFilterOptions] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
-  const { querySetters, queryState } = useQueryParams<Pick<ProductSearchQueryType, 'categories' | 'subCategories' | 'minPrice'>>({
+  const { querySetters, queryState } = useQueryParams<Pick<ProductSearchQueryType, 'categories' | 'subCategories' | 'minPrice' | 'searchQuery'>>({
     categories: [],
     subCategories: [],
-    minPrice: 0
+    minPrice: 0,
+    searchQuery: ""
   });
 
-  const { setCategories, setMinPrice, setSubCategories } = querySetters;
-  const { categories, minPrice, subCategories } = queryState;
+  const { setCategories, setMinPrice, setSubCategories, setSearchQuery } = querySetters;
+  const { categories, minPrice, subCategories, searchQuery } = queryState;
 
+  const [debouncedText, setText, text] = useDebounce<string>(searchQuery, 700);
   const maxPrice = useMaxPrice();
   const [lowerPrice, setLowerPrice] = useState(0);
 
@@ -48,6 +50,10 @@ const Filter = () => {
   }, [])
 
   useEffect(() => {
+    setSearchQuery(debouncedText)
+  }, [debouncedText])
+
+  useEffect(() => {
     if (minPrice === 0) {
       setLowerPrice(0)
     }
@@ -71,6 +77,15 @@ const Filter = () => {
       </div>
       {openFilterOptions && (
         <>
+          <Input
+            onChange={(e) => setText(e.target.value)}
+            value={text}
+            rightIcon={searchQuery.trim().length > 0 ? FaXmark : undefined}
+            rightIconSize={20}
+            rightIconOnClick={() => setText('')}
+            type="text"
+            placeholder="Search"
+          />
           <div className={styles.filter_box}>
             <h6>CATEGORIES</h6>
             <div className={styles.filter_option}>

@@ -1,8 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./HeaderRight.module.scss";
 import { RiHeartLine, RiUser3Line } from "react-icons/ri";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { IoSearch, IoSunny } from "react-icons/io5";
+import { IoSunny } from "react-icons/io5";
 import { FaBars, FaMoon } from "react-icons/fa6";
 import { useState } from "react";
 import Sidebar from "../../Sidebar/Sidebar";
@@ -16,7 +16,6 @@ import { Tooltip } from "@forever/ui-kit";
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
-  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useThemeStore();
 
@@ -26,13 +25,6 @@ const HeaderRight = () => {
   });
 
   const links = [
-    {
-      icon: IoSearch,
-      href: "/collection",
-      state: { searchBarOpen: true },
-      message: "Search",
-      preserveSearch: true
-    },
     {
       render: (
         <Tooltip message="Change Theme" >
@@ -81,7 +73,7 @@ const HeaderRight = () => {
         )}
       </AnimatePresence>
       <ul className={styles.header_right_links}>
-        {links.map(({ icon: Icon, href, state, is_count_badge, menu_icon, badge_data, is_fav_badge, message, preserveSearch, is_custom_item, render }, i) => (
+        {links.map(({ icon: Icon, href, is_count_badge, menu_icon, badge_data, is_fav_badge, message, is_custom_item, render }, i) => (
           <li key={"header_links_" + i}>
             {menu_icon ? (
               <>
@@ -95,13 +87,7 @@ const HeaderRight = () => {
               is_custom_item ? render : (
                 href && (
                   <Tooltip message={message}>
-                    <Link
-                      to={{
-                        pathname: href,
-                        search: preserveSearch ? location.search : '',
-                      }}
-                      state={state}
-                    >
+                    <Link to={{ pathname: href }}>
                       <Icon size={25} />
                       {is_count_badge && (
                         <span className={clsx(styles.header_right_badge, { [styles.is_fav_badge]: is_fav_badge })}>

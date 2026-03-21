@@ -1,27 +1,30 @@
-import fs from "fs/promises"
+import fs from "fs/promises";
 
-let isExistStaticFolder = false
-
-try {
-    await fs.access("./packages/static")
-    isExistStaticFolder = true;
-} catch {
-    isExistStaticFolder = false;
-}
-if (isExistStaticFolder) {
-    let isExistDistFolder = false
+const initStaicFolder = async () => {
+    let isExistStaticFolder = false;
     try {
-        await fs.access("./dist")
-        isExistDistFolder = true;
+        await fs.access("./packages/static")
+        isExistStaticFolder = true;
     } catch {
-        isExistDistFolder = false;
+        isExistStaticFolder = false;
     }
-    if (!isExistDistFolder) {
-        await fs.mkdir("./dist")
-        await fs.mkdir("./dist/static")
+    if (isExistStaticFolder) {
+        let isExistDistFolder = false;
+        try {
+            await fs.access("./dist")
+            isExistDistFolder = true;
+        } catch {
+            isExistDistFolder = false;
+        }
+        if (!isExistDistFolder) {
+            await fs.mkdir("./dist");
+            await fs.mkdir("./dist/static");
+        }
+        await fs.cp("./packages/static", "./dist/static", { recursive: true });
     }
-    await fs.cp("./packages/static", "./dist/static", { recursive: true })
+    else {
+        console.warn("Not accessed static folder")
+    }
 }
-else {
-    console.warn("Static dosyasına erişilemedi")
-}
+
+initStaicFolder();

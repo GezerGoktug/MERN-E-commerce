@@ -1,16 +1,22 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path';
-import fs from "fs"
+import fs from "fs/promises"
 
 const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boolean | undefined): Plugin => {
   const STATIC_KEY = '@forever-static';
   const STATIC_PACKAGE = path.resolve(__dirname, '../../static');
 
+  const MIME_TYPES: Record<string, string> = {
+    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif', '.svg': 'image/svg+xml', '.webp': 'image/webp',
+    '.ico': 'image/x-icon', '.json': 'application/json'
+  };
+
   return {
     name: 'forever-static-file-plugin',
     transform(code) {
-      if (!isDev && code.includes(STATIC_KEY)) {
+      if (!isDev && !isPreview && code.includes(STATIC_KEY)) {
         return {
           code: code.replace(new RegExp(STATIC_KEY, 'g'), envStaticPath),
           map: null,
@@ -19,27 +25,36 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
     },
 
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
+      server.middlewares.use(async (req, res, next) => {
         const url = req.url;
         if (url?.includes(STATIC_KEY) && (isDev || isPreview)) {
-          const parsedUrl = url.split('?')[0];
-          const relativePath = parsedUrl.split(STATIC_KEY)[1];
+          try {
+            const parsedUrl = url.split('?')[0];
+            const relativePath = parsedUrl.split(STATIC_KEY)[1];
+            const filePath = path.join(STATIC_PACKAGE, relativePath);
 
-          const filePath = path.join(STATIC_PACKAGE, relativePath);
+            const data = await fs.readFile(filePath);
 
-          const stream = fs.createReadStream(filePath);
+            const ext = path.extname(filePath).toLowerCase();
+            const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-          stream.on('open', () => stream.pipe(res));
-          stream.on('error', () => next());
+            res.writeHead(200, {
+              'Content-Type': contentType,
+              'Content-Length': data.length,
+            });
 
-          return;
+            res.end(data);
+            return;
+          } catch (err) {
+            return next();
+          }
         }
         next();
       });
     },
-
   };
 };
+
 // https://vite.dev/config/
 export default defineConfig(({ mode, isPreview }) => {
   const isDev = mode === "development";

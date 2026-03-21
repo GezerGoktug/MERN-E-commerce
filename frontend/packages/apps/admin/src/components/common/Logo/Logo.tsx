@@ -6,7 +6,6 @@ interface LogoProps {
   className?: string
   isAdminLogo?: boolean
 }
-// @forever-static/images/admin-logo.png
 const LOGO_SOURCES = {
   ADMIN: { dark: "@forever-static/images/admin-logo-dark.png", light:  "@forever-static/images/admin-logo.png" },
   DEFAULT: { dark: "@forever-static/images/logo_dark.png", light: "@forever-static/images/logo.png" },

@@ -2,7 +2,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Error from "./pages/Error/Error";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
 import { Toaster } from "react-hot-toast";
-import { isAdmin } from "./store/auth/hooks";
+import { useIsAdmin } from "./store/auth/hooks";
 import AdminStats from "./pages/Admin/Stats/AdminStats";
 import AdminAddProduct from "./pages/Admin/AddProduct/AdminAddProduct";
 import AdminProducts from "./pages/Admin/Products/AdminProducts";
@@ -12,7 +12,7 @@ import AuthGuard from "./guards/AuthGuard";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 
 const AdminPrivateRoute = () => {
-  return isAdmin() ? <Outlet /> : <Navigate to="/admin/login" />;
+  return useIsAdmin() ? <Outlet /> : <Navigate to="/admin/login" />;
 };
 
 function App() {

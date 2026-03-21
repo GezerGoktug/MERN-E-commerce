@@ -2,7 +2,7 @@ import type { ProductType } from "../../../types/product.type";
 import styles from "./LatestCollections.module.scss";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import ProductCard from "../../common/ProductItem/ProductItem";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import { useGetLatestProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const LatestCollections = () => {
@@ -12,7 +12,7 @@ const LatestCollections = () => {
     data?.data?.map(p => p._id) || [],
     ["isLatestProductInFavProduct"],
     {
-      enabled: (!!data?.data?.length && isAccess())
+      enabled: (useIsAccess() && !!data?.data?.length)
     }
   )
 

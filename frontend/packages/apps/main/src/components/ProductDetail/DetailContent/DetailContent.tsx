@@ -6,7 +6,7 @@ import type { ProductDetailContentType, SizeType } from "../../../types/product.
 import { createRatingArray } from "../../../helper/createRatingArray";
 import { addProductOfCart } from "../../../store/cart/actions";
 import toast from "react-hot-toast";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
 import { Button } from "@forever/ui-kit";
 
@@ -40,10 +40,10 @@ const DetailContent = ({
   }, [productDetail.isFav])
 
   useEffect(() => {
-    if (!isAccess()) {
+    if (!useIsAccess()) {
       setIsFav(false)
     }
-  }, [isAccess()])
+  }, [useIsAccess()])
 
 
   const { mutate } = useHandleFavouriteMutation({
@@ -58,7 +58,7 @@ const DetailContent = ({
     }
   })
 
-  const toggleFavourite = () => isAccess() ? mutate({ productId: productDetail._id, isFav }) : toast.error('Please you login for add product to your favourites');
+  const toggleFavourite = () => useIsAccess() ? mutate({ productId: productDetail._id, isFav }) : toast.error('Please you login for add product to your favourites');
 
   const handleAddCart = () => {
     if (selectedSize === null) {

@@ -17,7 +17,7 @@ import { AxiosError } from 'axios'
 import { type ExtendedProductType } from '../../../../types/product.type'
 import { Link } from 'react-router-dom'
 import { useIsProductsInFavQuery } from '../../../../services/hooks/queries/product.query'
-import { isAccess } from '../../../../store/auth/hooks'
+import { useIsAccess } from '../../../../store/auth/hooks'
 import { useHandleFavouriteMutation } from '../../../../services/hooks/mutations/product.mutations'
 import getSize from '../../../../helper/getSize'
 import { type MessageType } from '../../../../types/ai.type'
@@ -95,10 +95,10 @@ const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { ave
     }, [product.isFav])
 
     useEffect(() => {
-        if (!isAccess()) {
+        if (!useIsAccess()) {
             setIsFav(false)
         }
-    }, [isAccess()])
+    }, [useIsAccess()])
 
     const { mutate } = useHandleFavouriteMutation({
         onSuccess: async (data) => {
@@ -112,7 +112,7 @@ const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { ave
         }
     });
 
-    const toggleFavourite = () => isAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
+    const toggleFavourite = () => useIsAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
     return (
         <Link to={`/product/${product._id}`}>
             <div className={styles.support_chatbot_panel_products}>
@@ -153,7 +153,7 @@ const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { ave
 const AiAdviseProducts = ({ msg }: { msg: MessageType & { isFirstMessage?: boolean } }) => {
 
     const { data } = useIsProductsInFavQuery(msg.type === "ai" ? msg.products?.map(p => p._id) : [], ["ai-chatbot-fav-product"], {
-        enabled: isAccess() && msg.type === "ai" && !!msg.products?.length
+        enabled: useIsAccess() && msg.type === "ai" && !!msg.products?.length
     })
 
     const isFavProduct = (id: string) => data?.data.find(dt => dt._id === id)?.isFav;

@@ -7,7 +7,7 @@ import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import { useQueryParams } from "@forever/query-kit";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { GrPowerReset } from "react-icons/gr";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import type { SortType } from "../../../helper/generateSortingType";
 import { DataStateHandler } from "@forever/common-utils";
 import { FaCircleXmark } from "react-icons/fa6";
@@ -39,8 +39,7 @@ const Products = () => {
     data?.data.content.map(p => p._id) || [],
     ["isProductInFavProduct"],
     {
-      enabled: (!!data?.data?.content?.length && isAccess())
-
+      enabled: (useIsAccess() && !!data?.data?.content?.length)
     }
   )
 

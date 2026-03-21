@@ -3,7 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import ErrorBoundary from "./ErrorBoundary";
 import AuthGuard from "./guards/AuthGuard";
 import { Toaster } from "react-hot-toast";
-import { isAccess } from "./store/auth/hooks";
+import { useIsAccess } from "./store/auth/hooks";
 import { lazy, Suspense } from "react";
 import { Loading } from "@forever/ui-kit";
 
@@ -22,7 +22,7 @@ const Favourites = lazy(() => import("./pages/Favourites"));
 
 
 const PrivateRoute = () => {
-  return isAccess() ? <Outlet /> : <Navigate to="/auth" />;
+  return useIsAccess() ? <Outlet /> : <Navigate to="/auth" />;
 };
 
 function App() {

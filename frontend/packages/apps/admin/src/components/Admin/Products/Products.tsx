@@ -11,7 +11,7 @@ import DeleteProductModal from "./DeleteProductModal/DeleteProductModal";
 import EditProductModal from "./EditProductModal/EditProductModal";
 import { type ExtendedProductType } from "../../../types/product.type";
 import { useGetProductsForAdminQuery } from "../../../services/hooks/queries/product.query";
-import { isAdmin } from "../../../store/auth/hooks";
+import { useIsAdmin } from "../../../store/auth/hooks";
 
 interface ModalState<T> {
   modal_type: "DELETE" | "EDIT";
@@ -40,7 +40,7 @@ const Products = () => {
   > | null>(null);
 
   const { data } = useGetProductsForAdminQuery({ page }, {
-    enabled: isAdmin()
+    enabled: useIsAdmin()
   });
 
   return (

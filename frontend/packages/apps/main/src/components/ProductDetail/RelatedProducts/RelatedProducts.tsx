@@ -2,7 +2,7 @@ import styles from "./RelatedProducts.module.scss";
 import type { ProductType } from "../../../types/product.type";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
 import ProductCard from "../../common/ProductItem/ProductItem";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import { useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const RelatedProducts = ({
@@ -16,7 +16,7 @@ const RelatedProducts = ({
     products.map(item => item._id),
     ["isRelatedProductInFavProduct"],
     {
-      enabled: (!!products.length && isAccess())
+      enabled: (useIsAccess() && !!products.length)
     }
   )
 

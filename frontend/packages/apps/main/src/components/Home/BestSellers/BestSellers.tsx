@@ -2,7 +2,7 @@ import type { ProductType } from "../../../types/product.type";
 import styles from "./BestSellers.module.scss";
 import ProductCard from "../../common/ProductItem/ProductItem";
 import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import { useGetBestSellerProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
 
 const BestSellers = () => {
@@ -12,7 +12,7 @@ const BestSellers = () => {
     data?.data?.map(p => p._id) || [],
     ["isBestSellerProductInFavProduct"],
     {
-      enabled: (!!data?.data?.length && isAccess())
+      enabled: (useIsAccess() && !!data?.data?.length)
     }
   )
 

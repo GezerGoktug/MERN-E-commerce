@@ -8,7 +8,7 @@ import { useState } from "react";
 import Sidebar from "../../Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "../../../../store/cart/hooks";
-import { isAccess } from "../../../../store/auth/hooks";
+import { useIsAccess } from "../../../../store/auth/hooks";
 import clsx from "clsx";
 import { useGetFavProductsCountQuery } from "../../../../services/hooks/queries/product.query";
 import { useThemeStore } from "@forever/theme-kit"
@@ -19,9 +19,8 @@ const HeaderRight = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useThemeStore();
 
-
-  const { data } = useGetFavProductsCountQuery([isAccess() ? "favProductEnabled" : "favProductDisabled"], {
-    enabled: isAccess(),
+  const { data } = useGetFavProductsCountQuery([useIsAccess() ? "favProductEnabled" : "favProductDisabled"], {
+    enabled: useIsAccess(),
   });
 
   const links = [

@@ -28,7 +28,7 @@ import {
 import { Chart } from "react-google-charts";
 import { useThemeStore } from "@forever/theme-kit";
 import { useGetAdminStatisticsQuery } from "../../../services/hooks/queries/admin.query";
-import { isAdmin } from "../../../store/auth/hooks";
+import { useIsAdmin } from "../../../store/auth/hooks";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 const statsCardDefaultData = [
@@ -144,7 +144,7 @@ const Stats = () => {
 
   const { theme } = useThemeStore();
 
-  const { data } = useGetAdminStatisticsQuery({ enabled: isAdmin() });
+  const { data } = useGetAdminStatisticsQuery({ enabled: useIsAdmin() });
 
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Helmet } from "react-helmet";
-import { isAccess } from "../../store/auth/hooks";
+import { useIsAccess } from "../../store/auth/hooks";
 import { useGetProductDetailQuery, useIsFavouriteProductById } from "../../services/hooks/queries/product.query";
 import type { ProductDetailType } from "../../types/product.type";
 import DetailSkeleton from "../../components/ProductDetail/DetailSkeleton/DetailSkeleton";
@@ -22,7 +22,7 @@ const ProductDetail = () => {
 
   const { data, error, isPending } = useGetProductDetailQuery(params.id as string);
 
-  const { data: productFavData } = useIsFavouriteProductById(params.id as string, { enabled: isAccess() })
+  const { data: productFavData } = useIsFavouriteProductById(params.id as string, { enabled: useIsAccess() })
 
   if (error)
     return (

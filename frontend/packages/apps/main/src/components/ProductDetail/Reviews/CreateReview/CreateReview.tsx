@@ -1,7 +1,7 @@
 import styles from "./CreateReview.module.scss";
 import Rating from "./Rating/Rating";
 import { useState } from "react";
-import { isAccess, useAccount } from "../../../../store/auth/hooks";
+import { useAccount, useIsAccess } from "../../../../store/auth/hooks";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useCreateCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
@@ -39,7 +39,7 @@ const CreateReview = () => {
   };
   return (
     <>
-      {isAccess() ? (
+      {useIsAccess() ? (
         <div className={styles.create_review_wrapper}>
           <h5 className={styles.create_review_title}>Create Comment</h5>
           <div className={styles.create_review}>

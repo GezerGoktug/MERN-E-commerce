@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { clearUser, setUser } from "../store/auth/actions";
-import { isAccess } from "../store/auth/hooks";
+import { useIsAccess } from "../store/auth/hooks";
 import { useCheckAuthSessionQuery } from "../services/hooks/queries/auth.query";
 
 const AuthGuard = ({ children }: { children: ReactNode }) => {
@@ -8,7 +8,7 @@ const AuthGuard = ({ children }: { children: ReactNode }) => {
     refetchInterval: 1000 * 60 * 60 * 3,
     refetchOnWindowFocus: false,
     retry: false,
-    enabled: isAccess()
+    enabled: useIsAccess()
   });
 
   useEffect(() => {

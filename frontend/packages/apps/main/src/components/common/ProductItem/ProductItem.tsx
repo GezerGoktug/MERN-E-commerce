@@ -5,7 +5,7 @@ import { motion, type Variants } from "framer-motion";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
 import { cloudinaryImageOptimizer } from "@forever/common-utils";
 import { Image } from "@forever/ui-kit";
@@ -34,10 +34,10 @@ const ProductCard = ({
   }, [product.isFav])
 
   useEffect(() => {
-    if (!isAccess()) {
+    if (!useIsAccess()) {
       setIsFav(false)
     }
-  }, [isAccess()])
+  }, [useIsAccess()])
 
   const { mutate } = useHandleFavouriteMutation({
     onSuccess: async (data) => {
@@ -51,7 +51,7 @@ const ProductCard = ({
     }
   });
 
-  const toggleFavourite = () => isAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
+  const toggleFavourite = () => useIsAccess() ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
 
 
   return (

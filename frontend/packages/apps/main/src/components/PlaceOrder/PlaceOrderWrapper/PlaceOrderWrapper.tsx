@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../store/cart/hooks";
 import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "../../../services/hooks/mutations/order.mutations";
 import { clearCart } from "../../../store/cart/actions";
-import { isAccess } from "../../../store/auth/hooks";
+import { useIsAccess } from "../../../store/auth/hooks";
 import DeliveryInfoForm from "../DeliveryInfoForm/DeliveryInfoForm";
 import OrdersDetail from "../OrdersDetail/OrdersDetail";
 
@@ -66,7 +66,7 @@ const PlaceOrderWrapper = () => {
   const { mutateAsync: createOrderWithStripeMutation } = useCreateOrderWithStripePaymentMethodMutation()
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    if (!isAccess()) {
+    if (!useIsAccess()) {
       toast.error("You must log in to make payment.");
       return;
     }

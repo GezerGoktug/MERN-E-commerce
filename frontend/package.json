@@ -9,7 +9,8 @@
         "prod:main": "pnpm --filter main preview",
         "i:admin": "pnpm --filter admin install",
         "i:main": "pnpm --filter main install",
-        "build": "pnpm -r build"
+        "prebuild": "node prebuild.mjs",
+        "build": "pnpm prebuild && pnpm -r build"
     },
     "devDependencies": {
         "sass": "^1.97.3",

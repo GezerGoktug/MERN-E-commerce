@@ -6,13 +6,12 @@ interface LogoProps {
   className?: string
   isAdminLogo?: boolean
 }
-
 const LOGO_SOURCES = {
-  ADMIN: { dark: "/admin/admin-logo-dark.png", light: "/admin/admin-logo.png" },
-  DEFAULT: { dark: "/admin/logo_dark.png", light: "/admin/logo.png" },
+  ADMIN: { dark: "@forever-static/images/admin-logo-dark.png", light:  "@forever-static/images/admin-logo.png" },
+  DEFAULT: { dark: "@forever-static/images/logo_dark.png", light: "@forever-static/images/logo.png" },
 }
 
-const Logo = ({ className, isAdminLogo = false }: LogoProps) => {
+const Logo = ({ className, isAdminLogo = false }: LogoProps) => {  
   const { theme } = useThemeStore();
   return (
     <div className={clsx(styles.logo, className)}>

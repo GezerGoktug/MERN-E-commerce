@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Select from 'react-select';
 import styles from './Filter.module.scss';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { useQueryParams } from '@forever/query-kit';
 import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '../../../types/product.type';
 import { useDebounce } from '@forever/hook-kit';
@@ -32,11 +32,10 @@ const Filter = () => {
         sorting: 'DEFAULT'
     })
 
-    const { categories, subCategories, sorting } = queryState;
+    const { categories, subCategories, sorting, searchQuery } = queryState;
     const { setCategories, setSubCategories, setSearchQuery, setSorting } = querySetters;
 
-    const [text, setText] = useState("");
-    const debouncedVal = useDebounce<string>(text, 700);
+    const [debouncedVal, setText, text] = useDebounce<string>(searchQuery, 700);
 
     useEffect(() => {
         setSearchQuery(debouncedVal)
@@ -71,9 +70,15 @@ const Filter = () => {
                 <Input
                     placeholder='Enter a search'
                     onChange={(e) => setText(e.target.value)}
-                    rightIcon={FaMagnifyingGlass}
+                    value={text}
+                    rightIcon={text.trim().length > 0 ? FaXmark : FaMagnifyingGlass}
+                    rightIconOnClick={() => {
+                        if (text.trim().length > 0)
+                            setText('')
+                    }}
                     rightIconSize={15}
-                    className={styles.search_input} />
+                    className={styles.search_input}
+                />
             </div>
             <div className={styles.filter_responsive_box}>
                 <select

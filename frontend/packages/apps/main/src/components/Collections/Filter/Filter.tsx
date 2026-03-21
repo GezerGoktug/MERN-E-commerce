@@ -80,7 +80,7 @@ const Filter = () => {
           <Input
             onChange={(e) => setText(e.target.value)}
             value={text}
-            rightIcon={searchQuery.trim().length > 0 ? FaXmark : undefined}
+            rightIcon={text.trim().length > 0 ? FaXmark : undefined}
             rightIconSize={20}
             rightIconOnClick={() => setText('')}
             type="text"

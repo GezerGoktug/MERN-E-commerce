@@ -1,4 +1,4 @@
-import { Button } from "@forever/ui-kit";
+import { BaseImage, Button } from "@forever/ui-kit";
 import styles from "./ContactUs.module.scss";
 
 const ContactUs = () => {
@@ -8,7 +8,7 @@ const ContactUs = () => {
         CONTACT <span>US</span>
       </h5>
       <div className={styles.contact_us}>
-        <img src="/contact_img.png" alt="" />
+        <BaseImage   src="/contact_img.png" alt="" />
         <div className={styles.contact_us_right}>
           <h6>Our Store</h6>
           <div>

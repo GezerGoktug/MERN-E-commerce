@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import SupportChatBotPanel from './SupportChatBotPanel/SupportChatBotPanel';
 import { useEffect, useState } from 'react';
 import SupportChatBotNotContent from './SupportChatBotNotContent/SupportChatBotNotContent';
+import { BaseImage } from '@forever/ui-kit';
 
 const SupportChatBot = () => {
 
@@ -46,7 +47,7 @@ const SupportChatBot = () => {
                 }}
             >
                 {!show && <div className={styles.glare_effect} />}
-                <img src="/agent.avif" fetchPriority='high' alt="sora_agent" />
+                <BaseImage   src="/agent.avif" fetchPriority='high' alt="sora_agent" />
             </motion.div>
         </div>
     )

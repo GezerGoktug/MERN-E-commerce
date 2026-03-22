@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 
 const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boolean | undefined): Plugin => {
   const STATIC_KEY = '@forever-static';
-  const STATIC_PACKAGE = path.resolve(__dirname, '../../static');  
+  const STATIC_PACKAGE = path.resolve(__dirname, '../../static');
 
   const MIME_TYPES: Record<string, string> = {
     '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
@@ -34,7 +34,7 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
             const filePath = path.join(STATIC_PACKAGE, relativePath);
 
             const data = await fs.readFile(filePath);
-            
+
             const ext = path.extname(filePath).toLowerCase();
             const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
@@ -42,7 +42,7 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
               'Content-Type': contentType,
               'Content-Length': data.length,
             });
-            
+
             res.end(data);
             return;
           } catch (err) {
@@ -55,19 +55,45 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
   };
 };
 
+
+const windowInjectorPlugin = <T extends object>(data: T): Plugin => {
+  return {
+    name: 'window-injector',
+    transformIndexHtml() {
+
+      const scriptContent = Object.entries(data).map(([key, val]) => {
+        return `window.${key} = ${JSON.stringify(val)}`
+      })
+
+      return [
+        {
+          tag: 'script',
+          attrs: { type: 'text/javascript' },
+          children: scriptContent.join("\n"),
+          injectTo: 'head-prepend',
+        },
+      ];
+    },
+  };
+};
+
 export default defineConfig(({ mode, isPreview }) => {
   const isDev = mode === "development";
 
   return {
-    plugins: [react(), staticFilesPlugin("/static", isDev, isPreview)],
-    base: "/admin/",
+    plugins: [
+      react(),
+      staticFilesPlugin("/static", isDev, isPreview),
+      windowInjectorPlugin({ APP_NAME: "admin", ENV: isDev ? "development" : "production" })
+    ],
     server: {
       port: 3001,
-      fs: {
-        allow: [path.resolve(__dirname, '../..')],
-      },
+    },
+    preview: {
+      port: 3001
     },
     build: {
+      assetsDir: "admin-assets",
       outDir: '../../../dist/admin',
       emptyOutDir: true,
     },

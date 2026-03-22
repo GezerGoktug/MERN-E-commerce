@@ -1,3 +1,4 @@
+import { BaseImage } from "@forever/ui-kit";
 import styles from "./Hero.module.scss";
 import { motion } from "framer-motion";
 
@@ -33,7 +34,7 @@ const Hero = () => {
         </div>
       </div>
       <div className={styles.hero_right}>
-        <img src="/hero_img.avif" fetchPriority="high" alt="hero_img" />
+        <BaseImage   src="/hero_img.avif" fetchPriority="high" alt="hero_img" />
       </div>
     </div>
   );

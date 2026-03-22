@@ -8,6 +8,8 @@ import Overlay from "./components/Overlay/Overlay";
 import Tooltip from "./components/Tooltip/Tooltip";
 import Loading from "./components/Loading/Loading";
 import Image from "./components/Image/Image";
+import BaseImage from "./components/Image/BaseImage";
+import { getProductionImagePath } from "./components/Image/utils";
 
 export {
     Button,
@@ -19,6 +21,8 @@ export {
     Overlay,
     Tooltip,
     Loading,
-    Image
+    Image,
+    BaseImage,
+    getProductionImagePath
 }
 

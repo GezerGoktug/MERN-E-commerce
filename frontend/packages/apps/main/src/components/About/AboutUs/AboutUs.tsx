@@ -1,3 +1,4 @@
+import { BaseImage } from "@forever/ui-kit";
 import styles from "./AboutUs.module.scss";
 import { motion } from "framer-motion";
 
@@ -12,13 +13,12 @@ const AboutUs = () => {
         ABOUT <span>US</span>
       </motion.h5>
       <div className={styles.about}>
-        <motion.img
+        <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          src="/about_img.png"
-          alt=""
-        />
+          transition={{ duration: 0.4, delay: 0.3 }}>
+          <BaseImage src="/about_img.png" alt="" />
+        </motion.div>
         <div className={styles.about_content}>
           <motion.p
             initial={{ x: 150, opacity: 0 }}

@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import type { IOrder } from "../../../types/order.type";
 import getSize from "../../../helper/getSize";
-import { Button } from "@forever/ui-kit";
+import { BaseImage, Button } from "@forever/ui-kit";
 import { Link } from "react-router-dom";
 
 const OrderItem = ({
@@ -76,7 +76,7 @@ const OrderItem = ({
             <div>
               <div className={styles.payment_method_option}>
                 {order.paymentMethod === "STRIPE" ? (
-                  <img src="/admin/stripe.png" alt="" />
+                  <BaseImage src="/stripe.png" alt="" />
                 ) : (
                   <span>CASH ON DELIVERY</span>
                 )}

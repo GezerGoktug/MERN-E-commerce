@@ -55,12 +55,36 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
   };
 };
 
+const windowInjectorPlugin = <T extends object>(data: T): Plugin => {
+  return {
+    name: 'window-injector',
+    transformIndexHtml() {
+
+      const scriptContent = Object.entries(data).map(([key, val]) => {
+        return `window.${key} = ${JSON.stringify(val)}`
+      })
+
+      return [
+        {
+          tag: 'script',
+          attrs: { type: 'text/javascript' },
+          children: scriptContent.join("\n"),
+          injectTo: 'head-prepend',
+        },
+      ];
+    },
+  };
+};
+
 // https://vite.dev/config/
 export default defineConfig(({ mode, isPreview }) => {
   const isDev = mode === "development";
   return {
-    plugins: [react(), staticFilesPlugin("/static", isDev, isPreview)],
-    base: '/',
+    plugins: [
+      react(),
+      staticFilesPlugin("/static", isDev, isPreview),
+      windowInjectorPlugin({ APP_NAME: "main", ENV: isDev ? "development" : "production" })
+    ],
     server: {
       port: 3000
     },
@@ -68,8 +92,9 @@ export default defineConfig(({ mode, isPreview }) => {
       port: 3000
     },
     build: {
-      outDir: '../../../dist/',
-      emptyOutDir: false,
+      assetsDir: "main-assets",
+      outDir: '../../../dist/main/',
+      emptyOutDir: true,
     }
   }
 })

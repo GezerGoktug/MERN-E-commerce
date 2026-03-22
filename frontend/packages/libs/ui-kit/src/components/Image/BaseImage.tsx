@@ -1,4 +1,4 @@
-import React, { ImgHTMLAttributes } from 'react'
+import React, { type ImgHTMLAttributes } from 'react'
 import { getProductionImagePath } from './utils'
 
 interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {

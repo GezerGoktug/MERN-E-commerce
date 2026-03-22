@@ -3,13 +3,18 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
+  from = "/admin-assets/*"
+  to = "/admin/admin-assets/:splat"
   status = 200
 
 [[redirects]]
-  from = "/assets/*"
-  to = "/main/assets/:splat"
+  from = "/main-assets/*"
+  to = "/main/main-assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
   status = 200
 
 [[redirects]]

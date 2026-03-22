@@ -83,16 +83,17 @@ export default defineConfig(({ mode, isPreview }) => {
   return {
     plugins: [
       react(),
-      staticFilesPlugin("/static", isDev, isPreview), 
+      staticFilesPlugin("/static", isDev, isPreview),
       windowInjectorPlugin({ APP_NAME: "admin", ENV: isDev ? "development" : "production" })
     ],
     server: {
       port: 3001,
-      fs: {
-        allow: [path.resolve(__dirname, '../..')],
-      },
+    },
+    preview: {
+      port: 3001
     },
     build: {
+      assetsDir: "admin-assets",
       outDir: '../../../dist/admin',
       emptyOutDir: true,
     },

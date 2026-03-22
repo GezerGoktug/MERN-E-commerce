@@ -92,6 +92,7 @@ export default defineConfig(({ mode, isPreview }) => {
       port: 3000
     },
     build: {
+      assetsDir: "main-assets",
       outDir: '../../../dist/main/',
       emptyOutDir: true,
     }

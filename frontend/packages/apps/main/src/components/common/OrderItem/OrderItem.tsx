@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { type IOrder } from "../../../types/order.type";
 import getSize from "../../../helper/getSize";
 import { Link } from "react-router-dom";
-import { Button } from "@forever/ui-kit";
+import { BaseImage, Button } from "@forever/ui-kit";
 
 const OrderItem = ({
   order,
@@ -76,7 +76,7 @@ const OrderItem = ({
             <div>
               <div className={styles.payment_method_option}>
                 {order.paymentMethod === "STRIPE" ? (
-                  <img src="/stripe.png" alt="" />
+                  <BaseImage   src="/stripe.png" alt="" />
                 ) : (
                   <span>CASH ON DELIVERY</span>
                 )}

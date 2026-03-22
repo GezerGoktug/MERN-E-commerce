@@ -2,7 +2,7 @@ import { GoDot, GoDotFill } from "react-icons/go";
 import Cash from "../../Cart/Cash/Cash";
 import styles from "./OrdersDetail.module.scss";
 import { useFormContext } from "react-hook-form";
-import { Button } from "@forever/ui-kit";
+import { BaseImage, Button } from "@forever/ui-kit";
 
 const OrdersDetail = () => {
   const form = useFormContext();
@@ -26,7 +26,7 @@ const OrdersDetail = () => {
               <GoDot size={25} />
             )}
 
-            <img src="/stripe.png" alt="" />
+            <BaseImage   src="/stripe.png" alt="" />
           </div>
           <div
             onClick={() => form.setValue("paymentMethod", "CASH_ON_DELIVERY")}

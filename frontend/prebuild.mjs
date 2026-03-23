@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 
-const initStaicFolder = async () => {
+const initStaticFolder = async () => {
     let isExistStaticFolder = false;
     try {
         await fs.access("./packages/static")
@@ -27,4 +27,4 @@ const initStaicFolder = async () => {
     }
 }
 
-initStaicFolder();
+initStaticFolder();

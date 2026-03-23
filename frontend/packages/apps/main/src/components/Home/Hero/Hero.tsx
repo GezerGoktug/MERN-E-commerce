@@ -1,4 +1,4 @@
-import { BaseImage } from "@forever/ui-kit";
+import { Image } from "@forever/ui-kit";
 import styles from "./Hero.module.scss";
 import { motion } from "framer-motion";
 
@@ -34,7 +34,15 @@ const Hero = () => {
         </div>
       </div>
       <div className={styles.hero_right}>
-        <BaseImage   src="/hero_img.avif" fetchPriority="high" alt="hero_img" />
+        <Image
+          src="/hero_img.avif"
+          fetchPriority="high"
+          placeholder={
+            <div className={styles.hero_img_placeholder} />
+          }
+          alt="hero_img"
+          isDefaultAppNameUrl
+        />
       </div>
     </div>
   );

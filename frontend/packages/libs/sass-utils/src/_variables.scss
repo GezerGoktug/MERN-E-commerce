@@ -3,18 +3,21 @@
   --secondary-color: #6b7280;
   --third-color: #374151;
   --text-color: #000000;
+  --pink-color: #FCD6D6;
 }
 .dark {
   --primary-color: #000000;
   --secondary-color: #818999;
   --third-color: #e5ecf9;
   --text-color: #ffffff;
+  --pink-color: #FCD6D6;
 }
 
 $primary-color: var(--primary-color);
 $secondary-color: var(--secondary-color);
 $third-color: var(--third-color);
 $text-color: var(--text-color);
+$pink-color: var(--pink-color);
 $font-family: "Outfit", sans-serif;
 $secondary-font-family: "Prata", serif;
 

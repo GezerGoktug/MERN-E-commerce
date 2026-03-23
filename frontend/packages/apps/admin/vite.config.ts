@@ -2,6 +2,7 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path';
 import fs from 'fs/promises';
+// import { visualizer } from "rollup-plugin-visualizer"
 
 const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boolean | undefined): Plugin => {
   const STATIC_KEY = '@forever-static';
@@ -84,7 +85,13 @@ export default defineConfig(({ mode, isPreview }) => {
     plugins: [
       react(),
       staticFilesPlugin("/static", isDev, isPreview),
-      windowInjectorPlugin({ APP_NAME: "admin", ENV: isDev ? "development" : "production" })
+      windowInjectorPlugin({ APP_NAME: "admin", ENV: isDev ? "development" : "production" }),
+      // visualizer({
+      //   open: true,
+      //   filename: 'admin-bundle-report.html',
+      //   gzipSize: true,
+      //   template: "sunburst"
+      // }),
     ],
     server: {
       port: 3001,
@@ -96,6 +103,22 @@ export default defineConfig(({ mode, isPreview }) => {
       assetsDir: "admin-assets",
       outDir: '../../../dist/admin',
       emptyOutDir: true,
+      rollupOptions: {
+        input: 'index.html',
+        output: {
+          manualChunks: {
+            'vendor-core': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-form': ['react-hook-form', '@hookform/resolvers', 'zod'],
+            'vendor-data': ['@tanstack/react-query'],
+            'vendor-charts': ['recharts'],
+            'vendor-ui': ['framer-motion', 'react-select', 'react-icons']
+          },
+          chunkFileNames: 'admin-assets/js/[name]-[hash].js',
+          entryFileNames: 'admin-assets/js/[name]-[hash].js',
+          assetFileNames: 'admin-assets/[ext]/[name]-[hash].[ext]',
+        },
+
+      }
     },
   }
 })

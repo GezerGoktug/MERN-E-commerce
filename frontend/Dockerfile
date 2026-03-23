@@ -4,6 +4,7 @@ RUN npm i -g pnpm@10.23.0
 FROM base AS build
 WORKDIR /app
 COPY . .
+ENV CI="true"
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
 

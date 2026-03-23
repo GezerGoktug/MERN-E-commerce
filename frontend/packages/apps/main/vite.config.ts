@@ -56,6 +56,15 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
   };
 };
 
+const injectToInsideHeadPlugin = (injectHtml: string) => {
+  return {
+    name: 'inject-to-inside-head',
+    transformIndexHtml(html: string) {
+      return html.replace('</head>', `${injectHtml}\n</head>`);
+    }
+  };
+};
+
 const windowInjectorPlugin = <T extends object>(data: T): Plugin => {
   return {
     name: 'window-injector',
@@ -77,6 +86,20 @@ const windowInjectorPlugin = <T extends object>(data: T): Plugin => {
   };
 };
 
+const creatorFontsPreloaderHtml = (sourcesArr: string[]) => {
+  return sourcesArr.map((source) => (
+    `
+    <link 
+      rel="preload" 
+      href="${source}" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin="anonymous"
+    >
+    `
+  )).join('\n');
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode, isPreview }) => {
   const isDev = mode === "development";
@@ -85,6 +108,18 @@ export default defineConfig(({ mode, isPreview }) => {
       react(),
       staticFilesPlugin("/static", isDev, isPreview),
       windowInjectorPlugin({ APP_NAME: "main", ENV: isDev ? "development" : "production" }),
+      injectToInsideHeadPlugin(creatorFontsPreloaderHtml([
+        "@forever-static/fonts/prata/prata-regular.woff2",
+        "@forever-static/fonts/outfit/outfit-thin.woff2",
+        "@forever-static/fonts/outfit/outfit-extralight.woff2",
+        "@forever-static/fonts/outfit/outfit-light.woff2",
+        "@forever-static/fonts/outfit/outfit-regular.woff2",
+        "@forever-static/fonts/outfit/outfit-medium.woff2",
+        "@forever-static/fonts/outfit/outfit-semibold.woff2",
+        "@forever-static/fonts/outfit/outfit-bold.woff2",
+        "@forever-static/fonts/outfit/outfit-extrabold.woff2",
+        "@forever-static/fonts/outfit/outfit-black.woff2"
+      ]))
       // visualizer({
       //   open: true,
       //   filename: 'main-bundle-report.html',

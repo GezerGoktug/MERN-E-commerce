@@ -129,6 +129,9 @@ importers:
       '@eslint/js':
         specifier: 9.39.1
         version: 9.39.1
+      '@forever/plugins':
+        specifier: workspace:*
+        version: link:../../config/plugins
       '@types/node':
         specifier: 22.13.4
         version: 22.13.4
@@ -265,6 +268,9 @@ importers:
       '@eslint/js':
         specifier: 9.39.1
         version: 9.39.1
+      '@forever/plugins':
+        specifier: workspace:*
+        version: link:../../config/plugins
       '@types/node':
         specifier: 22.13.4
         version: 22.13.4
@@ -298,6 +304,12 @@ importers:
       typescript-eslint:
         specifier: 8.48.0
         version: 8.48.0(eslint@9.39.1)(typescript@5.9.3)
+      vite:
+        specifier: 7.3.1
+        version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)
+
+  packages/config/plugins:
+    dependencies:
       vite:
         specifier: 7.3.1
         version: 7.3.1(@types/node@22.13.4)(sass@1.97.3)

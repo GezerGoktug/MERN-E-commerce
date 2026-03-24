@@ -1,0 +1,21 @@
+{
+    "name": "@forever/plugins",
+    "version": "1.0.0",
+    "main": "./index.ts",
+    "type": "module",
+    "types": "index.ts",
+    "module": "index.ts",
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts"
+        },
+        "./utils": {
+            "types": "./src/utils.ts",
+            "import": "./src/utils.ts"
+        }
+    },
+    "peerDependencies": {
+        "vite": "7.3.1"
+    }
+}

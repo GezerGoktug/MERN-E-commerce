@@ -1,104 +1,8 @@
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'path';
-import fs from "fs/promises"
+import { staticFilesPlugin, injectToHtmlPlugin } from "@forever/plugins"
+import { injectDataToWindow, injectFontsPreloaderToHtml } from "@forever/plugins/utils"
 // import { visualizer } from 'rollup-plugin-visualizer';
-
-const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boolean | undefined): Plugin => {
-  const STATIC_KEY = '@forever-static';
-  const STATIC_PACKAGE = path.resolve(__dirname, '../../static');
-
-  const MIME_TYPES: Record<string, string> = {
-    '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-    '.gif': 'image/gif', '.svg': 'image/svg+xml', '.webp': 'image/webp',
-    '.ico': 'image/x-icon', '.json': 'application/json'
-  };
-
-  return {
-    name: 'forever-static-file-plugin',
-    transform(code) {
-      if (!isDev && !isPreview && code.includes(STATIC_KEY)) {
-        return {
-          code: code.replace(new RegExp(STATIC_KEY, 'g'), envStaticPath),
-          map: null,
-        };
-      }
-    },
-
-    configureServer(server) {
-      server.middlewares.use(async (req, res, next) => {
-        const url = req.url;
-        if (url?.includes(STATIC_KEY) && (isDev || isPreview)) {
-          try {
-            const parsedUrl = url.split('?')[0];
-            const relativePath = parsedUrl.split(STATIC_KEY)[1];
-            const filePath = path.join(STATIC_PACKAGE, relativePath);
-
-            const data = await fs.readFile(filePath);
-
-            const ext = path.extname(filePath).toLowerCase();
-            const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-            res.writeHead(200, {
-              'Content-Type': contentType,
-              'Content-Length': data.length,
-            });
-
-            res.end(data);
-            return;
-          } catch (err) {
-            return next();
-          }
-        }
-        next();
-      });
-    },
-  };
-};
-
-const injectToInsideHeadPlugin = (injectHtml: string) => {
-  return {
-    name: 'inject-to-inside-head',
-    transformIndexHtml(html: string) {
-      return html.replace('</head>', `${injectHtml}\n</head>`);
-    }
-  };
-};
-
-const windowInjectorPlugin = <T extends object>(data: T): Plugin => {
-  return {
-    name: 'window-injector',
-    transformIndexHtml() {
-
-      const scriptContent = Object.entries(data).map(([key, val]) => {
-        return `window.${key} = ${JSON.stringify(val)}`
-      })
-
-      return [
-        {
-          tag: 'script',
-          attrs: { type: 'text/javascript' },
-          children: scriptContent.join("\n"),
-          injectTo: 'head-prepend',
-        },
-      ];
-    },
-  };
-};
-
-const creatorFontsPreloaderHtml = (sourcesArr: string[]) => {
-  return sourcesArr.map((source) => (
-    `
-    <link 
-      rel="preload" 
-      href="${source}" 
-      as="font" 
-      type="font/woff2" 
-      crossorigin="anonymous"
-    >
-    `
-  )).join('\n');
-}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode, isPreview }) => {
@@ -107,8 +11,8 @@ export default defineConfig(({ mode, isPreview }) => {
     plugins: [
       react(),
       staticFilesPlugin("/static", isDev, isPreview),
-      windowInjectorPlugin({ APP_NAME: "main", ENV: isDev ? "development" : "production" }),
-      injectToInsideHeadPlugin(creatorFontsPreloaderHtml([
+      injectToHtmlPlugin(injectDataToWindow({ APP_NAME: "main", ENV: isDev ? "development" : "production" })),
+      injectToHtmlPlugin(injectFontsPreloaderToHtml([
         "@forever-static/fonts/prata/prata-regular.woff2",
         "@forever-static/fonts/outfit/outfit-thin.woff2",
         "@forever-static/fonts/outfit/outfit-extralight.woff2",

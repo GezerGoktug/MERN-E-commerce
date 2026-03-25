@@ -5,16 +5,16 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "scripts": {
-        "build": "tsup index.ts --format esm --dts --clean"
+        "build": "tsup index.ts src/utils.ts --format esm --dts --clean"
     },
     "exports": {
         ".": {
-            "types": "./index.ts",
-            "import": "./index.ts"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
         },
         "./utils": {
-            "types": "./src/utils.ts",
-            "import": "./src/utils.ts"
+            "types": "./dist/src/utils.d.ts",
+            "import": "./dist/src/utils.js"
         }
     },
     "devDependencies": {

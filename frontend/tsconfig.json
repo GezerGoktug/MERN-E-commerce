@@ -11,35 +11,35 @@
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
-      "@forever/api": ["libs/api/src/index.ts"],
-      "@forever/api/*": ["libs/api/src/*"],
+      "@forever/api": ["packages/libs/api/src/index.ts"],
+      "@forever/api/*": ["packages/libs/api/src/*"],
 
-      "@forever/common-utils": ["libs/common-utils/src/index.ts"],
-      "@forever/common-utils/*": ["libs/common-utils/src/*"],
+      "@forever/common-utils": ["packages/libs/common-utils/src/index.ts"],
+      "@forever/common-utils/*": ["packages/libs/common-utils/src/*"],
 
-      "@forever/hook-kit": ["libs/hook-kit/src/index.ts"],
-      "@forever/hook-kit/*": ["libs/hook-kit/src/*"],
+      "@forever/hook-kit": ["packages/libs/hook-kit/src/index.ts"],
+      "@forever/hook-kit/*": ["packages/libs/hook-kit/src/*"],
 
-      "@forever/query-kit": ["libs/query-kit/src/index.ts"],
-      "@forever/query-kit/*": ["libs/query-kit/src/*"],
+      "@forever/query-kit": ["packages/libs/query-kit/src/index.ts"],
+      "@forever/query-kit/*": ["packages/libs/query-kit/src/*"],
 
-      "@forever/sass-utils": ["libs/sass-utils/src/index.ts"],
-      "@forever/sass-utils/*": ["libs/sass-utils/src/*"],
+      "@forever/sass-utils": ["packages/libs/sass-utils/src/index.ts"],
+      "@forever/sass-utils/*": ["packages/libs/sass-utils/src/*"],
 
-      "@forever/speech": ["libs/speech/src/index.ts"],
-      "@forever/speech/*": ["libs/speech/src/*"],
+      "@forever/speech": ["packages/libs/speech/src/index.ts"],
+      "@forever/speech/*": ["packages/libs/speech/src/*"],
 
-      "@forever/storage-kit": ["libs/storage-kit/src/index.ts"],
-      "@forever/storage-kit/*": ["libs/storage-kit/src/*"],
+      "@forever/storage-kit": ["packages/libs/storage-kit/src/index.ts"],
+      "@forever/storage-kit/*": ["packages/libs/storage-kit/src/*"],
 
-      "@forever/theme-kit": ["libs/theme-kit/src/index.ts"],
-      "@forever/theme-kit/*": ["libs/theme-kit/src/*"],
+      "@forever/theme-kit": ["packages/libs/theme-kit/src/index.ts"],
+      "@forever/theme-kit/*": ["packages/libs/theme-kit/src/*"],
 
-      "@forever/ui-kit": ["libs/ui-kit/src/index.ts"],
-      "@forever/ui-kit/*": ["libs/ui-kit/src/*"],
+      "@forever/ui-kit": ["packages/libs/ui-kit/src/index.ts"],
+      "@forever/ui-kit/*": ["packages/libs/ui-kit/src/*"],
 
-      "@forever/plugins": ["config/plugins/index.ts"],
-      "@forever/plugins/*": ["config/plugins/src/*"]
+      "@forever/plugins": ["packages/config/plugins/index.ts"],
+      "@forever/plugins/*": ["packages/config/plugins/src/*"]
     }
   }
 }

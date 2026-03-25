@@ -11,7 +11,7 @@ export default defineConfig(({ mode, isPreview }) => {
     plugins: [
       react(),
       staticFilesPlugin("/static", isDev, isPreview),
-      injectToHtmlPlugin(injectDataToWindow({ APP_NAME: "main", ENV: isDev ? "development" : "production" })),
+      injectToHtmlPlugin(injectDataToWindow({ APP_NAME: "admin", ENV: isDev ? "development" : "production" })),
       injectToHtmlPlugin(injectFontsPreloaderToHtml(
         isDev
           ? [

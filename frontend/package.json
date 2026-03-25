@@ -10,12 +10,14 @@
         "i:admin": "pnpm --filter admin install",
         "i:main": "pnpm --filter main install",
         "prebuild": "node prebuild.mjs",
-        "build": "pnpm prebuild && pnpm -r build"
+        "prepare-configs": "pnpm --filter=plugins build",
+        "build": "pnpm prebuild && pnpm prepare-configs && pnpm -r build"
     },
     "devDependencies": {
         "sass": "^1.97.3",
         "typescript": "^5.9.3",
-        "rollup-plugin-visualizer": "7.0.1"
+        "rollup-plugin-visualizer": "7.0.1",
+        "tsup": "8.5.1"
     },
     "pnpm": {
         "overrides": {

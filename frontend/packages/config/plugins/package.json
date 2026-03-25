@@ -1,10 +1,12 @@
 {
     "name": "@forever/plugins",
     "version": "1.0.0",
-    "main": "./index.ts",
     "type": "module",
-    "types": "index.ts",
-    "module": "index.ts",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup index.ts --format esm --dts --clean"
+    },
     "exports": {
         ".": {
             "types": "./index.ts",
@@ -15,7 +17,8 @@
             "import": "./src/utils.ts"
         }
     },
-    "peerDependencies": {
-        "vite": "7.3.1"
+    "devDependencies": {
+        "vite": "7.3.1",
+        "tsup": "8.5.1"
     }
 }

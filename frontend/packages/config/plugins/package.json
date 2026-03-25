@@ -1,0 +1,25 @@
+{
+    "name": "@forever/plugins",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup index.ts src/utils.ts --format esm --dts --clean",
+        "dev": "tsup index.ts src/utils.ts --format esm --dts --watch"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./utils": {
+            "types": "./dist/src/utils.d.ts",
+            "import": "./dist/src/utils.js"
+        }
+    },
+    "devDependencies": {
+        "vite": "7.3.1",
+        "tsup": "8.5.1"
+    }
+}

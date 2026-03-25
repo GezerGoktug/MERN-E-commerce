@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.json",
+  "include": ["src","index.ts"],
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "moduleResolution": "bundler",
+  }
+}

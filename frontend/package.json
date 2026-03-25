@@ -3,19 +3,23 @@
     "private": true,
     "packageManager": "pnpm@10.23.0",
     "scripts": {
-        "dev:main": "pnpm --filter main dev",
-        "dev:admin": "pnpm --filter admin dev",
+        "dev:plugins": "pnpm --filter plugins dev",
+        "dev:main": "concurrently -n \"PLUGINS,VITE-MAIN\" -c \"bgBlue.bold,bgGreen.bold\" \"pnpm run dev:plugins\" \"pnpm --filter main dev\"",
+        "dev:admin": "concurrently -n \"PLUGINS,VITE-ADMIN\" -c \"bgBlue.bold,bgGreen.bold\" \"pnpm run dev:plugins\" \"pnpm --filter admin dev\"",
         "prod:admin": "pnpm --filter admin preview",
         "prod:main": "pnpm --filter main preview",
         "i:admin": "pnpm --filter admin install",
         "i:main": "pnpm --filter main install",
         "prebuild": "node prebuild.mjs",
-        "build": "pnpm prebuild && pnpm -r build"
+        "build-configs": "pnpm --filter=plugins build",
+        "build": "pnpm prebuild && pnpm build-configs && pnpm -r build"
     },
     "devDependencies": {
         "sass": "^1.97.3",
         "typescript": "^5.9.3",
-        "rollup-plugin-visualizer": "7.0.1"
+        "rollup-plugin-visualizer": "7.0.1",
+        "tsup": "8.5.1",
+        "concurrently": "9.2.1"
     },
     "pnpm": {
         "overrides": {

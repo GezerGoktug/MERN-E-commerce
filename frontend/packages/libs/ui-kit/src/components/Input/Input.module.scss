@@ -5,6 +5,10 @@
   position: relative;
   width: 100%;
 
+  &:has(textarea:disabled, input:disabled){
+    opacity: 0.65;
+  }
+
   input,textarea {
     border: 0px;
     outline: 0px;

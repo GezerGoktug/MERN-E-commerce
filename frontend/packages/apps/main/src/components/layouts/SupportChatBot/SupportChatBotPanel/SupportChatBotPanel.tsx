@@ -174,7 +174,6 @@ const triggerAutoSizeTextArea = () => {
 }
 
 const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) => {
-
     const [threadId, setThreadId] = useState<string | null>(null);
 
     useEffect(() => {
@@ -192,24 +191,16 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
     const [ramdomNumber] = useState(() => Math.floor(Math.random() * 10));
 
     const [text, setText] = useState("");
-    const [messages, setMessages] = useState<(MessageType & { isFirstMessage?: boolean })[]>([])
+    const [messages, setMessages] = useState<(MessageType & { isFirstMessage?: boolean })[]>([{
+        type: "ai",
+        isFirstMessage: true,
+        message: "Hello 👋, I'm Sora, your e-commerce store assistant 😊. How can I help you? Here are some sample questions you can ask me:",
+        products: [],
+    }])
 
     useEffect(() => {
         if (data?.data && data?.data.length > 0) {
-            setMessages([...data.data, {
-                type: "ai",
-                isFirstMessage: true,
-                message: "Hello 👋, I'm Sora, your e-commerce store assistant 😊. How can I help you? Here are some sample questions you can ask me:",
-                products: [],
-            }])
-        }
-        else {
-            setMessages([{
-                type: "ai",
-                isFirstMessage: true,
-                message: "Hello 👋, I'm Sora, your e-commerce store assistant 😊. How can I help you? Here are some sample questions you can ask me:",
-                products: [],
-            }])
+            setMessages(data.data);
         }
     }, [data])
 
@@ -283,7 +274,7 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
 
     const askQuestionToChatbot = async (question?: string) => {
 
-        const notUpdatedMessages = [...messages]
+        const notUpdatedMessages = [...messages];
 
         try {
             setMessages((prv) => [...prv, {
@@ -321,7 +312,7 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                         <div className={styles.support_chatbot_panel_top_left}>
                             <div className={styles.support_chatbot_panel_top_left_avatar}>
                                 <RiGeminiFill className={styles.agent_icon} />
-                                <BaseImage   src="/agent.avif" alt="agent" />
+                                <BaseImage src="/agent.avif" alt="agent" />
                             </div>
                             <div className={styles.support_chatbot_panel_agent_infos}>
                                 <h6>Sora</h6>
@@ -348,77 +339,78 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                             animate={{ display: "block" }}
                             exit={{ display: "none", transition: { display: { delay: 0 } } }}
                             transition={{ duration: 0.4, delay: 0.7 }}
-                            style={{ height: isXSmallDevices ? "70vh" : "45vh"}}
+                            style={{ height: isXSmallDevices ? "70vh" : "45vh" }}
                         >
-                        {
-                            messages.map((msg, i) => (
-                                <motion.div
-                                    key={`chatbot-message-` + msg.products + "-" + i}
-                                    {...(msg.isFirstMessage ? {
-                                        initial: { x: -10, opacity: 0 },
-                                        animate: { x: 0, opacity: 1 },
-                                        transition: { duration: 0.4, delay: 1 }
-                                    } : null)}
-                                    className={clsx(styles.support_chatbot_panel_message_item, { [styles.is_my_message]: msg.type === "human" })}
-                                >
-                                    <div className={clsx(styles.support_chatbot_panel_message, { [styles.is_my_message]: msg.type === "human" })}>
-                                        {msg.type === "ai" && <BaseImage   src="/agent.avif" alt="" />}
-                                        <p>{msg.message}</p>
-                                    </div>
-                                    {
-                                        msg.isFirstMessage &&
-                                        <div className={styles.support_chatbot_panel_example_questions}>
-                                            {
-                                                exampleQuestions[ramdomNumber].map((question, i) => (
-                                                    <motion.div
-                                                        initial={{ x: -10, opacity: 0 }}
-                                                        animate={{ x: 0, opacity: 1 }}
-                                                        transition={{ duration: 0.4, delay: 1 + ((i + 1) * 0.2) }}
-                                                        className={styles.support_chatbot_panel_example_question}
-                                                        onClick={() => handleClickRandomQuestionBtn(question)}
-                                                    >
-                                                        <span>{question}</span>
-                                                        <MdInput size={20} />
-                                                    </motion.div>
-
-                                                ))
-                                            }
+                            {
+                                messages.map((msg, i) => (
+                                    <motion.div
+                                        key={`chatbot-message-` + msg.products + "-" + i}
+                                        {...(msg.isFirstMessage ? {
+                                            initial: { x: -10, opacity: 0 },
+                                            animate: { x: 0, opacity: 1 },
+                                            transition: { duration: 0.4, delay: 1 }
+                                        } : null)}
+                                        className={clsx(styles.support_chatbot_panel_message_item, { [styles.is_my_message]: msg.type === "human" })}
+                                    >
+                                        <div className={clsx(styles.support_chatbot_panel_message, { [styles.is_my_message]: msg.type === "human" })}>
+                                            {msg.type === "ai" && <BaseImage src="/agent.avif" alt="" />}
+                                            <p>{msg.message}</p>
                                         </div>
-                                    }
-                                    <AiAdviseProducts msg={msg} />
+                                        {
+                                            msg.isFirstMessage &&
+                                            <div className={styles.support_chatbot_panel_example_questions}>
+                                                {
+                                                    exampleQuestions[ramdomNumber].map((question, i) => (
+                                                        <motion.div
+                                                            initial={{ x: -10, opacity: 0 }}
+                                                            animate={{ x: 0, opacity: 1 }}
+                                                            transition={{ duration: 0.4, delay: 1 + ((i + 1) * 0.2) }}
+                                                            className={styles.support_chatbot_panel_example_question}
+                                                            onClick={() => handleClickRandomQuestionBtn(question)}
+                                                        >
+                                                            <span>{question}</span>
+                                                            <MdInput size={20} />
+                                                        </motion.div>
 
-                                </motion.div>
+                                                    ))
+                                                }
+                                            </div>
+                                        }
+                                        <AiAdviseProducts msg={msg} />
 
-                            ))
-                        }
-                        {
-                            isPending && (
-                                <motion.div
-                                    className={styles.support_chatbot_panel_skeleton_message_wrapper}
-                                >
-                                    <div className={styles.support_chatbot_panel_skeleton_message}>
-                                        <img src="/agent.png" alt="" />
-                                        <div className={styles.support_chatbot_panel_skeletons_text}>
-                                            <div />
-                                            <div />
-                                            <div />
-                                            <div />
+                                    </motion.div>
+
+                                ))
+                            }
+                            {
+                                isPending && (
+                                    <motion.div
+                                        className={styles.support_chatbot_panel_skeleton_message_wrapper}
+                                    >
+                                        <div className={styles.support_chatbot_panel_skeleton_message}>
+                                            <BaseImage src="/agent.avif" alt="" />
+                                            <div className={styles.support_chatbot_panel_skeletons_text}>
+                                                <div />
+                                                <div />
+                                                <div />
+                                                <div />
+                                            </div>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            )
-                        }
+                                    </motion.div>
+                                )
+                            }
                         </motion.div>
                     </motion.div>
                     <div className={styles.support_chatbot_panel_bottom}>
                         <Input
+                            disabled={isPending}
                             onChange={(e) => setText(e.target.value)}
                             value={text}
                             className={styles.support_chatbot_panel_bottom_input}
                             inputClassName={styles.support_chatbot_panel_bottom_input_item}
                             isAutoSize
                             placeholder='Enter a word'
-                            {...(text.trim().length > 1 && { rightIcon: FaXmark })}
+                            {...(((text.trim().length > 1) && !isPending) && { rightIcon: FaXmark })}
                             rightIconOnClick={() => {
                                 setText("")
                                 triggerAutoSizeTextArea()

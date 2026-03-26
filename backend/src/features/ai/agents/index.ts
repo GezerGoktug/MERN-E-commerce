@@ -50,7 +50,7 @@ class Workflow {
         this.GraphState = Annotation.Root({
             messages: Annotation<BaseMessage[]>({
                 reducer: (x = [], y = []) => {
-                    const merged = x.concat(y);
+                    const merged = [...x, ...y];
 
                     if (merged.length <= this.MAX_HISTORY) return merged;
 
@@ -59,32 +59,24 @@ class Workflow {
 
                     while (i >= 0 && result.length < this.MAX_HISTORY) {
                         const msg = merged[i];
-                        const msgType = msg._getType();
 
-                        if (msgType === "human") {
-                            result.unshift(msg);
-                            i--;
-                        } else if (msgType === "ai") {
-                            const aiMsg = msg as AIMessage;
+                        if (msg._getType() === "tool") {
+                            const group: BaseMessage[] = [];
 
-                            if (aiMsg.tool_calls && aiMsg.tool_calls.length > 0) {
-                                const group: BaseMessage[] = [msg];
-                                let j = i + 1;
-
-                                while (j < merged.length && merged[j]._getType() === "tool") {
-                                    group.push(merged[j]);
-                                    j++;
-                                }
-
-                                if (result.length + group.length <= this.MAX_HISTORY) {
-                                    result.unshift(...group);
-                                }
-                                i--;
-                            } else {
-                                result.unshift(msg);
+                            while (i >= 0 && merged[i]._getType() === "tool") {
+                                group.unshift(merged[i]);
                                 i--;
                             }
+
+                            if (i >= 0 && merged[i]._getType() === "ai") {
+                                group.unshift(merged[i]);
+                                i--;
+                            }
+
+                            result.unshift(...group);
+
                         } else {
+                            result.unshift(msg);
                             i--;
                         }
                     }
@@ -109,7 +101,6 @@ class Workflow {
             .addEdge(START, "agent")
             .addConditionalEdges("agent", this.shouldContinue.bind(this))
             .addEdge("tools", "agent");
-
     }
 
     public getWorkflow() {
@@ -246,8 +237,7 @@ export class ChatBotAgent {
         if (!checkpoint)
             return [];
 
-
-        const rawMessages = (checkpoint.channel_values?.["messages"] ?? []) as any[];
+        const rawMessages = (checkpoint.channel_values?.["messages"] ?? []) as any[];        
 
         const formattedMessages = [];
 
@@ -309,8 +299,7 @@ export class ChatBotAgent {
             this.initializeWorkflow();
         }
         const app = this.workflow.compile({ checkpointer: this.memorySaver });
-
-
+        
         const invokeInput = { messages: [new HumanMessage(query)] };
 
         const finalState = await retryInvoke<typeof this.GraphState.State>(
@@ -319,7 +308,6 @@ export class ChatBotAgent {
             { configurable: { thread_id: threadId }, recursionLimit: 90 },
             3
         );
-
 
         let lastMessage = finalState.messages[finalState.messages.length - 1];
 

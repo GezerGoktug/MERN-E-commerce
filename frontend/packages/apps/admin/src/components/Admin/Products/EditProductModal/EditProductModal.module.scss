@@ -96,6 +96,9 @@
     }
     .edit_product_modal_input {
       border-radius: 6px;
+      .edit_product_modal_input_spin{
+        border-radius: 0 6px 6px 0px;
+      }
     }
     .edit_product_modal_selects {
       display: flex;

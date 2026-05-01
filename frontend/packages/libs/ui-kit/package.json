@@ -20,7 +20,8 @@
     "dependencies": {
         "@forever/hook-kit": "workspace:*",
         "@forever/sass-utils": "workspace:*",
-        "@forever/common-utils": "workspace:*"
+        "@forever/common-utils": "workspace:*",
+        "react-imask": "7.6.1"
     },
     "devDependencies": {
         "@types/react": "18.3.12",

@@ -1,27 +1,62 @@
 @use "@forever/sass-utils/variables" as v;
+@use "@forever/sass-utils/utils-mixins" as u;
+
 
 .input_wrapper {
   border: 1px solid v.$secondary-color;
   position: relative;
   width: 100%;
 
-  &:has(textarea:disabled, input:disabled){
+  &:has(textarea:disabled, input:disabled) {
     opacity: 0.65;
   }
 
-  input,textarea {
+  input,
+  textarea {
     border: 0px;
     outline: 0px;
     width: 100%;
     background-color: transparent;
+
+    &[type='number'] {
+      &::-webkit-inner-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+      }
+      &::-webkit-outer-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+      }
+    }
+  }
+
+  .input_number_spin {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    @include u.flex-center;
+    flex-direction: column;
+    border-left: 1px solid v.$secondary-color;
+    right: 0px;
+    background-color: rgb(237, 237, 237);
+
+    .input_number_spin_button {
+      line-height: 0;
+      cursor: pointer;
+
+      &:nth-child(1) {
+        border-bottom: 1px solid v.$secondary-color;
+      }
+    }
   }
 
   textarea {
     resize: none;
     overflow-y: auto;
   }
-  &:has(textarea){
-    .input_right_icon{
+
+  &:has(textarea) {
+    .input_right_icon {
       top: 18px;
     }
   }
@@ -32,7 +67,7 @@
     transform: translateY(-50%);
     right: 10px;
     cursor: pointer;
-    
+
   }
 }
 
@@ -46,6 +81,16 @@
   input {
     font-size: 16px;
   }
+
+  .input_number_spin .input_number_spin_button {
+    padding: 5px 11px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+    }
+
+  }
 }
 
 .md {
@@ -58,10 +103,20 @@
   input {
     font-size: 14px;
   }
+
+  .input_number_spin .input_number_spin_button {
+    padding: 3px 8px;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+  }
 }
 
 .sm {
-  padding: 5px 14px;
+  padding: 6px 14px;
 
   &.isRightIcon {
     padding-right: 40px;
@@ -69,5 +124,15 @@
 
   input {
     font-size: 13px;
+  }
+
+  .input_number_spin .input_number_spin_button {
+    padding: 3px 6px;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+
   }
 }

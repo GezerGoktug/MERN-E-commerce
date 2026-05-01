@@ -107,6 +107,9 @@
     }
     .add_product_input {
       border-radius: 6px;
+      .add_product_input_spin{
+        border-radius: 0 6px 6px 0px;
+      }
     }
     .add_product_selects {
       display: flex;

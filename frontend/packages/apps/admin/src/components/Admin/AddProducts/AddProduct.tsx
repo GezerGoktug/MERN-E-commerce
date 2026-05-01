@@ -35,7 +35,7 @@ const AddProduct = () => {
       subImage3: null,
       name: "",
       description: "",
-      price: 0,
+      price: 1,
       sizes: [],
     },
 
@@ -116,9 +116,6 @@ const AddProduct = () => {
 
     mutate(formData);
   };
-
-  console.log(form.formState.errors);
-  console.log(form.watch());
 
 
   return (
@@ -237,11 +234,16 @@ const AddProduct = () => {
                   className={styles.add_product_input}
                   fields={{
                     ...field,
-                    onChange: (e) => field.onChange(Number(e.target.value))
+                    onChange: (e) => field.onChange(+e.target.value),
+                    onBlur: () => {
+                      field.onChange(Math.max(1, isNaN(form.getValues().price) ? 1 : form.getValues().price))
+                      field.onBlur()
+                    }
                   }}
                   type="number"
                   placeholder="Price"
                   min="1"
+                  spinButtonClassname={styles.add_product_input_spin}
                 />
               </div>
             )}

@@ -41,7 +41,7 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
       subImage3: null,
       name: data.name,
       description: data.description,
-      price: data.price.toString(),
+      price: +data.price,
       sizes: data.sizes,
       category: data.category,
       subCategory: data.subCategory
@@ -113,7 +113,7 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
     formData.append("description", dt.description);
     formData.append("category", dt.category);
     formData.append("subCategory", dt.subCategory);
-    formData.append("price", dt.price);
+    formData.append("price", JSON.stringify(dt.price));
     formData.append("sizes", JSON.stringify(dt.sizes));
 
     mutate({ id: data._id, updatedProduct: formData });
@@ -232,10 +232,18 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
                 <label>Price:</label>
                 <Input
                   className={styles.edit_product_modal_input}
-                  fields={field}
+                  fields={{
+                    ...field,
+                    onChange: (e) => field.onChange(+e.target.value),
+                    onBlur: () => {
+                      field.onChange(Math.max(1, isNaN(form.getValues().price) ? 1 : form.getValues().price))
+                      field.onBlur()
+                    }
+                  }}
                   type="number"
                   placeholder="Price"
                   min="1"
+                  spinButtonClassname={styles.edit_product_modal_input_spin}
                 />
               </div>
             )}

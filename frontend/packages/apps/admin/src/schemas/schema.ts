@@ -19,7 +19,7 @@ export const productSchema = z.object({
       errorMap: () => ({ message: "Please select a valid subcategory." }),
     })
     .default("Topwear"),
-  price: z.string().min(1, "Product price cannot be less than 1"),
+  price: z.number().min(1, "Product price cannot be less than 1"),
   sizes: z
     .array(z.enum(["SMALL", "MEDIUM", "LARGE", "XLARGE", "XXLARGE"]))
     .min(1, "There must be at least one product size"),

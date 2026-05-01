@@ -35,9 +35,10 @@ const AddProduct = () => {
       subImage3: null,
       name: "",
       description: "",
-      price: "0",
+      price: 0,
       sizes: [],
     },
+
   });
 
   const onChangeImage = (
@@ -110,11 +111,15 @@ const AddProduct = () => {
     formData.append("description", data.description);
     formData.append("category", data.category);
     formData.append("subCategory", data.subCategory);
-    formData.append("price", data.price);
+    formData.append("price", JSON.stringify(data.price));
     formData.append("sizes", JSON.stringify(data.sizes));
 
     mutate(formData);
   };
+
+  console.log(form.formState.errors);
+  console.log(form.watch());
+
 
   return (
     <div className={styles.add_product_wrapper}>
@@ -230,7 +235,10 @@ const AddProduct = () => {
                 <label>Price:</label>
                 <Input
                   className={styles.add_product_input}
-                  fields={field}
+                  fields={{
+                    ...field,
+                    onChange: (e) => field.onChange(Number(e.target.value))
+                  }}
                   type="number"
                   placeholder="Price"
                   min="1"

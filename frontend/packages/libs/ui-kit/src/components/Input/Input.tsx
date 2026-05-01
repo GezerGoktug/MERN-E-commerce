@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "./Input.module.scss";
-import { ElementType, useRef, type InputHTMLAttributes } from "react";
+import { useRef, type InputHTMLAttributes, type ElementType } from "react";
 import { type IconType } from "react-icons";
 import { type ControllerRenderProps, type FieldValues } from "react-hook-form";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";

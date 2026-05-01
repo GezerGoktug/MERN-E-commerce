@@ -33,6 +33,7 @@
     border: 1px solid v.$secondary-color;
     animation: tooltip_animate 0.2s linear;
     text-align: center;
+    z-index: 1000;
 
     .tooltip_arrow_icon {
       position: absolute;

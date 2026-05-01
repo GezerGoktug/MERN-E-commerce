@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import styles from "./Input.module.scss";
-import { useRef, type ElementType, type InputHTMLAttributes } from "react";
+import { ElementType, useRef, type InputHTMLAttributes } from "react";
 import { type IconType } from "react-icons";
 import { type ControllerRenderProps, type FieldValues } from "react-hook-form";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { triggerInputChange } from "@forever/common-utils";
+import { IMaskInput } from "react-imask";
 
 interface InputProps<T extends FieldValues>
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -13,7 +14,6 @@ interface InputProps<T extends FieldValues>
   rightIconSize?: number;
   rightIconOnClick?: () => void;
   fields?: ControllerRenderProps<T>;
-  customInput?: ElementType;
   inputClassName?: string;
   spinButtonClassname?: string;
   disableSpin?: boolean;
@@ -38,10 +38,9 @@ const Input = <T extends FieldValues>({
   disableSpin = false,
   stepIncrement = 1,
   fields,
-  customInput: CustomInput,
   ...props
 }: InputProps<T>) => {
-  const Component = CustomInput || (isAutoSize ? "textarea" : "input");
+  const Component: ElementType = props.mask ? IMaskInput : (isAutoSize ? "textarea" : "input");
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const resize = (el: HTMLInputElement | HTMLTextAreaElement) => {
@@ -64,7 +63,7 @@ const Input = <T extends FieldValues>({
       const newValue = isIncrease ? +input.value + stepIncrement : +input.value - stepIncrement;
       if (
         checkClampLogic(
-          props.min ? +props?.min  : null,
+          props.min ? +props?.min : null,
           props.max ? +props?.max : null,
           newValue
         )) {

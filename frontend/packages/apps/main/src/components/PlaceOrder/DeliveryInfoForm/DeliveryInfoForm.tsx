@@ -2,7 +2,6 @@ import { Controller, useFormContext } from "react-hook-form";
 import styles from "./DeliveryInfoForm.module.scss";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { IMaskInput } from "react-imask";
 import Select from "react-select";
 import { Input } from "@forever/ui-kit";
 import { isEmptyString } from "@forever/common-utils";
@@ -166,7 +165,6 @@ const DeliveryInfoForm = () => {
           name="phoneNumber"
           render={({ field }) => (
             <Input
-              customInput={IMaskInput}
               mask="0 (000) 000 00 00"
               className={styles.delivery_form_input}
               fields={field}

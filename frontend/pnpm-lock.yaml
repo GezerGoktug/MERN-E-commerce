@@ -3,7 +3,6 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
-  injectWorkspacePackages: true
 
 overrides:
   react: 18.3.1
@@ -113,9 +112,6 @@ importers:
       react-icons:
         specifier: 5.4.0
         version: 5.4.0(react@18.3.1)
-      react-imask:
-        specifier: 7.6.1
-        version: 7.6.1(react@18.3.1)
       react-router-dom:
         specifier: 7.0.2
         version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -255,9 +251,6 @@ importers:
       react-icons:
         specifier: 5.4.0
         version: 5.4.0(react@18.3.1)
-      react-imask:
-        specifier: 7.6.1
-        version: 7.6.1(react@18.3.1)
       react-router-dom:
         specifier: 7.0.2
         version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -457,6 +450,9 @@ importers:
       react-icons:
         specifier: 5.4.0
         version: 5.4.0(react@18.3.1)
+      react-imask:
+        specifier: 7.6.1
+        version: 7.6.1(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: 18.3.12

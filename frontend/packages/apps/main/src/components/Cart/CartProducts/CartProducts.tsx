@@ -47,10 +47,12 @@ const CartProducts = () => {
                 type="number"
                 min={1}
                 max={20}
+                value={item.quantity}
+                onBlur={(e) =>
+                  applyQuantityToProduct(Math.min(20, Math.max(1, +e.target.value)), item._id, item.size)}
                 onChange={(e) =>
-                  applyQuantityToProduct(+e.target.value, item._id, item.size)
+                  applyQuantityToProduct(Math.min(20, +e.target.value), item._id, item.size)
                 }
-                defaultValue={item.quantity}
               />
             </div>
             <GrTrash

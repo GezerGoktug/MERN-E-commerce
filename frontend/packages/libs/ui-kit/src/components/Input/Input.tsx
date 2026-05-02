@@ -53,8 +53,10 @@ const Input = <T extends FieldValues>({
   }
 
   const handleOnInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const el = e.target;
-    if (el) resize(el);
+    if(isAutoSize){
+      const el = e.target;
+      if (el) resize(el);
+    }
   }
 
   const handleNumberInputSpinClick = (isIncrease: boolean) => {

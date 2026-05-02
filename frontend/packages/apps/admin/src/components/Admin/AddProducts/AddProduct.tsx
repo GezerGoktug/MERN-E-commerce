@@ -1,6 +1,6 @@
 import { IoCloudUploadOutline } from "react-icons/io5";
 import styles from "./AddProduct.module.scss";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input, Button } from "@forever/ui-kit";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -169,85 +169,57 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
-        <Controller
-          name="name"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <label>Product Name:</label>
-              <Input
-                className={styles.add_product_input}
-                fields={field}
-                placeholder="Name"
-                minLength={5}
-              />
-            </>
-          )}
+        <label>Product Name:</label>
+        <Input
+          className={styles.add_product_input}
+          placeholder="Name"
+          minLength={5}
+          {...form.register("name")}
         />
-        <Controller
-          name="description"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <label>Description:</label>
-              <textarea placeholder="Description" minLength={10} {...field} />
-            </>
-          )}
-        />
+        <label>Description:</label>
+        <textarea placeholder="Description" minLength={10} {...form.register("description")} />
 
         <div className={styles.add_product_selects}>
-          <Controller
-            name="category"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.add_product_select_section}>
-                <label>Category:</label>
-                <select {...field}>
-                  <option value="Men">Men</option>
-                  <option value="Women">Women</option>
-                  <option value="Kids">Kids</option>
-                </select>
-              </div>
-            )}
-          />
-          <Controller
-            name="subCategory"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.add_product_select_section}>
-                <label>Sub Category:</label>
-                <select {...field}>
-                  <option value="Topwear">Topwear</option>
-                  <option value="Bottomwear">Bottomwear</option>
-                  <option value="Winterwear">Winterwear</option>
-                </select>
-              </div>
-            )}
-          />
-          <Controller
-            name="price"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.add_product_select_section}>
-                <label>Price:</label>
-                <Input
-                  className={styles.add_product_input}
-                  fields={{
-                    ...field,
-                    onChange: (e) => field.onChange(+e.target.value),
-                    onBlur: () => {
-                      field.onChange(Math.max(1, isNaN(form.getValues().price) ? 1 : form.getValues().price))
-                      field.onBlur()
-                    }
-                  }}
-                  type="number"
-                  placeholder="Price"
-                  min="1"
-                  spinButtonClassname={styles.add_product_input_spin}
-                />
-              </div>
-            )}
-          />
+          <div className={styles.add_product_select_section}>
+            <label>Category:</label>
+            <select {...form.register("category")}>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Kids">Kids</option>
+            </select>
+          </div>
+          <div className={styles.add_product_select_section}>
+            <label>Sub Category:</label>
+            <select {...form.register("subCategory")}>
+              <option value="Topwear">Topwear</option>
+              <option value="Bottomwear">Bottomwear</option>
+              <option value="Winterwear">Winterwear</option>
+            </select>
+          </div>
+
+          <div className={styles.add_product_select_section}>
+            <label>Price:</label>
+            <Input
+              className={styles.add_product_input}
+              type="number"
+              placeholder="Price"
+              min="1"
+              spinButtonClassname={styles.add_product_input_spin}
+              {...form.register("price", {
+                setValueAs: (value) => {
+                  return Math.max(1, +value)
+                },
+                onChange: (e) => {
+                  const val = e.target.value;
+                  e.target.value = +val;
+                },
+                onBlur: (e) => {
+                  const val = e.target.value;
+                  e.target.value = Math.max(1, isNaN(val) ? 1 : val);
+                }
+              })}
+            />
+          </div>
         </div>
         <label>Select sizes:</label>
         <div className={styles.add_product_sizes}>

@@ -1,19 +1,16 @@
 import clsx from "clsx";
 import styles from "./Input.module.scss";
-import { useRef, type InputHTMLAttributes, type ElementType } from "react";
+import { useRef, type InputHTMLAttributes, type ElementType, forwardRef } from "react";
 import { type IconType } from "react-icons";
-import { type ControllerRenderProps, type FieldValues } from "react-hook-form";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { triggerInputChange } from "@forever/common-utils";
 import { IMaskInput } from "react-imask";
 
-interface InputProps<T extends FieldValues>
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   size?: "sm" | "md" | "lg";
   rightIcon?: IconType;
   rightIconSize?: number;
   rightIconOnClick?: () => void;
-  fields?: ControllerRenderProps<T>;
   inputClassName?: string;
   spinButtonClassname?: string;
   disableSpin?: boolean;
@@ -26,7 +23,7 @@ const checkClampLogic = (min: number | null, max: number | null, value: number) 
   return !((min !== null && value < min) || (max !== null && value > max));
 }
 
-const Input = <T extends FieldValues>({
+const Input = forwardRef(({
   isAutoSize = false,
   size = "md",
   rightIcon: Icon,
@@ -37,9 +34,8 @@ const Input = <T extends FieldValues>({
   spinButtonClassname,
   disableSpin = false,
   stepIncrement = 1,
-  fields,
   ...props
-}: InputProps<T>) => {
+}: InputProps,ref) => {
   const Component: ElementType = props.mask ? IMaskInput : (isAutoSize ? "textarea" : "input");
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,8 +86,7 @@ const Input = <T extends FieldValues>({
         className={clsx(inputClassName)}
         {...(isAutoSize ? { rows: 1 } : null)}
         {...props}
-        {...fields}
-
+        ref={ref}
       />
       {(Icon && props.type !== "number") && (
         <Icon
@@ -118,6 +113,6 @@ const Input = <T extends FieldValues>({
       )}
     </div>
   );
-};
+});
 
 export default Input;

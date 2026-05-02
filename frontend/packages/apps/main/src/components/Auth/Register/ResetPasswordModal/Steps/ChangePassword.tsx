@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage } from "@hookform/error-message";
 import styles from "./ChangePassword.module.scss";
@@ -63,23 +63,14 @@ const ChangePassword = ({
       <h6>Change Password</h6>
       <p>You can change with fill your desire to new password from below</p>
       <form className={styles.change_password_form} onSubmit={form.handleSubmit(onSubmit)} >
-
-        <Controller
-          name="newPassword"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <Input<z.infer<typeof schema>>
-                size="lg"
-                fields={field}
-                className={styles.change_password_input}
-                rightIcon={ShowPasswordIcon}
-                rightIconOnClick={() => setShowPassword(!showPassword)}
-                placeholder="New Password"
-                type={showPassword ? "text" : "password"}
-              />
-            </>
-          )}
+        <Input
+          size="lg"
+          className={styles.change_password_input}
+          rightIcon={ShowPasswordIcon}
+          rightIconOnClick={() => setShowPassword(!showPassword)}
+          placeholder="New Password"
+          type={showPassword ? "text" : "password"}
+          {...form.register("newPassword")}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -88,20 +79,12 @@ const ChangePassword = ({
             <p className={styles.error_message}>{message}</p>
           )}
         />
-        <Controller
-          name="newPasswordConfirm"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <Input<z.infer<typeof schema>>
-                size="lg"
-                fields={field}
-                className={styles.change_password_input}
-                placeholder="New Password Confirm"
-                type='password'
-              />
-            </>
-          )}
+        <Input
+          size="lg"
+          className={styles.change_password_input}
+          placeholder="New Password Confirm"
+          type='password'
+          {...form.register("newPasswordConfirm")}
         />
         <ErrorMessage
           errors={form.formState.errors}

@@ -1,6 +1,6 @@
 import { IoCloudUploadOutline } from "react-icons/io5";
 import styles from "./EditProductModal.module.scss";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ChangeEvent, useState } from "react";
@@ -169,85 +169,56 @@ const EditProductModal = ({ data, closeModal }: EditProductModalProps) => {
             </div>
           </div>
         </div>
-        <Controller
-          name="name"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <label>Product Name:</label>
-              <Input
-                className={styles.edit_product_modal_input}
-                fields={field}
-                placeholder="Name"
-                minLength={5}
-              />
-            </>
-          )}
+        <label>Product Name:</label>
+        <Input
+          className={styles.edit_product_modal_input}
+          placeholder="Name"
+          minLength={5}
+          {...form.register("name")}
         />
-        <Controller
-          name="description"
-          control={form.control}
-          render={({ field }) => (
-            <>
-              <label>Description:</label>
-              <textarea placeholder="Description" minLength={10} {...field} />
-            </>
-          )}
-        />
+        <label>Description:</label>
+        <textarea placeholder="Description" minLength={10} {...form.register("description")} />
 
         <div className={styles.edit_product_modal_selects}>
-          <Controller
-            name="category"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.edit_product_modal_select_section}>
-                <label>Category:</label>
-                <select {...field}>
-                  <option value="Men">Men</option>
-                  <option value="Women">Women</option>
-                  <option value="Kids">Kids</option>
-                </select>
-              </div>
-            )}
-          />
-          <Controller
-            name="subCategory"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.edit_product_modal_select_section}>
-                <label>Sub Category:</label>
-                <select {...field}>
-                  <option value="Topwear">Topwear</option>
-                  <option value="Bottomwear">Bottomwear</option>
-                  <option value="Winterwear">Winterwear</option>
-                </select>
-              </div>
-            )}
-          />
-          <Controller
-            name="price"
-            control={form.control}
-            render={({ field }) => (
-              <div className={styles.edit_product_modal_select_section}>
-                <label>Price:</label>
-                <Input
-                  className={styles.edit_product_modal_input}
-                  fields={{
-                    ...field,
-                    onChange: (e) => field.onChange(+e.target.value),
-                    onBlur: () => {
-                      field.onChange(Math.max(1, isNaN(form.getValues().price) ? 1 : form.getValues().price))
-                      field.onBlur()
-                    }
-                  }}
-                  type="number"
-                  placeholder="Price"
-                  min="1"
-                  spinButtonClassname={styles.edit_product_modal_input_spin}
-                />
-              </div>
-            )}
-          />
+          <div className={styles.edit_product_modal_select_section}>
+            <label>Category:</label>
+            <select {...form.register("category")}>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Kids">Kids</option>
+            </select>
+          </div>
+          <div className={styles.edit_product_modal_select_section}>
+            <label>Sub Category:</label>
+            <select {...form.register("subCategory")}>
+              <option value="Topwear">Topwear</option>
+              <option value="Bottomwear">Bottomwear</option>
+              <option value="Winterwear">Winterwear</option>
+            </select>
+          </div>
+          <div className={styles.edit_product_modal_select_section}>
+            <label>Price:</label>
+            <Input
+              className={styles.edit_product_modal_input}
+              type="number"
+              placeholder="Price"
+              min="1"
+              spinButtonClassname={styles.edit_product_modal_input_spin}
+              {...form.register("price", {
+                setValueAs: (value) => {
+                  return Math.max(1, +value)
+                },
+                onChange: (e) => {
+                  const val = e.target.value;
+                  e.target.value = +val;
+                },
+                onBlur: (e) => {
+                  const val = e.target.value;
+                  e.target.value = Math.max(1, isNaN(val) ? 1 : val);
+                }
+              })}
+            />
+          </div>
         </div>
         <label>Select sizes:</label>
         <div className={styles.edit_product_modal_sizes}>

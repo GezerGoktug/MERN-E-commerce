@@ -1,4 +1,4 @@
-import { Controller, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import styles from "./DeliveryInfoForm.module.scss";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -65,51 +65,27 @@ const DeliveryInfoForm = () => {
       </h6>
       <div className={styles.delivery_info_form}>
         <div className={styles.side_by_side_inputs}>
-          <Controller
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <Input
-                className={styles.delivery_form_input}
-                fields={field}
-                placeholder="First name"
-              />
-            )}
+          <Input
+            className={styles.delivery_form_input}
+            placeholder="First name"
+            {...form.register("firstName")}
           />
-          <Controller
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <Input
-                className={styles.delivery_form_input}
-                fields={field}
-                placeholder="Last name"
-              />
-            )}
+          <Input
+            className={styles.delivery_form_input}
+            placeholder="Last name"
+            {...form.register("lastName")}
           />
         </div>
-        <Controller
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <Input
-              className={styles.delivery_form_input}
-              fields={field}
-              placeholder="Email address"
-              type="email"
-            />
-          )}
+        <Input
+          className={styles.delivery_form_input}
+          placeholder="Email address"
+          type="email"
+          {...form.register("email")}
         />
-        <Controller
-          control={form.control}
-          name="street"
-          render={({ field }) => (
-            <Input
-              className={styles.delivery_form_input}
-              fields={field}
-              placeholder="Street"
-            />
-          )}
+        <Input
+          className={styles.delivery_form_input}
+          placeholder="Street"
+          {...form.register("street")}
         />
         <div className={styles.side_by_side_inputs}>
           <Select
@@ -136,41 +112,22 @@ const DeliveryInfoForm = () => {
           />
         </div>
         <div className={styles.side_by_side_inputs}>
-          <Controller
-            control={form.control}
-            name="zipCode"
-            render={({ field }) => (
-              <Input
-                className={styles.delivery_form_input}
-                fields={field}
-                placeholder="Zipcode"
-              />
-            )}
+          <Input
+            className={styles.delivery_form_input}
+            placeholder="Zipcode"
+            {...form.register("zipCode")}
           />
-          <Controller
-            control={form.control}
-            name="state"
-            render={({ field }) => (
-              <Input
-                className={styles.delivery_form_input}
-                fields={field}
-                placeholder="State"
-              />
-            )}
+          <Input
+            className={styles.delivery_form_input}
+            placeholder="State"
+            {...form.register("state")}
           />
         </div>
-
-        <Controller
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <Input
-              mask="0 (000) 000 00 00"
-              className={styles.delivery_form_input}
-              fields={field}
-              placeholder="Phone Number"
-            />
-          )}
+        <Input
+          mask="0 (000) 000 00 00"
+          className={styles.delivery_form_input}
+          placeholder="Phone Number"
+          {...form.register("phoneNumber")}
         />
       </div>
     </div>

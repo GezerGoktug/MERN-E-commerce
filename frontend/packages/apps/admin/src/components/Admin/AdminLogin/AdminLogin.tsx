@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminLogin.module.scss'
-import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { useLoginMutation } from '../../../services/hooks/mutations/auth.mutations';
 import toast from 'react-hot-toast';
 import { setUser } from '../../../store/auth/actions';
@@ -59,19 +59,12 @@ const AdminLogin = () => {
                     className={styles.admin_login_form}
                     onSubmit={form.handleSubmit(onSubmit)}
                 >
-                    <Controller
-                        control={form.control}
-                        name="email"
-                        rules={{ required: "Email is required" }}
-                        render={({ field }) => (
-                            <Input
-                                size="lg"
-                                className={styles.admin_login_input}
-                                fields={field}
-                                placeholder="Email"
-                                type="email"
-                            />
-                        )}
+                    <Input
+                        size="lg"
+                        className={styles.admin_login_input}
+                        placeholder="Email"
+                        type="email"
+                        {...form.register("email", { required: "Email is required" })}
                     />
                     <ErrorMessage
                         errors={form.formState.errors}
@@ -80,21 +73,14 @@ const AdminLogin = () => {
                             <p className={styles.error_message}>{message}</p>
                         )}
                     />
-                    <Controller
-                        control={form.control}
-                        name="password"
-                        rules={{ required: "Password is required" }}
-                        render={({ field }) => (
-                            <Input
-                                size="lg"
-                                className={styles.admin_login_input}
-                                fields={field}
-                                rightIcon={ShowPasswordIcon}
-                                rightIconOnClick={() => setShowPassword(!showPassword)}
-                                placeholder="Password"
-                                type={showPassword ? "text" : "password"}
-                            />
-                        )}
+                    <Input
+                        size="lg"
+                        className={styles.admin_login_input}
+                        rightIcon={ShowPasswordIcon}
+                        rightIconOnClick={() => setShowPassword(!showPassword)}
+                        placeholder="Password"
+                        type={showPassword ? "text" : "password"}
+                        {...form.register("password", { required: "Password is required" })}
                     />
                     <ErrorMessage
                         errors={form.formState.errors}

@@ -1,4 +1,4 @@
-import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
@@ -66,19 +66,12 @@ const Login = ({ chanceForm }: LoginProps) => {
         className={styles.login_form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <Controller
-          control={form.control}
-          name="email"
-          rules={{ required: "Email is required" }}
-          render={({ field }) => (
-            <Input
-              size="lg"
-              className={styles.login_input}
-              fields={field}
-              placeholder="Email"
-              type="email"
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.login_input}
+          placeholder="Email"
+          type="email"
+          {...form.register("email", { required: "Email is required" })}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -87,21 +80,14 @@ const Login = ({ chanceForm }: LoginProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-        <Controller
-          control={form.control}
-          name="password"
-          rules={{ required: "Password is required" }}
-          render={({ field }) => (
-            <Input
-              size="lg"
-              className={styles.login_input}
-              fields={field}
-              rightIcon={ShowPasswordIcon}
-              rightIconOnClick={() => setShowPassword(!showPassword)}
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.login_input}
+          rightIcon={ShowPasswordIcon}
+          rightIconOnClick={() => setShowPassword(!showPassword)}
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          {...form.register("password", { required: "Password is required" })}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -110,7 +96,6 @@ const Login = ({ chanceForm }: LoginProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-
         <div className={styles.login_interactions}>
           <span onClick={() => setModal(true)}>Forgot your password?</span>
           <span onClick={() => chanceForm()}>Create account</span>

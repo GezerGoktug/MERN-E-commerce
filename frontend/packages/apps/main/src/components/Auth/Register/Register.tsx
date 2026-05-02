@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import styles from "./Register.module.scss";
@@ -114,18 +114,12 @@ const Register = ({ chanceForm }: RegisterProps) => {
         className={styles.register_form}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <Controller
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <Input<z.infer<typeof schema>>
-              size="lg"
-              className={styles.register_input}
-              fields={field}
-              placeholder="Name"
-              type="text"
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.register_input}
+          placeholder="Name"
+          type="text"
+          {...form.register("name")}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -134,18 +128,12 @@ const Register = ({ chanceForm }: RegisterProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-        <Controller
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <Input<z.infer<typeof schema>>
-              size="lg"
-              className={styles.register_input}
-              fields={field}
-              placeholder="Email"
-              type="email"
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.register_input}
+          placeholder="Email"
+          type="email"
+          {...form.register("email")}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -154,20 +142,14 @@ const Register = ({ chanceForm }: RegisterProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-        <Controller
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <Input<z.infer<typeof schema>>
-              size="lg"
-              className={styles.register_input}
-              fields={field}
-              rightIcon={ShowPasswordIcon}
-              rightIconOnClick={() => setShowPassword(!showPassword)}
-              placeholder="Password"
-              type={showPassword ? "text" : "password"}
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.register_input}
+          rightIcon={ShowPasswordIcon}
+          rightIconOnClick={() => setShowPassword(!showPassword)}
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          {...form.register("password")}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -176,18 +158,12 @@ const Register = ({ chanceForm }: RegisterProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-        <Controller
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <Input<z.infer<typeof schema>>
-              size="lg"
-              className={styles.register_input}
-              fields={field}
-              placeholder="Confirm password"
-              type="password"
-            />
-          )}
+        <Input
+          size="lg"
+          className={styles.register_input}
+          placeholder="Confirm password"
+          type="password"
+          {...form.register("confirmPassword")}
         />
         <ErrorMessage
           errors={form.formState.errors}
@@ -196,7 +172,6 @@ const Register = ({ chanceForm }: RegisterProps) => {
             <p className={styles.error_message}>{message}</p>
           )}
         />
-
         <div className={styles.register_interactions}>
           <span onClick={() => setModal(true)}>Forgot your password?</span>
           <span onClick={() => chanceForm()}>Login here</span>

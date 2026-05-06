@@ -1,4 +1,4 @@
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import styles from "./DeliveryInfoForm.module.scss";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -123,11 +123,17 @@ const DeliveryInfoForm = () => {
             {...form.register("state")}
           />
         </div>
-        <Input
-          mask="0 (000) 000 00 00"
-          className={styles.delivery_form_input}
-          placeholder="Phone Number"
-          {...form.register("phoneNumber")}
+        <Controller
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <Input
+              mask="0 (000) 000 00 00"
+              className={styles.delivery_form_input}
+              placeholder="Phone Number"
+              {...field}
+            />
+          )}
         />
       </div>
     </div>

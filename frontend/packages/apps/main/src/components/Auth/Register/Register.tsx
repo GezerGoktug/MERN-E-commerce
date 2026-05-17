@@ -1,17 +1,16 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import styles from "./Register.module.scss";
 import { ErrorMessage } from "@hookform/error-message";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { setUser } from "../../../store/auth/actions";
 import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
 import { useRegisterMutation } from "../../../services/hooks/mutations/auth.mutations";
-import AuthService from "../../../services/actions/auth.service";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
 
@@ -39,8 +38,6 @@ const schema = z
 
 const Register = ({ chanceForm }: RegisterProps) => {
   const navigate = useNavigate();
-  const searchParams = useSearchParams();
-
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -50,28 +47,6 @@ const Register = ({ chanceForm }: RegisterProps) => {
       confirmPassword: "",
     },
   });
-
-  useEffect(() => {
-    const callbackLoginGoogle = async () => {
-      if (searchParams[0].get("accessToken")) {
-        setLocalStorage("accessToken", searchParams[0].get("accessToken") as string, 1000 * 60 * 60);
-      } else return;
-
-      const res = await AuthService.getSession();
-      setUser(res.data.user);
-
-      setTimeout(() => {
-        navigate("/profile");
-        toast.success("Login with Google succesfully");
-      }, 1000);
-    };
-    if (
-      searchParams[0].get("google_login") &&
-      searchParams[0].get("accessToken")
-    ) {
-      callbackLoginGoogle();
-    }
-  }, [searchParams]);
 
   const { mutate, isPending } = useRegisterMutation({
     onSuccess(data) {

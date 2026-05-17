@@ -1,15 +1,16 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import styles from "./Login.module.scss";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { setUser } from "../../../store/auth/actions";
 import { useLoginMutation } from "../../../services/hooks/mutations/auth.mutations";
 import ResetPasswordModal from "../Register/ResetPasswordModal/ResetPasswordModal";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
+import AuthService from "../../../services/actions/auth.service";
 
 type LoginProps = {
   chanceForm: () => void;
@@ -22,12 +23,35 @@ interface Login_Form_Types {
 
 const Login = ({ chanceForm }: LoginProps) => {
   const navigate = useNavigate();
+  const searchParams = useSearchParams();
   const form = useForm<Login_Form_Types>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
+
+  useEffect(() => {
+    const callbackLoginGoogle = async () => {
+      if (searchParams[0].get("accessToken")) {
+        setLocalStorage("accessToken", searchParams[0].get("accessToken") as string, 1000 * 60 * 60);
+      } else return;
+
+      const res = await AuthService.getSession();
+      setUser(res.data.user);
+
+      setTimeout(() => {
+        navigate("/profile");
+        toast.success("Login with Google succesfully");
+      }, 1000);
+    };
+    if (
+      searchParams[0].get("google_login") &&
+      searchParams[0].get("accessToken")
+    ) {
+      callbackLoginGoogle();
+    }
+  }, [searchParams]);
 
   const { mutate, isPending } = useLoginMutation({
     onSuccess: (data) => {

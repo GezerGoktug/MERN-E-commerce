@@ -32,7 +32,7 @@ const AdminLogin = () => {
             toast.success(data.data.message);
 
             if (data.data.user.role === "ADMIN") {
-                navigate("/admin/stats");
+                navigate("/stats"); 
                 return;
             }
             navigate("/profile");

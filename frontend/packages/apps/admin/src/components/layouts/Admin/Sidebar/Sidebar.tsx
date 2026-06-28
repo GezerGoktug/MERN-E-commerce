@@ -9,22 +9,22 @@ const Sidebar = ({ isMobileAside = false }: { isMobileAside?: boolean }) => {
   const links = [
     {
       icon: IoIosStats,
-      href: "/admin/stats",
+      href: "/stats",
       label: "Stats",
     },
     {
       icon: AiOutlineProduct,
-      href: "/admin/products",
+      href: "/products",
       label: "Products",
     },
     {
       icon: IoAddCircleOutline,
-      href: "/admin/add-product",
+      href: "/add-product",
       label: "Add Product",
     },
     {
       icon: IoIosList,
-      href: "/admin/orders",
+      href: "/orders",
       label: "Orders",
     },
   ];

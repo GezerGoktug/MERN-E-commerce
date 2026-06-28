@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Button } from "@forever/ui-kit"
 
-const Error = ({ isAdmin = false }: { isAdmin?: boolean }) => {
+const Error = () => {
   const navigate = useNavigate();
   return (
     <div className={styles.error}>
@@ -15,10 +15,10 @@ const Error = ({ isAdmin = false }: { isAdmin?: boolean }) => {
       <h6>Error</h6>
       <p>Page not founded</p>
       <Button
-        onClick={() => navigate(isAdmin ? "/admin/stats" : "/")}
+        onClick={() => navigate("/stats")}
         leftIcon={IoChevronBackCircle}
       >
-        {isAdmin ? "Return admin main page" : "Return home page"}
+        Return admin main page
       </Button>
     </div>
   );

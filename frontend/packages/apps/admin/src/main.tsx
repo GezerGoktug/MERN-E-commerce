@@ -8,7 +8,7 @@ import { ThemeProvider } from "@forever/theme-kit"
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider>
-    <BrowserRouter>
+    <BrowserRouter basename="/admin">
       <ScrollTop>
         <ThemeProvider>
           <App />

@@ -18,7 +18,7 @@ const Topbar = () => {
   const { mutate, isPending } = useLogoutMutation({
     onSuccess() {
       clearUser();
-      navigate("/admin/login");
+      navigate("/login");
       removeLocalStorage("accessToken");
       toast.success("Logout succesfully");
     },

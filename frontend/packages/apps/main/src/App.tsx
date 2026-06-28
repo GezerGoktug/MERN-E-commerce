@@ -43,11 +43,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route element={<PrivateRoute />}>
                 <Route path="/favourite" element={<Favourites />} />
-              </Route>
-              <Route element={<PrivateRoute />}>
                 <Route path="/payment/result" element={<PaymentResult />} />
-              </Route>
-              <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route path="/*" element={<Error />} />

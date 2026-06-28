@@ -12,7 +12,7 @@ import AuthGuard from "./guards/AuthGuard";
 import AdminLogin from "./components/Admin/AdminLogin/AdminLogin";
 
 const AdminPrivateRoute = () => {
-  return useIsAdmin() ? <Outlet /> : <Navigate to="/admin/login" />;
+  return useIsAdmin() ? <Outlet /> : <Navigate to="/login" />;
 };
 
 function App() {
@@ -21,15 +21,15 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
       <AuthGuard>
         <Routes>
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/*" element={<AdminPrivateRoute />}>
-            <Route path="admin" element={<AdminLayout />}>
-              <Route index element={<Navigate to="/admin/stats" />} />
+          <Route path="/login" element={<AdminLogin />} />
+          <Route element={<AdminPrivateRoute />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<Navigate to="/stats" />} />
               <Route path="stats" element={<AdminStats />} />
               <Route path="add-product" element={<AdminAddProduct />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
-              <Route path="*" element={<Error isAdmin />} />
+              <Route path="*" element={<Error />} />
             </Route>
           </Route>
         </Routes>

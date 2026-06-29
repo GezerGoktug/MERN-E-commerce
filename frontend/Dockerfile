@@ -1,15 +1,19 @@
 FROM node:22-alpine AS base
 RUN npm i -g pnpm@10.23.0
 
-FROM base AS build
+FROM base AS dependencies
 WORKDIR /app
-COPY . .
+COPY . . 
 ENV CI="true"
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store pnpm install --frozen-lockfile
+
+FROM dependencies AS builder
+WORKDIR /app
+COPY --from=dependencies /app ./
 RUN pnpm build
 
-FROM nginx:stable-alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+FROM nginx:stable-alpine AS runner
+COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

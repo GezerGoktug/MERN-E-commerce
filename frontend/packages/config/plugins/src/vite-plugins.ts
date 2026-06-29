@@ -59,7 +59,7 @@ const staticFilesPlugin = (envStaticPath: string, isDev: boolean, isPreview: boo
   };
 };
 
-const injectToHtmlPlugin = (tags: HtmlTagDescriptor[]) => {
+const injectToHtmlPlugin = (tags: HtmlTagDescriptor[]): Plugin => {
   return {
     name: 'inject-to-html',
     transformIndexHtml() {

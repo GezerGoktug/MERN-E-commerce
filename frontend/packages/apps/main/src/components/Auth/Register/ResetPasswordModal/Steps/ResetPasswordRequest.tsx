@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { useResetPasswordRequestMutation } from "../../../../../services/hooks/mutations/user.mutations";
 import { Button, Input } from "@forever/ui-kit";
+import type { Dispatch, SetStateAction } from "react";
 
 const ResetPasswordRequest = ({
   next,
@@ -8,7 +9,7 @@ const ResetPasswordRequest = ({
   resetPasswordEmail
 }: {
   next: () => void,
-  setResetPasswordEmail: React.Dispatch<string>,
+  setResetPasswordEmail: Dispatch<SetStateAction<string>>,
   resetPasswordEmail: string
 }) => {
 

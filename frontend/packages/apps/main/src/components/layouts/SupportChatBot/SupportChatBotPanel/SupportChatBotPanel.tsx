@@ -4,25 +4,19 @@ import { MdInput, MdKeyboardVoice } from 'react-icons/md'
 import { FaSquare, FaXmark } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 import { RiGeminiFill } from 'react-icons/ri'
-import { IoIosStar, IoMdHeart, IoMdHeartEmpty } from 'react-icons/io'
 import clsx from 'clsx'
 import { useMediaQuery } from '@forever/hook-kit'
 import { OutsideClickHandler } from '@forever/common-utils'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { useSpeechRecognition } from '@forever/speech'
 import toast from 'react-hot-toast'
 import { useAskQuestionToAiChatbotMutation } from '../../../../services/hooks/mutations/ai.mutations'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { AxiosError } from 'axios'
-import { type ExtendedProductType } from '../../../../types/product.type'
-import { Link } from 'react-router-dom'
-import { useIsProductsInFavQuery } from '../../../../services/hooks/queries/product.query'
-import { useIsAccess } from '../../../../store/auth/hooks'
-import { useHandleFavouriteMutation } from '../../../../services/hooks/mutations/product.mutations'
-import getSize from '../../../../helper/getSize'
 import { type MessageType } from '../../../../types/ai.type'
 import { useGetAiConversationThreadByThreadIdQuery } from '../../../../services/hooks/queries/ai.query'
 import { BaseImage, Input } from '@forever/ui-kit'
+import AiAdviseProductsBlock from './ChatBotPanelBlocks/AiAdviseProducts/AiAdviseProductsBlock'
 
 const exampleQuestions = [
     // 🔹 Product & Search (productLookupTool)
@@ -86,82 +80,6 @@ const exampleQuestions = [
     ]
 ];
 
-const AiAdviseProductItem = ({ product }: { product: ExtendedProductType & { averageRating: number, isFav: boolean } }) => {
-    const isAccess = useIsAccess();
-    const [isFav, setIsFav] = useState(false);
-
-    useEffect(() => {
-        setIsFav(product.isFav);
-    }, [product.isFav])
-
-    useEffect(() => {
-        if (!isAccess) {
-            setIsFav(false)
-        }
-    }, [isAccess])
-
-    const { mutate } = useHandleFavouriteMutation({
-        onSuccess: async (data) => {
-            toast.success(data.data.message);
-            setIsFav(!isFav);
-        },
-        onError: (error) => {
-            setIsFav(!isFav);
-            const apiError = error?.response?.data?.error.errorMessage;
-            if (typeof apiError === "string") toast.error(apiError);
-        }
-    });
-
-    const toggleFavourite = () => isAccess ? mutate({ isFav, productId: product._id }) : toast.error('Please you login for add product to your favourites');
-    return (
-        <Link to={`/product/${product._id}`}>
-            <div className={styles.support_chatbot_panel_products}>
-                <div className={styles.support_chatbot_panel_product}>
-                    <img src={product.image} alt={product.name} />
-                    <div className={styles.support_chatbot_panel_product_info}>
-                        <h6>{product.name}</h6>
-                        <div className={styles.support_chatbot_panel_product_price_and_rating}>
-                            <span>${product.price}</span>
-                            <div className={styles.support_chatbot_panel_product_avg_rating}>
-                                <IoIosStar />
-                                {product.averageRating}
-                            </div>
-
-                        </div>
-                        <div className={styles.support_chatbot_panel_product_sizes}>
-                            {
-                                product.sizes.map((size) => (
-                                    <div>{getSize(size)}</div>
-                                ))
-                            }
-                        </div>
-                    </div>
-                    <div className={styles.support_chatbot_panel_product_actions}>
-                        <div onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            toggleFavourite()
-                        }}>
-                            {isFav ? <IoMdHeart fill="red" size={20} /> : <IoMdHeartEmpty size={20} />}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Link>
-    )
-}
-const AiAdviseProducts = ({ msg }: { msg: MessageType & { isFirstMessage?: boolean } }) => {
-
-    const { data } = useIsProductsInFavQuery(msg.type === "ai" ? msg.products?.map(p => p._id) : [], ["ai-chatbot-fav-product"], {
-        enabled: useIsAccess() && msg.type === "ai" && !!msg.products?.length
-    })
-
-    const isFavProduct = (id: string) => data?.data.find(dt => dt._id === id)?.isFav;
-
-    return msg.type === "ai" && msg.products.map((product) => <AiAdviseProductItem product={{ ...product, isFav: isFavProduct(product._id) || false }} key={`ai-product-${product._id}`} />)
-
-}
-
 const triggerAutoSizeTextArea = () => {
     const el = document.querySelector<HTMLInputElement | HTMLTextAreaElement>("#chatbotInput");
 
@@ -173,7 +91,7 @@ const triggerAutoSizeTextArea = () => {
     }
 }
 
-const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) => {
+const SupportChatBotPanel = ({ setShow }: { setShow: Dispatch<SetStateAction<boolean>> }) => {
     const [threadId, setThreadId] = useState<string | null>(null);
 
     useEffect(() => {
@@ -371,13 +289,11 @@ const SupportChatBotPanel = ({ setShow }: { setShow: React.Dispatch<boolean> }) 
                                                             <span>{question}</span>
                                                             <MdInput size={20} />
                                                         </motion.div>
-
                                                     ))
                                                 }
                                             </div>
                                         }
-                                        <AiAdviseProducts msg={msg} />
-
+                                        <AiAdviseProductsBlock msg={msg} />
                                     </motion.div>
 
                                 ))

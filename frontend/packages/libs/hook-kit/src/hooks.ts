@@ -1,4 +1,4 @@
-import { type DependencyList, type Dispatch, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
+import { type DependencyList, type Dispatch, type ReactNode, type RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 
 const useMultipleStepForm = (comps: ReactNode[]) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -19,7 +19,7 @@ const useMultipleStepForm = (comps: ReactNode[]) => {
 };
 
 
-const useDebounce = <T>(value: T, delay: number = 500): [T, Dispatch<T>, T] => {
+const useDebounce = <T>(value: T, delay: number = 500): [T, Dispatch<SetStateAction<T>>, T] => {
     const [debouncedValue, setDebouncedValue] = useState(value);
     const [text, setText] = useState(value);
 

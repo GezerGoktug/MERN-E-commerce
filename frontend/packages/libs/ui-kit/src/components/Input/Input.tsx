@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "./Input.module.scss";
-import { useRef, type InputHTMLAttributes, type ElementType, forwardRef, ChangeEvent } from "react";
+import { useRef, type InputHTMLAttributes, type ElementType, forwardRef, type ChangeEvent } from "react";
 import { type IconType } from "react-icons";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { triggerInputChange } from "@forever/common-utils";

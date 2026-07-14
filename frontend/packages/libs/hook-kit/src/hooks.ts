@@ -1,4 +1,4 @@
-import { type DependencyList, type Dispatch, type ReactNode, type RefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import { type DependencyList, type Dispatch, type ReactNode, type RefObject, type SetStateAction, useEffect, useRef, useState } from "react";
 
 const useMultipleStepForm = (comps: ReactNode[]) => {
     const [currentStep, setCurrentStep] = useState(0);

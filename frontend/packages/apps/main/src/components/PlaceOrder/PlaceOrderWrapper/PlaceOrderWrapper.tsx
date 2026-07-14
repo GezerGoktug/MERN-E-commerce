@@ -5,12 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../../store/cart/hooks";
-import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "../../../services/hooks/mutations/order.mutations";
-import { clearCart } from "../../../store/cart/actions";
-import { useIsAccess } from "../../../store/auth/hooks";
-import DeliveryInfoForm from "../DeliveryInfoForm/DeliveryInfoForm";
-import OrdersDetail from "../OrdersDetail/OrdersDetail";
+import { useCart } from "@/store/cart/hooks";
+import { useCreateOrderWithCashOnDeliveryPaymentMethodMutation, useCreateOrderWithStripePaymentMethodMutation } from "@/services/hooks/mutations/order.mutations";
+import { clearCart } from "@/store/cart/actions";
+import { useIsAccess } from "@/store/auth/hooks";
+import DeliveryInfoForm from "@/components/PlaceOrder/DeliveryInfoForm/DeliveryInfoForm";
+import OrdersDetail from "@/components/PlaceOrder/OrdersDetail/OrdersDetail";
 
 const schema = z.object({
   firstName: z.string().min(3, "First name must be at least 3 characters long"),

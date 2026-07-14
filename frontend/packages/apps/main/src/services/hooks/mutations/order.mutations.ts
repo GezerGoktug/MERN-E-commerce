@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import type { IError, IResponse, IDefaultResponse } from "@forever/api";
-import type { IConfirmOrderVariables, ICreateOrderVariables } from "../../../types/order.type";
-import OrderService from "../../actions/order.service";
+import type { IConfirmOrderVariables, ICreateOrderVariables } from "@/types/order.type";
+import OrderService from "@/services/actions/order.service";
 import { loadStripe } from "@stripe/stripe-js";
 
 const useCreateOrderWithCashOnDeliveryPaymentMethodMutation = (

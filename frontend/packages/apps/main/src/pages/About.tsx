@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import AboutUs from "../components/About/AboutUs/AboutUs";
-import WhyChooseUs from "../components/About/WhyChooseUs/WhyChooseUs";
-import Subscribe from "../components/Home/Subscribe/Subscribe";
+import AboutUs from "@/components/About/AboutUs/AboutUs";
+import WhyChooseUs from "@/components/About/WhyChooseUs/WhyChooseUs";
+import Subscribe from "@/components/Home/Subscribe/Subscribe";
 
 const About = () => {
   return (

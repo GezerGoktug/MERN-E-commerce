@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
-import ContactUs from "../components/Contact/ContactUs";
-import Subscribe from "../components/Home/Subscribe/Subscribe";
+import ContactUs from "@/components/Contact/ContactUs";
+import Subscribe from "@/components/Home/Subscribe/Subscribe";
 
 const Contact = () => {
   return (

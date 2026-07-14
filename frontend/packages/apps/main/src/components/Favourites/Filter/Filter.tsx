@@ -3,11 +3,11 @@ import Select from 'react-select';
 import styles from './Filter.module.scss';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { useQueryParams } from '@forever/query-kit';
-import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '../../../types/product.type';
+import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '@/types/product.type';
 import { useDebounce } from '@forever/hook-kit';
 import FilterModal from './FilterModal/FilterModal';
 import { AiFillFilter } from 'react-icons/ai';
-import { type SortType } from '../../../helper/generateSortingType';
+import { type SortType } from '@/helper/generateSortingType';
 import { Input, Modal } from '@forever/ui-kit';
 
 export type OptionsType<T> = { value: T, label: T }[]

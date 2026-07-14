@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { ExtendedUserType } from "../../types/user.type";
+import type { ExtendedUserType } from "@/types/user.type";
 
 type Store = {
   user: ExtendedUserType | null;

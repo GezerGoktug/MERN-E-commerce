@@ -1,9 +1,9 @@
-import type { ProductType } from "../../../types/product.type";
+import type { ProductType } from "@/types/product.type";
 import styles from "./BestSellers.module.scss";
-import ProductCard from "../../common/ProductItem/ProductItem";
-import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
-import { useIsAccess } from "../../../store/auth/hooks";
-import { useGetBestSellerProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
+import ProductCard from "@/components/common/ProductItem/ProductItem";
+import ProductItemSkeleton from "@/components/common/ProductItem/ProductItemSkeleton";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useGetBestSellerProductsQuery, useIsProductsInFavQuery } from "@/services/hooks/queries/product.query";
 
 const BestSellers = () => {
   const { data, isPending } = useGetBestSellerProductsQuery();

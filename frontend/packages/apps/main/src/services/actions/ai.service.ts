@@ -1,6 +1,6 @@
-import type { IAskQuestionToAiChatbotResponse, IAskQuestionToAiChatbotVariables, MessageType } from "../../types/ai.type";
+import type { IAskQuestionToAiChatbotResponse, IAskQuestionToAiChatbotVariables, MessageType } from "@/types/ai.type";
 import type { IResponse } from "@forever/api";
-import api from "../../utils/api";
+import api from "@/utils/api";
 
 const askQuestionToAiChatbot = (body: IAskQuestionToAiChatbotVariables): Promise<IResponse<IAskQuestionToAiChatbotResponse>> => api.post("/ai/chatbot/ask", body);
 

@@ -4,8 +4,8 @@ import styles from './FilterModal.module.scss';
 
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useQueryParams } from '@forever/query-kit';
-import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '../../../../types/product.type';
-import { type OptionsType } from '../Filter';
+import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from '@/types/product.type';
+import { type OptionsType } from '@/components/Favourites/Filter/Filter';
 import { Button, Input } from '@forever/ui-kit';
 
 const categoriesOptions: OptionsType<CategoriesType> = [

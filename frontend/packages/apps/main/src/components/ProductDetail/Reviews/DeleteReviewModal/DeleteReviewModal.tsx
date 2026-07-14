@@ -1,9 +1,9 @@
 import { IoMdTrash } from "react-icons/io";
 import styles from "./DeleteReview.module.scss";
 import toast from "react-hot-toast";
-import type { DeleteReviewModalDTO } from "../Reviews/Reviews";
+import type { DeleteReviewModalDTO } from "@/components/ProductDetail/Reviews/Reviews/Reviews";
 import { useParams } from "react-router-dom";
-import { useDeleteCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
+import { useDeleteCommentMutation } from "@/services/hooks/mutations/product.mutations";
 import { Button } from "@forever/ui-kit";
 
 interface DeleteReviewModalProps {

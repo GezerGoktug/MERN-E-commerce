@@ -5,12 +5,12 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { IoSunny } from "react-icons/io5";
 import { FaBars, FaMoon } from "react-icons/fa6";
 import { useState } from "react";
-import Sidebar from "../../Sidebar/Sidebar";
+import Sidebar from "@/components/layouts/Sidebar/Sidebar";
 import { AnimatePresence } from "framer-motion";
-import { useTotalCartQuantities } from "../../../../store/cart/hooks";
-import { useIsAccess } from "../../../../store/auth/hooks";
+import { useTotalCartQuantities } from "@/store/cart/hooks";
+import { useIsAccess } from "@/store/auth/hooks";
 import clsx from "clsx";
-import { useGetFavProductsCountQuery } from "../../../../services/hooks/queries/product.query";
+import { useGetFavProductsCountQuery } from "@/services/hooks/queries/product.query";
 import { useThemeStore } from "@forever/theme-kit"
 import { Tooltip } from "@forever/ui-kit";
 

@@ -1,7 +1,7 @@
 import { BsBorderWidth } from "react-icons/bs";
 import styles from "./Orders.module.scss";
-import OrderItem from "../../common/OrderItem/OrderItem";
-import { useMyOrdersQuery } from "../../../services/hooks/queries/order.query";
+import OrderItem from "@/components/common/OrderItem/OrderItem";
+import { useMyOrdersQuery } from "@/services/hooks/queries/order.query";
 
 const Orders = () => {
   const { data } = useMyOrdersQuery();

@@ -1,8 +1,8 @@
-import BestSellers from "../components/Home/BestSellers/BestSellers";
-import Features from "../components/Home/Features/Features";
-import Hero from "../components/Home/Hero/Hero";
-import LatestCollections from "../components/Home/LatestCollections/LatestCollections";
-import Subscribe from "../components/Home/Subscribe/Subscribe";
+import BestSellers from "@/components/Home/BestSellers/BestSellers";
+import Features from "@/components/Home/Features/Features";
+import Hero from "@/components/Home/Hero/Hero";
+import LatestCollections from "@/components/Home/LatestCollections/LatestCollections";
+import Subscribe from "@/components/Home/Subscribe/Subscribe";
 import { Helmet } from "react-helmet";
 
 const Home = () => {

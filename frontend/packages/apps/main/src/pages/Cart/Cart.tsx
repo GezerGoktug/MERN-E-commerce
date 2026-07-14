@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
-import CartProducts from "../../components/Cart/CartProducts/CartProducts";
-import Cash from "../../components/Cart/Cash/Cash";
+import CartProducts from "@/components/Cart/CartProducts/CartProducts";
+import Cash from "@/components/Cart/Cash/Cash";
 import styles from "./Cart.module.scss";
 
 const Cart = () => {

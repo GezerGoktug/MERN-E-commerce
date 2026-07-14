@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./DetailPictures.module.scss";
 import { Image } from "@forever/ui-kit";
-import TshirtIcon from "../../../icons/TshirtIcon";
+import TshirtIcon from "@/icons/TshirtIcon";
 import { cloudinaryImageOptimizer } from "@forever/common-utils";
 
 type DetailPicturesProps = {

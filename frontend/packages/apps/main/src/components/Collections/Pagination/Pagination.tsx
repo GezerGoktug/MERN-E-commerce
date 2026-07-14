@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import styles from "./Pagination.module.scss";
-import { useHasNextPage, useHasPrevPage, usePageCount } from "../../../store/product/hooks";
+import { useHasNextPage, useHasPrevPage, usePageCount } from "@/store/product/hooks";
 import { useQueryParams } from "@forever/query-kit";
 import { useEffect } from "react";
 

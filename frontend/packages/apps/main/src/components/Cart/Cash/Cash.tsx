@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { usePrice } from "../../../store/cart/hooks";
+import { usePrice } from "@/store/cart/hooks";
 import styles from "./Cash.module.scss";
 import { Button } from "@forever/ui-kit";
 

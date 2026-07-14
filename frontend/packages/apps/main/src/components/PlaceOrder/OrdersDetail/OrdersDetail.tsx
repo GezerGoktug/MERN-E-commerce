@@ -1,5 +1,5 @@
 import { GoDot, GoDotFill } from "react-icons/go";
-import Cash from "../../Cart/Cash/Cash";
+import Cash from "@/components/Cart/Cash/Cash";
 import styles from "./OrdersDetail.module.scss";
 import { useFormContext } from "react-hook-form";
 import { BaseImage, Button } from "@forever/ui-kit";

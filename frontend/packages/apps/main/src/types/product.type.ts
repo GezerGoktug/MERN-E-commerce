@@ -1,4 +1,4 @@
-import { type SortType } from "../helper/generateSortingType";
+import { type SortType } from "@/helper/generateSortingType";
 import type { BasicUserType } from "./user.type";
 
 export type CategoriesType = "Kids" | "Men" | "Women";

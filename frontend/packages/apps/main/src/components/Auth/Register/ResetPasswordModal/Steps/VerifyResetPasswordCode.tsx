@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { useVerifyResetPasswordCodeMutation } from "../../../../../services/hooks/mutations/user.mutations";
+import { useVerifyResetPasswordCodeMutation } from "@/services/hooks/mutations/user.mutations";
 import { Button, PinInput } from "@forever/ui-kit";
 
 const VerifyResetPasswordCode = ({

@@ -1,4 +1,4 @@
-import TshirtIcon from '../../../icons/TshirtIcon'
+import TshirtIcon from '@/icons/TshirtIcon'
 import styles from './DetailSkeleton.module.scss'
 
 const DetailSkeleton = () => {

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import styles from "./Rating.module.scss";
 import { IoIosStar } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { createRatingArray } from "../../../../../helper/createRatingArray";
+import { createRatingArray } from "@/helper/createRatingArray";
 
 const findIndex = (arr: number[]): number => {
   let index = -1;

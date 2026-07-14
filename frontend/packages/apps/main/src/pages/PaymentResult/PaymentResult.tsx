@@ -5,9 +5,9 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
-import { clearCart } from "../../store/cart/actions";
+import { clearCart } from "@/store/cart/actions";
 import { Helmet } from "react-helmet";
-import { useConfirmOrderPaymentMutation, useDeleteOrderMutation } from "../../services/hooks/mutations/order.mutations";
+import { useConfirmOrderPaymentMutation, useDeleteOrderMutation } from "@/services/hooks/mutations/order.mutations";
 import { Button } from "@forever/ui-kit";
 
 const PaymentResult = () => {

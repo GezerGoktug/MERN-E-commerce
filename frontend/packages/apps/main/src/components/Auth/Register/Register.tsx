@@ -8,9 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { setUser } from "../../../store/auth/actions";
+import { setUser } from "@/store/auth/actions";
 import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
-import { useRegisterMutation } from "../../../services/hooks/mutations/auth.mutations";
+import { useRegisterMutation } from "@/services/hooks/mutations/auth.mutations";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
 

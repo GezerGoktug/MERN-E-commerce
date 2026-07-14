@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import { type ProductType } from "../../../types/product.type";
+import { type ProductType } from "@/types/product.type";
 import styles from "./ProductItem.module.scss";
 import { motion, type Variants } from "framer-motion";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useIsAccess } from "../../../store/auth/hooks";
-import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useHandleFavouriteMutation } from "@/services/hooks/mutations/product.mutations";
 import { cloudinaryImageOptimizer } from "@forever/common-utils";
 import { Image } from "@forever/ui-kit";
-import TshirtIcon from "../../../icons/TshirtIcon";
+import TshirtIcon from "@/icons/TshirtIcon";
 
 const variant = {
   open: { y: 0, opacity: 1 },

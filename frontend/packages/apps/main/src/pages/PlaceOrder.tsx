@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import PlaceOrderWrapper from "../components/PlaceOrder/PlaceOrderWrapper/PlaceOrderWrapper";
+import PlaceOrderWrapper from "@/components/PlaceOrder/PlaceOrderWrapper/PlaceOrderWrapper";
 
 
 const PlaceOrder = () => {

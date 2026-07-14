@@ -6,7 +6,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import styles from "./ChangePassword.module.scss";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useResetPasswordMutation } from "../../../../../services/hooks/mutations/user.mutations";
+import { useResetPasswordMutation } from "@/services/hooks/mutations/user.mutations";
 import { Button, Input } from "@forever/ui-kit";
 
 const schema = z

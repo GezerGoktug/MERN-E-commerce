@@ -1,9 +1,9 @@
 import styles from "./RelatedProducts.module.scss";
-import type { ProductType } from "../../../types/product.type";
-import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
-import ProductCard from "../../common/ProductItem/ProductItem";
-import { useIsAccess } from "../../../store/auth/hooks";
-import { useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
+import type { ProductType } from "@/types/product.type";
+import ProductItemSkeleton from "@/components/common/ProductItem/ProductItemSkeleton";
+import ProductCard from "@/components/common/ProductItem/ProductItem";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useIsProductsInFavQuery } from "@/services/hooks/queries/product.query";
 
 const RelatedProducts = ({
   products = [],

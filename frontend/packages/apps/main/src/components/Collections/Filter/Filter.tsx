@@ -3,9 +3,9 @@ import styles from "./Filter.module.scss";
 import { IoIosArrowUp } from "react-icons/io";
 import clsx from "clsx";
 import { useDebounce, useMediaQuery } from "@forever/hook-kit"
-import { useMaxPrice } from "../../../store/product/hooks";
+import { useMaxPrice } from "@/store/product/hooks";
 import { useQueryParams } from "@forever/query-kit";
-import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from "../../../types/product.type";
+import type { CategoriesType, ProductSearchQueryType, SubCategoriesType } from "@/types/product.type";
 import { Button, Input } from "@forever/ui-kit";
 import { FaXmark } from "react-icons/fa6";
 

@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { IError, IResponse, IDefaultResponse } from "@forever/api";
-import UserService from "../../actions/user.service";
-import type { IResetPasswordVariables, IVerifyResetPasswordCodeVariables, IVerifyResetPasswordResponse } from "../../../types/user.type";
+import UserService from "@/services/actions/user.service";
+import type { IResetPasswordVariables, IVerifyResetPasswordCodeVariables, IVerifyResetPasswordResponse } from "@/types/user.type";
 
 const useResetPasswordRequestMutation = (mutationDetails?: UseMutationOptions<IResponse<IDefaultResponse>, IError, string>) =>
     useMutation<IResponse<IDefaultResponse>, IError, string>({

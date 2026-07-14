@@ -1,9 +1,9 @@
-import type { ProductType } from "../../../types/product.type";
+import type { ProductType } from "@/types/product.type";
 import styles from "./LatestCollections.module.scss";
-import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
-import ProductCard from "../../common/ProductItem/ProductItem";
-import { useIsAccess } from "../../../store/auth/hooks";
-import { useGetLatestProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
+import ProductItemSkeleton from "@/components/common/ProductItem/ProductItemSkeleton";
+import ProductCard from "@/components/common/ProductItem/ProductItem";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useGetLatestProductsQuery, useIsProductsInFavQuery } from "@/services/hooks/queries/product.query";
 
 const LatestCollections = () => {
   const { data, isPending } = useGetLatestProductsQuery();

@@ -1,17 +1,17 @@
-import type { ProductSearchQueryType } from "../../../types/product.type";
+import type { ProductSearchQueryType } from "@/types/product.type";
 import styles from "./Products.module.scss";
 import { useEffect } from "react";
-import { setMaxPrice, setPagination } from "../../../store/product/actions";
-import ProductCard from "../../common/ProductItem/ProductItem";
-import ProductItemSkeleton from "../../common/ProductItem/ProductItemSkeleton";
+import { setMaxPrice, setPagination } from "@/store/product/actions";
+import ProductCard from "@/components/common/ProductItem/ProductItem";
+import ProductItemSkeleton from "@/components/common/ProductItem/ProductItemSkeleton";
 import { useQueryParams } from "@forever/query-kit";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { GrPowerReset } from "react-icons/gr";
-import { useIsAccess } from "../../../store/auth/hooks";
-import type { SortType } from "../../../helper/generateSortingType";
+import { useIsAccess } from "@/store/auth/hooks";
+import type { SortType } from "@/helper/generateSortingType";
 import { DataStateHandler } from "@forever/common-utils";
 import { FaCircleXmark } from "react-icons/fa6";
-import { useGetProductsQuery, useIsProductsInFavQuery } from "../../../services/hooks/queries/product.query";
+import { useGetProductsQuery, useIsProductsInFavQuery } from "@/services/hooks/queries/product.query";
 import { Button } from "@forever/ui-kit";
 
 const Products = () => {

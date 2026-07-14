@@ -6,7 +6,7 @@ import Select from "react-select";
 import { Input } from "@forever/ui-kit";
 import { isEmptyString } from "@forever/common-utils";
 
-const ErrorModal = lazy(() => import("../ErrorModal/ErrorModal"));
+const ErrorModal = lazy(() => import("@/components/PlaceOrder/ErrorModal/ErrorModal"));
 
 type CountryDataType = {
   country: string;

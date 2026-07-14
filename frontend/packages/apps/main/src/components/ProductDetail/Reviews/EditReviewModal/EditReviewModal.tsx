@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Rating from "../CreateReview/Rating/Rating";
+import Rating from "@/components/ProductDetail/Reviews/CreateReview/Rating/Rating";
 import styles from "./EditReviewModal.module.scss";
 import { FaPencil } from "react-icons/fa6";
-import type { EditReviewModalDTO } from "../Reviews/Reviews";
+import type { EditReviewModalDTO } from "@/components/ProductDetail/Reviews/Reviews/Reviews";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useUpdateCommentMutation } from "../../../../services/hooks/mutations/product.mutations";
+import { useUpdateCommentMutation } from "@/services/hooks/mutations/product.mutations";
 import { Button } from "@forever/ui-kit";
 
 interface EditReviewModalProps {

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import Orders from "../components/Profile/Orders/Orders";
-import ProfileOverview from "../components/Profile/ProfileOverview/ProfileOverview";
-import { useAccount } from "../store/auth/hooks";
+import Orders from "@/components/Profile/Orders/Orders";
+import ProfileOverview from "@/components/Profile/ProfileOverview/ProfileOverview";
+import { useAccount } from "@/store/auth/hooks";
 
 const Profile = () => {
   const user = useAccount();

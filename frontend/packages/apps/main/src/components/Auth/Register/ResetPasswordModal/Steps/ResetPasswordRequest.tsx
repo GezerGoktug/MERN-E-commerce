@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { useResetPasswordRequestMutation } from "../../../../../services/hooks/mutations/user.mutations";
+import { useResetPasswordRequestMutation } from "@/services/hooks/mutations/user.mutations";
 import { Button, Input } from "@forever/ui-kit";
 import type { Dispatch, SetStateAction } from "react";
 

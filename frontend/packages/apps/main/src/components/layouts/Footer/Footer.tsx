@@ -2,7 +2,7 @@ import { BsInstagram } from "react-icons/bs";
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import styles from "./Footer.module.scss";
-import Logo from "../../common/Logo/Logo";
+import Logo from "@/components/common/Logo/Logo";
 
 const Footer = () => {
   const links = [

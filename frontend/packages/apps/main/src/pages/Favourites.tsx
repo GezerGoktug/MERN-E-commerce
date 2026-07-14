@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet'
-import TopSection from '../components/Favourites/TopSection/TopSection'
-import Filter from '../components/Favourites/Filter/Filter'
-import Products from '../components/Favourites/Products/Products'
-import Pagination from '../components/Favourites/Pagination/Pagination'
+import TopSection from '@/components/Favourites/TopSection/TopSection'
+import Filter from '@/components/Favourites/Filter/Filter'
+import Products from '@/components/Favourites/Products/Products'
+import Pagination from '@/components/Favourites/Pagination/Pagination'
 
 const Favourites = () => {
     return (

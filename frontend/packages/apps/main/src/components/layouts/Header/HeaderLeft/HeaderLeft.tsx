@@ -1,4 +1,4 @@
-import Logo from "../../../common/Logo/Logo";
+import Logo from "@/components/common/Logo/Logo";
 
 const HeaderLeft = () => {
   return <Logo />;

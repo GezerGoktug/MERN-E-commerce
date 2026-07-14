@@ -1,19 +1,19 @@
 import { useState } from "react";
-import Description from "../../components/ProductDetail/Description/Description";
-import DetailContent from "../../components/ProductDetail/DetailContent/DetailContent";
-import DetailPictures from "../../components/ProductDetail/DetailPictures/DetailPictures";
-import RelatedProducts from "../../components/ProductDetail/RelatedProducts/RelatedProducts";
-import CreateReview from "../../components/ProductDetail/Reviews/CreateReview/CreateReview";
-import Reviews from "../../components/ProductDetail/Reviews/Reviews/Reviews";
+import Description from "@/components/ProductDetail/Description/Description";
+import DetailContent from "@/components/ProductDetail/DetailContent/DetailContent";
+import DetailPictures from "@/components/ProductDetail/DetailPictures/DetailPictures";
+import RelatedProducts from "@/components/ProductDetail/RelatedProducts/RelatedProducts";
+import CreateReview from "@/components/ProductDetail/Reviews/CreateReview/CreateReview";
+import Reviews from "@/components/ProductDetail/Reviews/Reviews/Reviews";
 import styles from "./ProductDetail.module.scss";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { Helmet } from "react-helmet";
-import { useIsAccess } from "../../store/auth/hooks";
-import { useGetProductDetailQuery, useIsFavouriteProductById } from "../../services/hooks/queries/product.query";
-import type { ProductDetailType } from "../../types/product.type";
-import DetailSkeleton from "../../components/ProductDetail/DetailSkeleton/DetailSkeleton";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useGetProductDetailQuery, useIsFavouriteProductById } from "@/services/hooks/queries/product.query";
+import type { ProductDetailType } from "@/types/product.type";
+import DetailSkeleton from "@/components/ProductDetail/DetailSkeleton/DetailSkeleton";
 
 const ProductDetail = () => {
   const [tabChange, setTabChange] = useState(true);

@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import type { IError, IResponse } from "@forever/api";
-import type { IAskQuestionToAiChatbotResponse, IAskQuestionToAiChatbotVariables } from "../../../types/ai.type";
-import AiService from "../../actions/ai.service";
+import type { IAskQuestionToAiChatbotResponse, IAskQuestionToAiChatbotVariables } from "@/types/ai.type";
+import AiService from "@/services/actions/ai.service";
 
 
 const useAskQuestionToAiChatbotMutation = (mutationDetails?: UseMutationOptions<IResponse<IAskQuestionToAiChatbotResponse>, IError, IAskQuestionToAiChatbotVariables>) =>

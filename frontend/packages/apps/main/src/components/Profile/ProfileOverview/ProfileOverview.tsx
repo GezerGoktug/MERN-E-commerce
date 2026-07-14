@@ -2,13 +2,13 @@ import { MdOutlineMail } from "react-icons/md";
 import styles from "./ProfileOverview.module.scss";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
-import { useAccount } from "../../../store/auth/hooks";
+import { useAccount } from "@/store/auth/hooks";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { clearUser } from "../../../store/auth/actions";
-import { useLogoutMutation } from "../../../services/hooks/mutations/auth.mutations";
+import { clearUser } from "@/store/auth/actions";
+import { useLogoutMutation } from "@/services/hooks/mutations/auth.mutations";
 import { Button } from "@forever/ui-kit";
 import { removeLocalStorage } from "@forever/storage-kit";
 

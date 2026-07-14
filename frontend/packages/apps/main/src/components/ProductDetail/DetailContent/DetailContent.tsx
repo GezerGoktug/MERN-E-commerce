@@ -2,12 +2,12 @@ import { IoIosStar, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import styles from "./DetailContent.module.scss";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import type { ProductDetailContentType, SizeType } from "../../../types/product.type";
-import { createRatingArray } from "../../../helper/createRatingArray";
-import { addProductOfCart } from "../../../store/cart/actions";
+import type { ProductDetailContentType, SizeType } from "@/types/product.type";
+import { createRatingArray } from "@/helper/createRatingArray";
+import { addProductOfCart } from "@/store/cart/actions";
 import toast from "react-hot-toast";
-import { useIsAccess } from "../../../store/auth/hooks";
-import { useHandleFavouriteMutation } from "../../../services/hooks/mutations/product.mutations";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useHandleFavouriteMutation } from "@/services/hooks/mutations/product.mutations";
 import { Button } from "@forever/ui-kit";
 
 const getSize = (size: string) => {

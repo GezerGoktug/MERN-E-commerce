@@ -3,17 +3,17 @@ import styles from "./Reviews.module.scss";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { createRatingArray } from "../../../../helper/createRatingArray";
-import type { ReviewType } from "../../../../types/product.type";
+import { createRatingArray } from "@/helper/createRatingArray";
+import type { ReviewType } from "@/types/product.type";
 import { HiDotsVertical } from "react-icons/hi";
 import { GoPencil } from "react-icons/go";
 import { lazy, Suspense, useState } from "react";
-import { useAccount } from "../../../../store/auth/hooks";
+import { useAccount } from "@/store/auth/hooks";
 import { Dropdown } from "@forever/ui-kit";
 
 const Modal = lazy(() => import('@forever/ui-kit').then(module => ({ default: module.Modal })));
-const EditReviewModal = lazy(() => import("../EditReviewModal/EditReviewModal"));
-const DeleteReviewModal = lazy(() => import("../DeleteReviewModal/DeleteReviewModal"));
+const EditReviewModal = lazy(() => import("@/components/ProductDetail/Reviews/EditReviewModal/EditReviewModal"));
+const DeleteReviewModal = lazy(() => import("@/components/ProductDetail/Reviews/DeleteReviewModal/DeleteReviewModal"));
 
 interface ModalState<T> {
   modal_type: "DELETE" | "EDIT";

@@ -5,12 +5,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import styles from "./Login.module.scss";
 import toast from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { setUser } from "../../../store/auth/actions";
-import { useLoginMutation } from "../../../services/hooks/mutations/auth.mutations";
-import ResetPasswordModal from "../Register/ResetPasswordModal/ResetPasswordModal";
+import { setUser } from "@/store/auth/actions";
+import { useLoginMutation } from "@/services/hooks/mutations/auth.mutations";
+import ResetPasswordModal from "@/components/Auth/Register/ResetPasswordModal/ResetPasswordModal";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
-import AuthService from "../../../services/actions/auth.service";
+import AuthService from "@/services/actions/auth.service";
 
 type LoginProps = {
   chanceForm: () => void;

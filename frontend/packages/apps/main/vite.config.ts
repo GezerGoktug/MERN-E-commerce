@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { staticFilesPlugin, injectToHtmlPlugin } from "@forever/plugins"
 import { injectDataToWindow, injectFontsPreloaderToHtml } from "@forever/plugins/utils"
+import path from 'path'
 // import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vite.dev/config/
@@ -71,6 +72,11 @@ export default defineConfig(({ mode, isPreview }) => {
           assetFileNames: 'main-assets/[ext]/[name]-[hash].[ext]',
         },
 
+      }
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src")
       }
     }
   }

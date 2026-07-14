@@ -1,4 +1,4 @@
-import { clearUser } from "../store/auth/actions";
+import { clearUser } from "@/store/auth/actions";
 import { API, normalizeResponseInterceptor, jwtRefreshTokenInterceptor, jwtTokenRequestInterceptor } from "@forever/api"
 
 const NOT_AGAIN_REQUEST_ENDPOINTS_PATH = ['/api/user/reset-password', '/api/auth/refresh'];

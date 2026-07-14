@@ -1,6 +1,6 @@
 import type { IResponse } from "@forever/api";
-import api from "../../utils/api";
-import type { IAdminStatResponse } from "../../types/admin.type";
+import api from "@/utils/api";
+import type { IAdminStatResponse } from "@/types/admin.type";
 
 const getAdminStatistics = (): Promise<IResponse<IAdminStatResponse>> => api.get("/admin/stats");
 

@@ -1,5 +1,5 @@
 import styles from "./MobileAside.module.scss";
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "@/components/layouts/Admin/Sidebar/Sidebar";
 import { motion } from "framer-motion";
 import { Backdrop, Overlay } from "@forever/ui-kit";
 import { OutsideClickHandler } from "@forever/common-utils";

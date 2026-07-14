@@ -7,10 +7,10 @@ import { type ChangeEvent, useState } from "react";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 import { Input, Button } from "@forever/ui-kit";
-import type { SizeType } from "../../../../types/product.type";
-import { type EditProductDTO } from "../Products";
-import { productSchema } from "../../../../schemas/schema";
-import { useUpdateProductMutation } from "../../../../services/hooks/mutations/product.mutations";
+import type { SizeType } from "@/types/product.type";
+import { type EditProductDTO } from "@/components/Admin/Products/Products";
+import { productSchema } from "@/schemas/schema";
+import { useUpdateProductMutation } from "@/services/hooks/mutations/product.mutations";
 
 interface EditProductModalProps {
   data: EditProductDTO;

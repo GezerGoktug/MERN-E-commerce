@@ -9,9 +9,9 @@ import {
 import { Modal } from "@forever/ui-kit";
 import DeleteProductModal from "./DeleteProductModal/DeleteProductModal";
 import EditProductModal from "./EditProductModal/EditProductModal";
-import { type ExtendedProductType } from "../../../types/product.type";
-import { useGetProductsForAdminQuery } from "../../../services/hooks/queries/product.query";
-import { useIsAdmin } from "../../../store/auth/hooks";
+import { type ExtendedProductType } from "@/types/product.type";
+import { useGetProductsForAdminQuery } from "@/services/hooks/queries/product.query";
+import { useIsAdmin } from "@/store/auth/hooks";
 
 interface ModalState<T> {
   modal_type: "DELETE" | "EDIT";

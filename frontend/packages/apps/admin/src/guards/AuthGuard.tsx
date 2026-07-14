@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
-import { clearUser, setUser } from "../store/auth/actions";
-import { useIsAccess } from "../store/auth/hooks";
-import { useCheckAuthSessionQuery } from "../services/hooks/queries/auth.query";
+import { clearUser, setUser } from "@/store/auth/actions";
+import { useIsAccess } from "@/store/auth/hooks";
+import { useCheckAuthSessionQuery } from "@/services/hooks/queries/auth.query";
 
 const AuthGuard = ({ children }: { children: ReactNode }) => {
   const { data, isLoading, isError } = useCheckAuthSessionQuery({

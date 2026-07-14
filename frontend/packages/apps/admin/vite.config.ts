@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { staticFilesPlugin, injectToHtmlPlugin } from "@forever/plugins"
 import { injectDataToWindow, injectFontsPreloaderToHtml } from "@forever/plugins/utils"
 // import { visualizer } from "rollup-plugin-visualizer"
+import path from 'path'
 
 export default defineConfig(({ mode, isPreview }) => {
   const isDev = mode === "development";
@@ -73,5 +74,10 @@ export default defineConfig(({ mode, isPreview }) => {
 
       }
     },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src")
+      }
+    }
   }
 })

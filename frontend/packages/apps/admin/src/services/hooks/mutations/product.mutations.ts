@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import type { IError, IResponse, IDefaultResponse } from "@forever/api";
-import ProductService from "../../actions/product.service";
-import type { IUpdateProductVariables } from "../../../types/product.type";
+import ProductService from "@/services/actions/product.service";
+import type { IUpdateProductVariables } from "@/types/product.type";
 
 const useAddProductMutation = (
     mutationDetails?: UseMutationOptions<IResponse<IDefaultResponse>, IError, FormData>

@@ -1,4 +1,4 @@
-import type { SizeType } from "../types/product.type";
+import type { SizeType } from "@/types/product.type";
 
 const getSize = (size: SizeType) => {
   switch (size) {

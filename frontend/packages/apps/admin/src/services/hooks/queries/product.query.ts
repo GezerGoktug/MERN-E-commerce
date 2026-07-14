@@ -1,7 +1,7 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import ProductService from "../../actions/product.service";
+import ProductService from "@/services/actions/product.service";
 import { buildQuery } from "@forever/query-kit";
-import type { ExtendedProductType } from "../../../types/product.type";
+import type { ExtendedProductType } from "@/types/product.type";
 import type { IError, IPaginationResult, IResponse } from "@forever/api";
 
 const useGetProductsForAdminQuery = (

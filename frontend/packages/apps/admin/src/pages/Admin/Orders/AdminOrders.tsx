@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import Orders from "../../../components/Admin/Orders/Orders";
+import Orders from "@/components/Admin/Orders/Orders";
 
 const AdminOrders = () => {
   return (

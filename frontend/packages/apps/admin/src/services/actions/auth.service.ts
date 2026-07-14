@@ -1,6 +1,6 @@
 import type { IResponse, IDefaultResponse } from "@forever/api";
-import api from "../../utils/api";
-import type { IAuthResponse, ILoginVariables, IRegisterVariables } from "../../types/auth.type";
+import api from "@/utils/api";
+import type { IAuthResponse, ILoginVariables, IRegisterVariables } from "@/types/auth.type";
 
 const logout = (): Promise<IResponse<IDefaultResponse>> => api.get("/auth/logout");
 

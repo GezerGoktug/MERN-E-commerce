@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import Stats from "../../../components/Admin/Stats/Stats";
+import Stats from "@/components/Admin/Stats/Stats";
 
 const AdminStats = () => {
   return (

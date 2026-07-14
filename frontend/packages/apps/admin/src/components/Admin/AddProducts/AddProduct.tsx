@@ -5,11 +5,11 @@ import { Input, Button } from "@forever/ui-kit";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ChangeEvent, useState } from "react";
-import type { SizeType } from "../../../types/product.type";
+import type { SizeType } from "@/types/product.type";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import { productSchema } from "../../../schemas/schema";
-import { useAddProductMutation } from "../../../services/hooks/mutations/product.mutations";
+import { productSchema } from "@/schemas/schema";
+import { useAddProductMutation } from "@/services/hooks/mutations/product.mutations";
 
 type ImagesType = {
   mainImage: string | null;

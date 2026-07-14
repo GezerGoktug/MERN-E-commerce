@@ -1,9 +1,9 @@
 import { IoMdTrash } from "react-icons/io";
 import { Button } from "@forever/ui-kit";
 import styles from "./DeleteProductModal.module.scss";
-import { type DeleteProductDTO } from "../Products";
+import { type DeleteProductDTO } from "@/components/Admin/Products/Products";
 import toast from "react-hot-toast";
-import { useDeleteProductMutation } from "../../../../services/hooks/mutations/product.mutations";
+import { useDeleteProductMutation } from "@/services/hooks/mutations/product.mutations";
 
 interface DeleteProductModalProps {
   data: DeleteProductDTO;

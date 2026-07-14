@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminLogin.module.scss'
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { useLoginMutation } from '../../../services/hooks/mutations/auth.mutations';
+import { useLoginMutation } from '@/services/hooks/mutations/auth.mutations';
 import toast from 'react-hot-toast';
-import { setUser } from '../../../store/auth/actions';
+import { setUser } from '@/store/auth/actions';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { Button, Input } from '@forever/ui-kit';
 import { ErrorMessage } from '@hookform/error-message';
-import Logo from '../../common/Logo/Logo';
+import Logo from '@/components/common/Logo/Logo';
 import { setLocalStorage } from '@forever/storage-kit';
 
 interface Login_Form_Types {

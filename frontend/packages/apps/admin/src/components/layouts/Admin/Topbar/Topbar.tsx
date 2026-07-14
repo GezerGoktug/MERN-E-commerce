@@ -3,13 +3,13 @@ import styles from "./Topbar.module.scss";
 import { Button } from "@forever/ui-kit";
 import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
-import MobileAside from "../MobileAside/MobileAside";
+import MobileAside from "@/components/layouts/Admin/MobileAside/MobileAside";
 import { AnimatePresence } from "framer-motion";
-import Logo from "../../../common/Logo/Logo";
-import { useLogoutMutation } from "../../../../services/hooks/mutations/auth.mutations";
+import Logo from "@/components/common/Logo/Logo";
+import { useLogoutMutation } from "@/services/hooks/mutations/auth.mutations";
 import toast from "react-hot-toast";
 import { removeLocalStorage } from "@forever/storage-kit";
-import { clearUser } from "../../../../store/auth/actions";
+import { clearUser } from "@/store/auth/actions";
 
 const Topbar = () => {
   const [sideBarOpen, setSideBarOpen] = useState(false);

@@ -27,8 +27,8 @@ import {
 } from "recharts";
 import { Chart } from "react-google-charts";
 import { useThemeStore } from "@forever/theme-kit";
-import { useGetAdminStatisticsQuery } from "../../../services/hooks/queries/admin.query";
-import { useIsAdmin } from "../../../store/auth/hooks";
+import { useGetAdminStatisticsQuery } from "@/services/hooks/queries/admin.query";
+import { useIsAdmin } from "@/store/auth/hooks";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 const statsCardDefaultData = [

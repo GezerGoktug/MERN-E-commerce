@@ -30,10 +30,10 @@ const listenGoogleOauthEventsInPopup = () => {
 
 const useGoogleOauthPopupListener = ({
     actionAfterGetCode = async () => { },
-    disableListenerOfInsideListener = false
+    disableListenerOfInsidePopup = false
 }: {
     actionAfterGetCode: (code: string) => Promise<void>,
-    disableListenerOfInsideListener?: boolean
+    disableListenerOfInsidePopup?: boolean
 }
 ) => {
     const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ const useGoogleOauthPopupListener = ({
 
     useEffect(() => {
         // A. IF THIS COMPONENT IS RUNNING INSIDE THE POPUP WINDOW:
-        if (!disableListenerOfInsideListener) {
+        if (!disableListenerOfInsidePopup) {
             listenGoogleOauthEventsInPopup()
         }
 
@@ -71,7 +71,7 @@ const useGoogleOauthPopupListener = ({
 
         window.addEventListener("message", handleMessage);
         return () => window.removeEventListener("message", handleMessage);
-    }, [actionAfterGetCode, disableListenerOfInsideListener]);
+    }, [actionAfterGetCode, disableListenerOfInsidePopup]);
 
     return { loading, isPopupOpen, setPopupOpen, error, setError };
 };

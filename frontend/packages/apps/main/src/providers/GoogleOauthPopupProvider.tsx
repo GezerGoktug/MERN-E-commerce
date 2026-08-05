@@ -1,12 +1,12 @@
 import { useGoogleOauthMutation } from '@/services/hooks/mutations/auth.mutations';
 import { setUser } from '@/store/auth/actions';
-import { GoogleOAuthPopupProvider } from '@forever/google-oauth-kit';
+import { GoogleOAuthPopupProvider as GoogleOauthPopupListenerProvider } from '@forever/google-oauth-kit';
 import { setLocalStorage } from '@forever/storage-kit';
 import { type ReactNode } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const GoogleOauthWrapper = ({ children }: { children: ReactNode }) => {
+const GoogleOAuthPopupProvider = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const mutation = useGoogleOauthMutation({
         onSuccess(data) {
@@ -26,7 +26,7 @@ const GoogleOauthWrapper = ({ children }: { children: ReactNode }) => {
         },
     });
     return (
-        <GoogleOAuthPopupProvider
+        <GoogleOauthPopupListenerProvider
             onSuccess={async (code) => {
                 const redirectUri = `${window.location.origin}${window.location.pathname}`;
                 mutation.mutate({ code, redirectUri })
@@ -37,8 +37,8 @@ const GoogleOauthWrapper = ({ children }: { children: ReactNode }) => {
             }}
         >
             {children}
-        </GoogleOAuthPopupProvider>
+        </GoogleOauthPopupListenerProvider>
     )
 }
 
-export default GoogleOauthWrapper
+export default GoogleOAuthPopupProvider

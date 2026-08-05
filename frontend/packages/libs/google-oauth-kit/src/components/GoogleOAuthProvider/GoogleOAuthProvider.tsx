@@ -24,13 +24,13 @@ const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(
 );
 
 export const useGoogleOauth = () => {
-    const ctx = useContext(GoogleAuthContext);
-    if (!ctx) {
+    const context = useContext(GoogleAuthContext);
+    if (!context) {
         throw new Error(
             "useGoogleOauth must be used within a GoogleOAuthPopupProvider."
         );
     }
-    return ctx;
+    return context;
 };
 
 export const GoogleOAuthPopupProvider = ({
@@ -48,18 +48,16 @@ export const GoogleOAuthPopupProvider = ({
     const { loading, isPopupOpen, setPopupOpen, error, setError } =
         useGoogleOauthPopupListener({
             actionAfterGetCode: onSuccess,
-            disableListenerOfInsideListener: true
+            disableListenerOfInsidePopup: true
         });
+    useEffect(() => {
+        if (onError && error && error.trim().length > 0)
+            onError(error);
+    }, [error, onError]);
 
     if (window.opener) {
         return <GoogleOAuthCallback />;
     }
-
-    useEffect(() => {
-        if (onError && error && error.trim().length > 0)
-            onError(error);
-    }, [error, onError])
-
 
     const loginWithGoogle = (customCredentials?: GoogleOauthCredentials) => {
         setError(null);
@@ -93,15 +91,12 @@ export const GoogleOAuthPopupProvider = ({
 
         if (popup) {
             setPopupOpen(true);
-
-            const checkPopupClosed = () => {
+            const timer = setInterval(() => {
                 if (popup.closed) {
+                    clearInterval(timer);
                     setPopupOpen(false);
-                    window.removeEventListener("focus", checkPopupClosed);
                 }
-            };
-
-            window.addEventListener("focus", checkPopupClosed);
+            }, 500);
         } else {
             setError("Pop-up blocked. Please check your browser permissions.");
         }

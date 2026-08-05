@@ -1,9 +1,11 @@
+import { getSessionStorage, removeSessionStorage } from "@forever/storage-kit";
 import { useEffect, useState } from "react";
 
 interface IGoogleOauthData {
     type: string;
     code?: string;
     error?: string;
+    state?: string;
 }
 
 const listenGoogleOauthEventsInPopup = () => {
@@ -11,10 +13,11 @@ const listenGoogleOauthEventsInPopup = () => {
         const queryParams = new URLSearchParams(window.location.search);
         const code = queryParams.get("code");
         const err = queryParams.get("error");
+        const state = queryParams.get("state");
 
         if (code) {
             window.opener.postMessage(
-                { type: "GOOGLE_AUTH_CODE", code } as IGoogleOauthData,
+                { type: "GOOGLE_AUTH_CODE", code, state } as IGoogleOauthData,
                 window.location.origin
             );
         } else if (err) {
@@ -43,7 +46,7 @@ const useGoogleOauthPopupListener = ({
     useEffect(() => {
         // A. IF THIS COMPONENT IS RUNNING INSIDE THE POPUP WINDOW:
         if (!disableListenerOfInsidePopup) {
-            listenGoogleOauthEventsInPopup()
+            listenGoogleOauthEventsInPopup();
         }
 
         // B. IF THIS COMPONENT IS RUNNING IN THE PARENT WINDOW:
@@ -56,11 +59,17 @@ const useGoogleOauthPopupListener = ({
                 setError(null);
 
                 try {
+                    const expectedState = getSessionStorage<string>("google-oauth-state", "");
+
+                    if (expectedState !== event.data.state) {
+                        throw new Error("Invalid state value");
+                    }
                     await actionAfterGetCode(event.data.code);
                 } catch (err: any) {
                     setError(err?.message || "An error occurred during the process.");
                 } finally {
                     setLoading(false);
+                    removeSessionStorage("google-oauth-state");
                 }
             } else if (event.data?.type === "GOOGLE_AUTH_ERROR") {
                 setPopupOpen(false);

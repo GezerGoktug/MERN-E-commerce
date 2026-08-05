@@ -17,7 +17,8 @@
     },
     "dependencies": {
         "@forever/query-kit": "workspace:*",
-        "@forever/sass-utils": "workspace:*"
+        "@forever/sass-utils": "workspace:*",
+        "@forever/storage-kit": "workspace:*"
     },
     "devDependencies": {
         "@types/react": "18.3.12",

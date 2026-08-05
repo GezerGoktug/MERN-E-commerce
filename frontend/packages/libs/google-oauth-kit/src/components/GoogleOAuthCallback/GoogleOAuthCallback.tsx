@@ -14,11 +14,12 @@ const GoogleOAuthCallback = () => {
         const queryParams = new URLSearchParams(window.location.search);
         const code = queryParams.get("code");
         const error = queryParams.get("error");
+        const state = queryParams.get("state");
 
         if (window.opener) {
             if (code) {
                 window.opener.postMessage(
-                    { type: "GOOGLE_AUTH_CODE", code } as IGoogleOauthData,
+                    { type: "GOOGLE_AUTH_CODE", code, state } as IGoogleOauthData,
                     window.location.origin
                 );
             } else if (error) {

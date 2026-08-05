@@ -2,6 +2,8 @@ import { buildQuery } from '@forever/query-kit';
 import { createContext, useContext, useEffect, type ReactNode } from 'react'
 import useGoogleOauthPopupListener from '../../hooks/use-google-oauth-popup-listener.hook';
 import GoogleOAuthCallback from '../GoogleOAuthCallback/GoogleOAuthCallback';
+import generateUUIDv4 from '../../utils/uuid';
+import { setSessionStorage } from '@forever/storage-kit';
 
 export interface GoogleOauthCredentials {
     client_id: string;
@@ -65,6 +67,10 @@ export const GoogleOAuthPopupProvider = ({
 
         const googleOauthOrigin = "https://accounts.google.com/o/oauth2/v2/auth";
 
+        const state = generateUUIDv4();
+
+        setSessionStorage("google-oauth-state", state, 1000 * 60 * 5)
+
         const url = `${googleOauthOrigin}?${buildQuery({
             // @ts-ignore
             client_id: import.meta.env.VITE_REACT_GOOGLE_CLIENT_ID,
@@ -75,6 +81,7 @@ export const GoogleOAuthPopupProvider = ({
             // @ts-ignore
             scope: "openid email profile",
             prompt: "select_account",
+            state,
             ...(customCredentials || credentials)
         })}`;
 

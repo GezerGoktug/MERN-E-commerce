@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import AuthService from "@/services/actions/auth.service";
 import type { IError, IResponse, IDefaultResponse } from "@forever/api";
-import type { ILoginVariables, IAuthResponse, IRegisterVariables } from "@/types/auth.type";
+import type { ILoginVariables, IAuthResponse, IRegisterVariables, IGoogleOauthVariables } from "@/types/auth.type";
 
 const useLogoutMutation = (mutationDetails?: UseMutationOptions<IResponse<IDefaultResponse>, IError>) =>
     useMutation<IResponse<IDefaultResponse>, IError>({
@@ -24,8 +24,16 @@ const useRegisterMutation = (mutationDetails?: UseMutationOptions<IResponse<IAut
         ...mutationDetails
     })
 
+const useGoogleOauthMutation = (mutationDetails?: UseMutationOptions<IResponse<IAuthResponse>, IError, IGoogleOauthVariables>) =>
+    useMutation<IResponse<IAuthResponse>, IError, IGoogleOauthVariables>({
+        mutationKey: ["google-oauth"],
+        mutationFn: (body) => AuthService.loginWithGoogleOAuth(body),
+        ...mutationDetails
+    });
+
 export {
     useLogoutMutation,
     useLoginMutation,
-    useRegisterMutation
+    useRegisterMutation,
+    useGoogleOauthMutation
 }

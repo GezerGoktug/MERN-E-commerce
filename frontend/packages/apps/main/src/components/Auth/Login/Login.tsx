@@ -1,16 +1,17 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import styles from "./Login.module.scss";
 import toast from "react-hot-toast";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setUser } from "@/store/auth/actions";
 import { useLoginMutation } from "@/services/hooks/mutations/auth.mutations";
 import ResetPasswordModal from "@/components/Auth/Register/ResetPasswordModal/ResetPasswordModal";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
-import AuthService from "@/services/actions/auth.service";
+import { FcGoogle } from "react-icons/fc";
+import { GoogleOauthPopupActionButton } from "@forever/google-oauth-kit";
 
 type LoginProps = {
   chanceForm: () => void;
@@ -23,35 +24,12 @@ interface Login_Form_Types {
 
 const Login = ({ chanceForm }: LoginProps) => {
   const navigate = useNavigate();
-  const searchParams = useSearchParams();
   const form = useForm<Login_Form_Types>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
-  useEffect(() => {
-    const callbackLoginGoogle = async () => {
-      if (searchParams[0].get("accessToken")) {
-        setLocalStorage("accessToken", searchParams[0].get("accessToken") as string, 1000 * 60 * 60);
-      } else return;
-
-      const res = await AuthService.getSession();
-      setUser(res.data.user);
-
-      setTimeout(() => {
-        navigate("/profile");
-        toast.success("Login with Google succesfully");
-      }, 1000);
-    };
-    if (
-      searchParams[0].get("google_login") &&
-      searchParams[0].get("accessToken")
-    ) {
-      callbackLoginGoogle();
-    }
-  }, [searchParams]);
 
   const { mutate, isPending } = useLoginMutation({
     onSuccess: (data) => {
@@ -67,8 +45,6 @@ const Login = ({ chanceForm }: LoginProps) => {
     },
     onError: (error) => {
       const apiError = error?.response?.data?.error.errorMessage;
-
-
       if (typeof apiError === "string") toast.error(apiError);
     },
   })
@@ -128,6 +104,19 @@ const Login = ({ chanceForm }: LoginProps) => {
           Sign In
         </Button>
       </form>
+      <div className={styles.login_with_app_provider_section}>
+        <div className={styles.or_section}>
+          <div />
+          <span>OR</span>
+          <div />
+        </div>
+        <GoogleOauthPopupActionButton>
+          <div className={styles.login_with_google_btn}>
+            <FcGoogle size={30} />
+            <span>Login with Google</span>
+          </div>
+        </GoogleOauthPopupActionButton>
+      </div>
     </div>
   );
 };

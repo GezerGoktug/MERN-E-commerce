@@ -13,10 +13,13 @@ export interface IRegisterVariables {
     confirmPassword: string,
 }
 
-export interface IAuthResponse {
-  message: string;
-  user: ExtendedUserType,
-  accessToken: string,
+export interface IGoogleOauthVariables {
+    code: string,
+    redirectUri: string
 }
 
-
+export interface IAuthResponse {
+    message: string;
+    user: ExtendedUserType,
+    accessToken: string,
+}

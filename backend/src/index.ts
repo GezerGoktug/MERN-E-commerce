@@ -5,7 +5,6 @@ import cors from "./config/cors";
 
 import mainRouter from "./routes/index";
 import cookieParser from "cookie-parser";
-import passport from "passport";
 import { errorHandler } from "./middleware/errorHandler.middleware";
 import helmet from "helmet";
 import swagger from "swagger-ui-express";
@@ -18,7 +17,6 @@ dotenv.config();
 connectDB();
 
 require("./config/redis");
-require("./strategy/google_strategy");
 require("./config/cloudinary");
 
 const app = express();
@@ -30,7 +28,6 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
 
 app.use(defineClientId);
 

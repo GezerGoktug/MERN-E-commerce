@@ -9,6 +9,8 @@ import { generateAccessToken, generateRefreshToken } from "../util/token";
 import { setCookie } from "../util/cookie";
 import { ErrorHandler } from "../error/errorHandler";
 import logger from "../config/logger";
+import { OAuth2Client } from "google-auth-library";
+import filterQuery from "../util/query";
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 71);
@@ -200,31 +202,102 @@ export const returnSession = async (req: ExtendedRequest, res: Response) => {
   });
 };
 
-export const loginWithGoogle = async (req: ExtendedRequest, res: Response) => {
-  if (!req.user) throw new ErrorHandler(401, "Unauthorized");
+export const loginWithGoogle = async (req: Request, res: Response) => {
+
+  const { code, redirectUri } = filterQuery(
+    req,
+    ["code", "redirectUri"],
+    { code: "", redirectUri: "" }
+  );
+  if (!code || !redirectUri) {
+    throw new ErrorHandler(400, "Code and redirect uri are required");
+  }
+
+  if (typeof code !== "string" || typeof redirectUri !== "string") {
+    throw new ErrorHandler(400, "Code and redirect uri must be string type");
+  }
+
+  const googleOauthClient = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    redirectUri: redirectUri,
+  });
+
+  const { tokens } = await googleOauthClient.getToken(code);
+
+  if (!tokens.id_token) {
+    throw new ErrorHandler(401, "Google ID token could not be retrieved");
+  }
+
+  const ticket = await googleOauthClient.verifyIdToken({
+    idToken: tokens.id_token,
+    audience: process.env.GOOGLE_CLIENT_ID!,
+  });
+
+  const payload = ticket.getPayload();
+
+  if (!payload?.sub || !payload.email) {
+    throw new ErrorHandler(401, "The profile info could not be retrieved");
+  }
+
+  const userProfile = {
+    email: payload.email,
+    name: payload.name ?? "",
+    picture: payload.picture ?? "",
+    accessToken: tokens.access_token,
+    refreshToken: tokens.refresh_token,
+    expiresAt: tokens.expiry_date,
+  };
+
+  const existUser = await User.findOne({ email: userProfile.email });
+  let user = null;
+  if (!existUser) {
+    const newUser = new User({
+      name: userProfile.name,
+      email: userProfile.email,
+      image: userProfile.picture,
+      password: null,
+    });
+    await newUser.save();
+    user = {
+      name: newUser.name,
+      userId: newUser._id,
+      email: newUser.email,
+      role: newUser.role,
+      lastLoggedIn: newUser?.lastLoggedIn,
+      image: newUser?.image,
+    };
+  }
+  else {
+    user = {
+      name: existUser.name,
+      userId: existUser._id,
+      email: existUser.email,
+      role: existUser.role,
+      lastLoggedIn: existUser?.lastLoggedIn,
+      image: existUser?.image,
+    };
+  }
 
   const accessToken = generateAccessToken({
-    userId: req.user.userId,
-    email: req.user.email,
-    role: req.user.role,
+    userId: user.userId,
+    email: user.email,
+    role: user.role,
   });
 
   const refreshToken = generateRefreshToken({
-    userId: req.user.userId,
-    email: req.user.email,
-    role: req.user.role,
+    userId: user.userId,
+    email: user.email,
+    role: user.role,
   });
 
   setCookie("token", refreshToken, res)
 
-  logger.info(`User logged in with Google`, {
-    userId: req.user.userId,
-    email: req.user.email,
-    role: req.user.role,
-  });
+  logger.info(`User logged in with Google`, user);
 
-  res.redirect(
-    (process.env.CLIENT_URL as string) +
-    `/auth?google_login=true&accessToken=${accessToken}`
-  );
+  ResponseHandler.success(res, 200, {
+    user,
+    accessToken,
+    message: "Login successfully with Google"
+  })
 };

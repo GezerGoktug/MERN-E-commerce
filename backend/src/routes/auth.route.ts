@@ -9,7 +9,6 @@ import {
 } from "../controller/auth.controller";
 import asyncHandler from "express-async-handler";
 import { checkRole, protect } from "../middleware/auth.middleware";
-import passport from "passport";
 
 const router = express.Router();
 
@@ -19,16 +18,8 @@ router.post("/login", asyncHandler(login));
 router.get("/logout", asyncHandler(logout));
 router.get("/refresh", asyncHandler(refreshToken));
 
-router.get(
+router.post(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"], prompt: "select_account" })
-);
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: process.env.CLIENT_URL + "/auth",
-    session: false,
-  }),
   asyncHandler(loginWithGoogle)
 );
 

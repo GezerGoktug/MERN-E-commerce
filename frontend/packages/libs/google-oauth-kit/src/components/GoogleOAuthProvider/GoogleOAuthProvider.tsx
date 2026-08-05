@@ -1,0 +1,128 @@
+import { buildQuery } from '@forever/query-kit';
+import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import useGoogleOauthPopupListener from '../../hooks/use-google-oauth-popup-listener.hook';
+import GoogleOAuthCallback from '../GoogleOAuthCallback/GoogleOAuthCallback';
+
+export interface GoogleOauthCredentials {
+    client_id: string;
+    redirect_uri: string;
+    response_type: "token" | "code";
+    scope: string;
+    access_type?: "online" | "offline";
+    prompt?: "none" | "consent" | "select_account";
+}
+
+interface GoogleAuthContextType {
+    loading: boolean;
+    isPopupOpen: boolean;
+    error: string | null;
+    loginWithGoogle: (customCredentials?: GoogleOauthCredentials) => void;
+}
+
+const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(
+    undefined
+);
+
+export const useGoogleOauth = () => {
+    const ctx = useContext(GoogleAuthContext);
+    if (!ctx) {
+        throw new Error(
+            "useGoogleOauth must be used within a GoogleOAuthPopupProvider."
+        );
+    }
+    return ctx;
+};
+
+export const GoogleOAuthPopupProvider = ({
+    children,
+    onSuccess,
+    onError,
+    credentials
+}: {
+    children: ReactNode,
+    onSuccess: (code: string) => Promise<void>,
+    onError?: (error: string) => void,
+    credentials?: GoogleOauthCredentials
+}) => {
+
+    const { loading, isPopupOpen, setPopupOpen, error, setError } =
+        useGoogleOauthPopupListener({
+            actionAfterGetCode: onSuccess,
+            disableListenerOfInsideListener: true
+        });
+
+    if (window.opener) {
+        return <GoogleOAuthCallback />;
+    }
+
+    useEffect(() => {
+        if (onError && error && error.trim().length > 0)
+            onError(error);
+    }, [error, onError])
+
+
+    const loginWithGoogle = (customCredentials?: GoogleOauthCredentials) => {
+        setError(null);
+        const redirectUri = `${window.location.origin}${window.location.pathname}`;
+
+        const googleOauthOrigin = "https://accounts.google.com/o/oauth2/v2/auth";
+
+        const url = `${googleOauthOrigin}?${buildQuery({
+            // @ts-ignore
+            client_id: import.meta.env.VITE_REACT_GOOGLE_CLIENT_ID,
+            // @ts-ignore
+            redirect_uri: redirectUri,
+            // @ts-ignore
+            response_type: "code",
+            // @ts-ignore
+            scope: "openid email profile",
+            prompt: "select_account",
+            ...(customCredentials || credentials)
+        })}`;
+
+        const width = 500;
+        const height = 600;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        const popup = window.open(
+            url,
+            'Google OAuth',
+            `width=${width},height=${height},left=${left},top=${top},popup=yes`
+        );
+
+        if (popup) {
+            setPopupOpen(true);
+
+            const checkPopupClosed = () => {
+                if (popup.closed) {
+                    setPopupOpen(false);
+                    window.removeEventListener("focus", checkPopupClosed);
+                }
+            };
+
+            window.addEventListener("focus", checkPopupClosed);
+        } else {
+            setError("Pop-up blocked. Please check your browser permissions.");
+        }
+    };
+    return (
+        <GoogleAuthContext.Provider
+            value={{ loading, isPopupOpen, error, loginWithGoogle }}
+        >
+            {children}
+        </GoogleAuthContext.Provider>
+    );
+}
+
+export const GoogleOauthPopupActionButton = ({ children, credentials }: { children: ReactNode; credentials?: GoogleOauthCredentials }) => {
+    const { loginWithGoogle } = useGoogleOauth();
+    return (
+        <div
+            onClick={() => loginWithGoogle(credentials)}
+            style={{ display: "contents", cursor: "pointer" }}
+        >
+            {children}
+        </div>
+    );
+};

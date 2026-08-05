@@ -17,6 +17,9 @@
       "@forever/common-utils": ["packages/libs/common-utils/src/index.ts"],
       "@forever/common-utils/*": ["packages/libs/common-utils/src/*"],
 
+      "@forever/google-oauth-kit": ["packages/libs/google-oauth-kit/src/index.ts"],
+      "@forever/google-oauth-kit/*": ["packages/libs/google-oauth-kit/src/*"],
+
       "@forever/hook-kit": ["packages/libs/hook-kit/src/index.ts"],
       "@forever/hook-kit/*": ["packages/libs/hook-kit/src/*"],
 

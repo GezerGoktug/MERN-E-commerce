@@ -179,6 +179,9 @@ importers:
       '@forever/common-utils':
         specifier: workspace:*
         version: link:../../libs/common-utils
+      '@forever/google-oauth-kit':
+        specifier: workspace:*
+        version: link:../../libs/google-oauth-kit
       '@forever/hook-kit':
         specifier: workspace:*
         version: link:../../libs/hook-kit
@@ -336,6 +339,31 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: 18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
+
+  packages/libs/google-oauth-kit:
+    dependencies:
+      '@forever/query-kit':
+        specifier: workspace:*
+        version: link:../query-kit
+      '@forever/sass-utils':
+        specifier: workspace:*
+        version: link:../sass-utils
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      react-icons:
+        specifier: 5.4.0
+        version: 5.4.0(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: 18.3.12
@@ -2108,6 +2136,7 @@ packages:
   recharts@2.15.1:
     resolution: {integrity: sha512-v8PUTUlyiDe56qUj82w/EDVuzEFXwEHp9/xOowGAZwfLjB9uAy3GllQVIYMWF6nU+qibx85WF75zD7AjqoT54Q==}
     engines: {node: '>=14'}
+    deprecated: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
     peerDependencies:
       react: 18.3.1
       react-dom: 18.3.1

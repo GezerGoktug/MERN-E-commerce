@@ -13,6 +13,7 @@ import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
 import { useRegisterMutation } from "@/services/hooks/mutations/auth.mutations";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
+import { GoogleOauthPopupActionButton } from "@forever/google-oauth-kit";
 
 type RegisterProps = {
   chanceForm: () => void;
@@ -74,10 +75,6 @@ const Register = ({ chanceForm }: RegisterProps) => {
   const [modal, setModal] = useState<boolean>(false);
 
   const ShowPasswordIcon = showPassword ? FaEye : FaEyeSlash;
-
-  const loginWithGoogle = () => {
-    window.location.href = import.meta.env.VITE_REACT_API_URL + "/auth/google";
-  };
 
   return (
     <div className={styles.register_wrapper}>
@@ -161,13 +158,12 @@ const Register = ({ chanceForm }: RegisterProps) => {
           <span>OR</span>
           <div />
         </div>
-        <div
-          onClick={() => loginWithGoogle()}
-          className={styles.login_with_google_btn}
-        >
-          <FcGoogle size={30} />
-          <span>Login with Google</span>
-        </div>
+        <GoogleOauthPopupActionButton>
+          <div className={styles.login_with_google_btn}>
+            <FcGoogle size={30} />
+            <span>Login with Google</span>
+          </div>
+        </GoogleOauthPopupActionButton>
       </div>
     </div>
   );

@@ -10,11 +10,14 @@ const register = (body: IRegisterVariables): Promise<IResponse<IAuthResponse>> =
 
 const getSession = (): Promise<IResponse<Omit<IAuthResponse, "accessToken" | "message">>> => api.get("/auth/session");
 
+const loginWithGoogleOAuth = ({ code, redirectUri }: { code: string, redirectUri: string }): Promise<IResponse<IAuthResponse>> => api.post(`/auth/google?code=${code}&redirectUri=${redirectUri}`);
+
 const AuthService = {
     logout,
     login,
     register,
-    getSession
+    getSession,
+    loginWithGoogleOAuth
 }
 
 export default AuthService;

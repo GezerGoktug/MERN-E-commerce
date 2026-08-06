@@ -10,7 +10,6 @@ import { setCookie } from "../util/cookie";
 import { ErrorHandler } from "../error/errorHandler";
 import logger from "../config/logger";
 import { OAuth2Client } from "google-auth-library";
-import filterQuery from "../util/query";
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 71);
@@ -204,11 +203,8 @@ export const returnSession = async (req: ExtendedRequest, res: Response) => {
 
 export const loginWithGoogle = async (req: Request, res: Response) => {
 
-  const { code, redirectUri } = filterQuery(
-    req,
-    ["code", "redirectUri"],
-    { code: "", redirectUri: "" }
-  );
+  const { code, redirectUri, codeVerifier } = req.body;
+
   if (!code || !redirectUri) {
     throw new ErrorHandler(400, "Code and redirect uri are required");
   }
@@ -223,7 +219,7 @@ export const loginWithGoogle = async (req: Request, res: Response) => {
     redirectUri: redirectUri,
   });
 
-  const { tokens } = await googleOauthClient.getToken(code);
+  const { tokens } = await googleOauthClient.getToken({ code, codeVerifier });
 
   if (!tokens.id_token) {
     throw new ErrorHandler(401, "Google ID token could not be retrieved");

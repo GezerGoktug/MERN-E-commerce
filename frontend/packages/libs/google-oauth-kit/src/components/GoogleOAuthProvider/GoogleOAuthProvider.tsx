@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, type ReactNode } from 'react'
 import useGoogleOauthPopupListener from '../../hooks/use-google-oauth-popup-listener.hook';
 import GoogleOAuthCallback from '../GoogleOAuthCallback/GoogleOAuthCallback';
 import generateUUIDv4 from '../../utils/uuid';
+import { generatePkcePair } from "../../utils/pkce"
 import { setSessionStorage } from '@forever/storage-kit';
 
 export interface GoogleOauthCredentials {
@@ -18,7 +19,7 @@ interface GoogleAuthContextType {
     loading: boolean;
     isPopupOpen: boolean;
     error: string | null;
-    loginWithGoogle: (customCredentials?: GoogleOauthCredentials) => void;
+    loginWithGoogle: (customCredentials?: GoogleOauthCredentials) => Promise<void>;
 }
 
 const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(
@@ -42,7 +43,7 @@ export const GoogleOAuthPopupProvider = ({
     credentials
 }: {
     children: ReactNode,
-    onSuccess: (code: string) => Promise<void>,
+    onSuccess: (code: string, codeVerifier: string) => Promise<void>,
     onError?: (error: string) => void,
     credentials?: GoogleOauthCredentials
 }) => {
@@ -61,8 +62,8 @@ export const GoogleOAuthPopupProvider = ({
         return <GoogleOAuthCallback />;
     }
 
-    const loginWithGoogle = (customCredentials?: GoogleOauthCredentials) => {
-        if(isPopupOpen || loading){
+    const loginWithGoogle = async (customCredentials?: GoogleOauthCredentials) => {
+        if (isPopupOpen || loading) {
             return;
         }
         setError(null);
@@ -72,7 +73,11 @@ export const GoogleOAuthPopupProvider = ({
 
         const state = generateUUIDv4();
 
-        setSessionStorage("google-oauth-state", state, 1000 * 60 * 5)
+        setSessionStorage("google-oauth-state", state, 1000 * 60 * 5);
+
+        const { codeVerifier, codeChallenge } = await generatePkcePair();
+
+        setSessionStorage("google-oauth-code-verifier", codeVerifier);
 
         const url = `${googleOauthOrigin}?${buildQuery({
             // @ts-ignore
@@ -85,6 +90,8 @@ export const GoogleOAuthPopupProvider = ({
             scope: "openid email profile",
             prompt: "select_account",
             state,
+            code_challenge: codeChallenge,
+            code_challenge_method: "S256",
             ...(customCredentials || credentials)
         })}`;
 
@@ -106,7 +113,7 @@ export const GoogleOAuthPopupProvider = ({
                     clearInterval(timer);
                     setPopupOpen(false);
                 }
-            }, 500);    
+            }, 500);
         } else {
             setError("Pop-up blocked. Please check your browser permissions.");
         }
@@ -124,7 +131,7 @@ export const GoogleOauthPopupActionButton = ({ children, credentials }: { childr
     const { loginWithGoogle } = useGoogleOauth();
     return (
         <div
-            onClick={() => loginWithGoogle(credentials)}
+            onClick={async () => await loginWithGoogle(credentials)}
             style={{ display: "contents", cursor: "pointer" }}
         >
             {children}

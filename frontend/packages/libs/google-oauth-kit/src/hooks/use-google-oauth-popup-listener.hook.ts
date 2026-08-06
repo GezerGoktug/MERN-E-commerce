@@ -35,7 +35,7 @@ const useGoogleOauthPopupListener = ({
     actionAfterGetCode = async () => { },
     disableListenerOfInsidePopup = false
 }: {
-    actionAfterGetCode: (code: string) => Promise<void>,
+    actionAfterGetCode: (code: string, codeVerifier: string) => Promise<void>,
     disableListenerOfInsidePopup?: boolean
 }
 ) => {
@@ -64,12 +64,20 @@ const useGoogleOauthPopupListener = ({
                     if (expectedState !== event.data.state) {
                         throw new Error("Invalid state value");
                     }
-                    await actionAfterGetCode(event.data.code);
+
+                    const codeVerifier = getSessionStorage<string>("google-oauth-code-verifier", "");
+
+                    if (!codeVerifier) {
+                        throw new Error("Code verifier must be generate.");
+                    }
+
+                    await actionAfterGetCode(event.data.code, codeVerifier);
                 } catch (err: any) {
                     setError(err?.message || "An error occurred during the process.");
                 } finally {
                     setLoading(false);
                     removeSessionStorage("google-oauth-state");
+                    removeSessionStorage("google-oauth-code-verifier");
                 }
             } else if (event.data?.type === "GOOGLE_AUTH_ERROR") {
                 setPopupOpen(false);

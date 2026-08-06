@@ -14,8 +14,9 @@ export interface IRegisterVariables {
 }
 
 export interface IGoogleOauthVariables {
-    code: string,
-    redirectUri: string
+    code: string;
+    redirectUri: string;
+    codeVerifier: string;
 }
 
 export interface IAuthResponse {

@@ -1,5 +1,5 @@
 import api from "@/utils/api";
-import type { IAuthResponse, ILoginVariables, IRegisterVariables } from "@/types/auth.type";
+import type { IAuthResponse, IGoogleOauthVariables, ILoginVariables, IRegisterVariables } from "@/types/auth.type";
 import type { IDefaultResponse, IResponse } from "@forever/api";
 
 const logout = (): Promise<IResponse<IDefaultResponse>> => api.get("/auth/logout");
@@ -10,7 +10,7 @@ const register = (body: IRegisterVariables): Promise<IResponse<IAuthResponse>> =
 
 const getSession = (): Promise<IResponse<Omit<IAuthResponse, "accessToken" | "message">>> => api.get("/auth/session");
 
-const loginWithGoogleOAuth = ({ code, redirectUri }: { code: string, redirectUri: string }): Promise<IResponse<IAuthResponse>> => api.post(`/auth/google?code=${code}&redirectUri=${redirectUri}`);
+const loginWithGoogleOAuth = (body: IGoogleOauthVariables): Promise<IResponse<IAuthResponse>> => api.post(`/auth/google`, body);
 
 const AuthService = {
     logout,

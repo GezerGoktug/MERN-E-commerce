@@ -62,6 +62,9 @@ export const GoogleOAuthPopupProvider = ({
     }
 
     const loginWithGoogle = (customCredentials?: GoogleOauthCredentials) => {
+        if(isPopupOpen || loading){
+            return;
+        }
         setError(null);
         const redirectUri = `${window.location.origin}${window.location.pathname}`;
 
@@ -103,7 +106,7 @@ export const GoogleOAuthPopupProvider = ({
                     clearInterval(timer);
                     setPopupOpen(false);
                 }
-            }, 500);
+            }, 500);    
         } else {
             setError("Pop-up blocked. Please check your browser permissions.");
         }

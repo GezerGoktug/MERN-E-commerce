@@ -113,6 +113,11 @@
         }
       }
 
+      &.isDisabled {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
       @include m.responsive(xs) {
         padding: 15px 15px;
       }

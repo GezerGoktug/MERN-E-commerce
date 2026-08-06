@@ -98,6 +98,10 @@
           box-shadow: 0px 1px 6px rgb(255, 255, 255);
         }
       }
+      &.isDisabled {
+        opacity: 0.6;
+        pointer-events: none;
+      }
       @include m.responsive(xs) {
         padding: 15px 15px;
       }

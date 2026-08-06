@@ -24,7 +24,7 @@ const useRegisterMutation = (mutationDetails?: UseMutationOptions<IResponse<IAut
         ...mutationDetails
     })
 
-const useGoogleOauthMutation = (mutationDetails?: UseMutationOptions<IResponse<IAuthResponse>, IError, IGoogleOauthVariables>) =>
+const useLoginGoogleOauthMutation = (mutationDetails?: UseMutationOptions<IResponse<IAuthResponse>, IError, IGoogleOauthVariables>) =>
     useMutation<IResponse<IAuthResponse>, IError, IGoogleOauthVariables>({
         mutationKey: ["google-oauth"],
         mutationFn: (body) => AuthService.loginWithGoogleOAuth(body),
@@ -35,5 +35,5 @@ export {
     useLogoutMutation,
     useLoginMutation,
     useRegisterMutation,
-    useGoogleOauthMutation
+    useLoginGoogleOauthMutation
 }

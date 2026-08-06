@@ -13,7 +13,8 @@ import ResetPasswordModal from "./ResetPasswordModal/ResetPasswordModal";
 import { useRegisterMutation } from "@/services/hooks/mutations/auth.mutations";
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
-import { GoogleOauthPopupActionButton } from "@forever/google-oauth-kit";
+import { GoogleOauthPopupActionButton, useGoogleOauth } from "@forever/google-oauth-kit";
+import clsx from "clsx";
 
 type RegisterProps = {
   chanceForm: () => void;
@@ -39,6 +40,7 @@ const schema = z
 
 const Register = ({ chanceForm }: RegisterProps) => {
   const navigate = useNavigate();
+  const { isPopupOpen, loading } = useGoogleOauth();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -159,7 +161,12 @@ const Register = ({ chanceForm }: RegisterProps) => {
           <div />
         </div>
         <GoogleOauthPopupActionButton>
-          <div className={styles.login_with_google_btn}>
+          <div
+            className={clsx(
+              styles.login_with_google_btn,
+              { [styles.isDisabled]: isPopupOpen || loading }
+            )}
+          >
             <FcGoogle size={30} />
             <span>Login with Google</span>
           </div>

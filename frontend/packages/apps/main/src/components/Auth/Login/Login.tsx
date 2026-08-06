@@ -11,7 +11,8 @@ import ResetPasswordModal from "@/components/Auth/Register/ResetPasswordModal/Re
 import { Button, Input, Modal } from "@forever/ui-kit";
 import { setLocalStorage } from "@forever/storage-kit";
 import { FcGoogle } from "react-icons/fc";
-import { GoogleOauthPopupActionButton } from "@forever/google-oauth-kit";
+import { GoogleOauthPopupActionButton, useGoogleOauth } from "@forever/google-oauth-kit";
+import clsx from "clsx";
 
 type LoginProps = {
   chanceForm: () => void;
@@ -24,6 +25,7 @@ interface Login_Form_Types {
 
 const Login = ({ chanceForm }: LoginProps) => {
   const navigate = useNavigate();
+  const { isPopupOpen, loading } = useGoogleOauth();
   const form = useForm<Login_Form_Types>({
     defaultValues: {
       email: "",
@@ -111,7 +113,12 @@ const Login = ({ chanceForm }: LoginProps) => {
           <div />
         </div>
         <GoogleOauthPopupActionButton>
-          <div className={styles.login_with_google_btn}>
+          <div
+            className={clsx(
+              styles.login_with_google_btn,
+              { [styles.isDisabled]: isPopupOpen || loading }
+            )}
+          >
             <FcGoogle size={30} />
             <span>Login with Google</span>
           </div>

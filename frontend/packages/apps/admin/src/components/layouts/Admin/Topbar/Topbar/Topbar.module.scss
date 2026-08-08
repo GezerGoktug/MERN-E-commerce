@@ -1,6 +1,24 @@
 @use "@forever/sass-utils/utils-mixins" as u;
 @use "@forever/sass-utils/mixins" as m;
 
+.nav_menu_drawer {
+  padding: 0 !important;
+  width: 40% !important;
+  display: none;
+  @include m.responsive(sm) {
+    display: block;
+  }
+  @include m.responsive(xls) {
+    width: 45% !important;
+  }
+  @media (max-width: 450px) {
+    width: 55% !important;
+  }
+  @include m.responsive(xs) {
+    width: 65% !important;
+  }
+}
+
 .topbar_wrapper {
   position: sticky;
   top: 0;
@@ -9,34 +27,44 @@
   z-index: 10;
   padding: 10px 50px;
   border-bottom: 1.5px solid rgb(212, 212, 212);
+
   @include m.responsive(md) {
     padding: 10px 30px;
   }
+
   @include m.responsive(xls) {
     padding: 10px 20px;
   }
+
   @include m.responsive(xs) {
     padding: 10px 14px;
   }
+
   .topbar {
     @include u.flex-between;
+
     .topbar_left {
       @include u.row-center;
       gap: 20px;
+
       .topbar_toggle_bar_icon {
         display: none;
+
         @include m.responsive(sm) {
           display: inline;
         }
       }
+
       img {
         height: 60px;
       }
     }
+
     .topbar_logout_btn {
       border-radius: 2px;
       font-size: 16px;
       font-weight: 400;
+
       @include m.responsive(xs) {
         font-size: 14px;
         padding: 8px 16px;
@@ -44,4 +72,3 @@
     }
   }
 }
-

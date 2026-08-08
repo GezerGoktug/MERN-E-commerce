@@ -5,14 +5,14 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { IoSunny } from "react-icons/io5";
 import { FaBars, FaMoon } from "react-icons/fa6";
 import { useState } from "react";
-import Sidebar from "@/components/layouts/Sidebar/Sidebar";
-import { AnimatePresence } from "framer-motion";
 import { useTotalCartQuantities } from "@/store/cart/hooks";
 import { useIsAccess } from "@/store/auth/hooks";
 import clsx from "clsx";
 import { useGetFavProductsCountQuery } from "@/services/hooks/queries/product.query";
 import { useThemeStore } from "@forever/theme-kit"
-import { Tooltip } from "@forever/ui-kit";
+import { Drawer, Tooltip } from "@forever/ui-kit";
+import NavMenuDrawer from "../NavMenuDrawer/NavMenuDrawer";
+
 
 const HeaderRight = () => {
   const totalQuantity = useTotalCartQuantities();
@@ -62,15 +62,9 @@ const HeaderRight = () => {
 
   return (
     <nav>
-      <AnimatePresence>
-        {isOpen && (
-          <Sidebar
-            onClose={() => {
-              setIsOpen(false);
-            }}
-          />
-        )}
-      </AnimatePresence>
+      <Drawer align="right" isDisableCloseBtn={true} className={styles.nav_menu_drawer} open={isOpen} onClose={() => setIsOpen(false)}>
+        <NavMenuDrawer onClose={() => setIsOpen(false)} />
+      </Drawer>
       <ul className={styles.header_right_links}>
         {links.map(({ icon: Icon, href, is_count_badge, menu_icon, badge_data, is_fav_badge, message, is_custom_item, render }, i) => (
           <li key={"header_links_" + i}>

@@ -1,0 +1,32 @@
+@use "@forever/sass-utils/utils-mixins" as u;
+@use "@forever/sass-utils/variables" as v;
+
+.nav_menu_top {
+  @include u.flex-between;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.343);
+  padding: 15px;
+  width: 100%;
+
+  .back_button {
+    @include u.row-center;
+    gap: 10px;
+  }
+
+  .theme_button {
+    @include u.row-center;
+    gap: 4px;
+  }
+}
+
+.nav_menu_link {
+  display: block;
+  padding: 15px 30px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.343);
+  text-transform: uppercase;
+  width: 100%;
+
+  &.active {
+    background-color: black;
+    color: white;
+  }
+}

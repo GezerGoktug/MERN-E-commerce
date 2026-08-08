@@ -3,11 +3,8 @@
 @use "@forever/sass-utils/variables" as v;
 
 .sidebar {
-  border-right: 2px solid rgb(212, 212, 212, 0.3);
+  border-right: 2px solid rgb(212, 212, 212, 0.3);  
   @include m.responsive(sm){
-    &.mobile_aside{
-      display: block !important;
-    }
     display: none;
   }
   ul {

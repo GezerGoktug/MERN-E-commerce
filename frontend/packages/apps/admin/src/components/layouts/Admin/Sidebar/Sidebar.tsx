@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { IoIosList, IoIosStats } from "react-icons/io";
 import { AiOutlineProduct } from "react-icons/ai";
 
-const Sidebar = ({ isMobileAside = false }: { isMobileAside?: boolean }) => {
+const Sidebar = () => {
   const links = [
     {
       icon: IoIosStats,
@@ -31,7 +31,7 @@ const Sidebar = ({ isMobileAside = false }: { isMobileAside?: boolean }) => {
 
   return (
     <div
-      className={clsx(styles.sidebar, { [styles.mobile_aside]: isMobileAside })}
+      className={clsx(styles.sidebar)}
     >
       <nav>
         <ul>

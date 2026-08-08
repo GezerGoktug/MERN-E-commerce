@@ -2,6 +2,12 @@
 @use "@forever/sass-utils/mixins" as m;
 @use "@forever/sass-utils/variables" as v;
 
+.nav_menu_drawer {
+  background-color: v.$primary-color;
+  font-weight: 500;
+  width: 100% !important;
+}
+
 .header_right_links {
   @include u.row-center;
   gap: 16px;

@@ -1,0 +1,141 @@
+@use "@forever/sass-utils/utils-mixins" as u;
+@use "@forever/sass-utils/variables" as v;
+@use "@forever/sass-utils/mixins" as m;
+
+.drawer_wrapper {
+    display: flex;
+    height: 100%;
+}
+
+.drawer {
+    background-color: v.$primary-color;
+    position: relative;
+    user-select: none;
+    touch-action: none;
+
+    &.left,
+    &.right {
+        width: 30%;
+        height: 100%;
+
+        @include m.responsive(xl) {
+            width: 35%;
+        }
+
+        @include m.responsive(lg) {
+            width: 45%;
+        }
+
+        @include m.responsive(md) {
+            width: 55%;
+        }
+
+        @include m.responsive(sm) {
+            width: 65%;
+        }
+
+        @include m.responsive(xls) {
+            width: 75%;
+        }
+
+        @include m.responsive(xs) {
+            width: 85%;
+        }
+    }
+
+    &.left {
+        margin-right: auto;
+    }
+
+    &.right {
+        margin-left: auto;
+    }
+
+    &.top,
+    &.bottom {
+        width: 100%;
+        height: 50%;
+
+        @include m.responsive(md) {
+            height: 60%;
+        }
+
+        @include m.responsive(xs) {
+            height: 70%;
+        }
+    }
+
+    &.bottom {
+        margin-top: auto;
+    }
+
+    &.top {
+        margin-bottom: auto;
+    }
+
+    .drawer_drag_drop_handler {
+        position: absolute;
+        cursor: grab;
+        padding: 2px;
+
+        &.right,
+        &.left {
+            inset-block: 0;
+            height: 100%;
+            width: 30px;
+            @include u.row-center;
+
+            .drawer_drag_drop_handler_element {
+                width: 8px;
+                height: 80px;
+            }
+        }
+
+        &.bottom,
+        &.top {
+            inset-inline: 0;
+            height: 30px;
+            width: 100%;
+            @include u.col-center;
+
+            .drawer_drag_drop_handler_element {
+                width: 80px;
+                height: 8px;
+            }
+        }
+
+        &.left {
+            inset-inline-end: 0;
+            justify-content: end;
+        }
+
+        &.right {
+            inset-inline-start: 0;
+        }
+
+        &.bottom {
+            inset-block-start: 0;
+        }
+
+        &.top {
+            inset-block-end: 0;
+            justify-content: end;
+        }
+
+        &.isActive {
+            cursor: grabbing;
+        }
+
+        .drawer_drag_drop_handler_element {
+            border-radius: 50px;
+            background-color: v.$secondary-color;
+        }
+    }
+}
+
+.drawer_close_btn {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    cursor: pointer;
+}

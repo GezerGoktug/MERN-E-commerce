@@ -3,7 +3,7 @@ import Backdrop from "../Backdrop/Backdrop";
 import Overlay from "../Overlay/Overlay";
 import { AnimatePresence, motion, useDragControls } from "framer-motion";
 import { OutsideClickHandler } from "@forever/common-utils";
-import { ReactNode, useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import clsx from "clsx";
 import { MdOutlineClose } from "react-icons/md";
 

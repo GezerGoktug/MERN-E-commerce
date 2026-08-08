@@ -1,19 +1,24 @@
 @use "@forever/sass-utils/utils-mixins" as u;
 @use "@forever/sass-utils/mixins" as m;
+@use "@forever/sass-utils/variables" as v;
 
 .nav_menu_drawer {
   padding: 0 !important;
   width: 40% !important;
   display: none;
+
   @include m.responsive(sm) {
     display: block;
   }
+
   @include m.responsive(xls) {
     width: 45% !important;
   }
+
   @media (max-width: 450px) {
     width: 55% !important;
   }
+
   @include m.responsive(xs) {
     width: 65% !important;
   }
@@ -60,14 +65,38 @@
       }
     }
 
-    .topbar_logout_btn {
-      border-radius: 2px;
-      font-size: 16px;
-      font-weight: 400;
+    .topbar_right {
+      @include u.row-center;
+      gap: 10px;
 
-      @include m.responsive(xs) {
-        font-size: 14px;
-        padding: 8px 16px;
+      .topbar_logout_btn {
+        border-radius: 2px;
+        font-size: 16px;
+        font-weight: 400;
+
+        @include m.responsive(xs) {
+          font-size: 14px;
+          padding: 8px 16px;
+        }
+      }
+
+      .theme_btn {
+        z-index: 30;
+        width: 40px;
+        height: 40px;
+        border-radius: 2px;
+
+        background-color: v.$text-color;
+        cursor: pointer;
+        @include u.flex-center;
+
+        @include m.responsive(xs) {
+          display: none;
+        }
+
+        svg {
+          fill: v.$primary-color;
+        }
       }
     }
   }
